@@ -2,21 +2,86 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[english,russian]{babel}
-%\usepackage{indentfirst}
+\usepackage{indentfirst}
 
 %\usepackage[paperwidth=15cm,paperheight=7.5cm]{geometry} % планшет
 \usepackage[paperwidth=297mm,paperheight=210mm]{geometry} % A4
+%\usepackage[paperwidth=148mm,paperheight=105mm]{geometry} % A5
 %\usepackage[left=1cm,right=1cm,top=1cm,bottom=1cm]{geometry}
 
-\newcommand{\cx}{Cortex-Mx}
+\newcommand{\cm}[1]{Cortex-M#1}
+\newcommand{\cx}{\cm{x}}
+
+\newcommand{\url}[1]{\textbf{#1}}
+\newcommand{\email}[1]{$<$\textbf{#1}$>$}
+
+\newcommand{\cpp}{$C^{+^{+}}$}
 
 \begin{document}
 
 \title{Учебный курс по микроконтроллерам \cx}
-\author{\copyright\ Dmitry Ponyatov <dponyatov@gmail.com>, SSAU ASCL}
+\author{\copyright\\
+Понятов Д.А. \email{dponyatov@gmail.com}, ИКП СГАУ, \\
+Недяк С.П. \email{fvs@fet.tusur.ru}, ТУСУР
+}
 \maketitle
 \tableofcontents
 
 \part{Обзор серии микроконтроллеров \cx}
+
+\chapter{Архитектура ядра}
+\chapter{Периферия}
+\section{Таймеры}
+\section{DMA}
+\section{UART}
+\section{CAN}
+\section{USB}
+\section{Ethernet}
+\chapter{Производители}
+\section{ST Microelectronics}
+\subsection{STM32F0xx} \cm{0}
+\subsection{STM32F1xx} \cm{1} VLDISCOVERY
+\subsection{STM32F4xx} \cm{4} STM32F4DISCOVERY
+\section{ЗАО <<ПКК Миландр>>}
+
+Компания <<Миландр>> выпускает специализированные МК для спецприменений,
+и (относительно) дешевый вариант МК в пластиковом корпусе для обучения
+и неответственных применений.
+
+\bigskip
+
+Телефон: (495) 981-54-33 (8.30-17.00, отдел маркетинга и продаж *)
+
+Факс: (495) 981-54-36
+
+E-mail: \email{info@milandr.ru}
+
+Сайт: \url{http://www.milandr.ru}
+
+Форум: \url{http://forum.milandr.ru}
+
+Адрес: 124498, г. Москва, Зеленоград, проезд 4806, дом 6
+
+\subsection{КР1986ВЕ91Т}
+\subsection{MDR1986Q1}
+\section{LPCxxx}
+
+\part{Программное обеспечение}
+\chapter{Eclipse / GNU toolchain}
+\section{Утилита Make}
+\section{binutils}
+\subsection{Ассемблер GNU AS}
+\subsection{Линкер LD}
+\subsection{Утилиты работа с файлами формата ELF}
+\section{Компилятор GCC}
+\section{IDE Eclipse}
+\chapter{Keil MDK-ARM}
+\chapter{IAR Embeded Workbench}
+
+\part{Встраиваемый \cpp}
+
+\part{Лабораторные работы}
+
+\part{Литература}
 
 \end{document}
