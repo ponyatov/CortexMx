@@ -1,4 +1,5 @@
-all: CortexMx.pdf
+all: main.pdf
 
-CortexMx.pdf: main.tex
+main.pdf: main.tex
+	pdflatex main.tex
 	pdflatex main.tex
