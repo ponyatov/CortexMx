@@ -1,4 +1,4 @@
-TEX = main.tex header.tex workenv.tex STM32F1xx.tex ARM.tex
+TEX = main.tex header.tex workenv.tex STM32F1xx.tex ARM.tex milandr.tex
 TEXTMP = *.aux *.log *.dvi *.pdf *.ex *.out
 
 all: pdf

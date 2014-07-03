@@ -68,12 +68,13 @@ keywordstyle=\color{blue}\texttt
 \newcommand{\jtag}{\periph{JTAG}}
 
 \usepackage{wasysym} % smileys
+\usepackage{gensymb} % celsius
 
 \usepackage[os=win]{menukeys}
-\newcommand{\winstart}{\includegraphics[width=5mm]{fig/windows.eps}}
-\newcommand{\file}[1]{\directory{#1}}
-\newcommand{\wcmd}[1]{wcmd:#1}%{\keys{\winstart+R}\ \menu{#1}}
 
+\newcommand{\winstart}{W}%\includegraphics{fig/winlogo.jpg}}
+\newcommand{\file}[1]{\directory{#1}}
+\newcommand{\wcmd}[1]{\keys{\winstart+R}\ \menu{#1}}
 
 \newcommand{\win}[1]{\includegraphics[width=10mm]{fig/windows.eps} #1}
 \newcommand{\lin}[1]{\includegraphics[width=10mm]{fig/linux.eps} #1}
@@ -89,5 +90,6 @@ keywordstyle=\color{blue}\texttt
 \newcommand{\labwork}[1]{
 \refstepcounter{labworkcounter}
 \section*{ЛР\thelabworkcounter: #1}
+\addcontentsline{toc}{subsection}{ЛР\thelabworkcounter: #1}
 \addcontentsline{ex}{section}{ЛР\thelabworkcounter: #1}
 }
