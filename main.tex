@@ -1,4 +1,4 @@
-\documentclass[oneside]{book}
+\documentclass[oneside,12pt]{book}
 
 \usepackage[utf8]{inputenc}
 \usepackage[english,russian]{babel}
@@ -7,19 +7,37 @@
 %\usepackage[paperwidth=15cm,paperheight=7.5cm]{geometry} % планшет
 \usepackage[paperwidth=297mm,paperheight=210mm]{geometry} % A4
 %\usepackage[paperwidth=148mm,paperheight=105mm]{geometry} % A5
-%\usepackage[left=1cm,right=1cm,top=1cm,bottom=1cm]{geometry}
+\geometry{left=1cm,right=1cm,top=1cm,bottom=1cm}
+
+%\usepackage[colorlinks=true,
+%]{hyperref}
+%\newcommand{\email}[2]{#1\ \href{mailto:#2}{<\nolinkurl{#2}>}}
+% \newcommand{\url}[1]{\emph{#1}}
+% %\newcommand{\email}[2]{\emph{#1\ <#2>}}
+\usepackage[unicode,colorlinks=true,
+pdftitle={Azbuka ARMaturschika (ru)},
+pdfauthor={(c) Dmitry Ponyatov <dponyatov@gmail.com>, SSAU ASCL},
+pdfsubject={ru manual on writing programs for Cortex-M MCUs},
+pdfkeywords={ARM} {Cortex} {MCU} {ARMatura} {Arduino} {SSAU}
+]{hyperref}
 
 \newcommand{\cm}[1]{Cortex-M#1}
 \newcommand{\cx}{\cm{x}}
 
-\newcommand{\url}[1]{\textbf{#1}}
+\newcommand{\vld}{STM32VLDISCOVERY}
+
+\renewcommand{\url}[1]{\textbf{#1}}
 \newcommand{\email}[1]{$<$\textbf{#1}$>$}
 
 \newcommand{\cpp}{$C^{+^{+}}$}
 
+\newcommand{\cp}[1]{\footnote{копипаста: #1}}
+
 \begin{document}
 
-\title{Учебный курс по микроконтроллерам \cx}
+\title{\Huge{Азбука ARMатурщика}\\
+\normalsize{учебный курс по микроконтроллерам \cx:\\
+Миландр 1986ВЕ, STM32F, LPC21xx}}
 \author{\copyright\\
 Понятов Д.А. \email{dponyatov@gmail.com}, ИКП СГАУ, \\
 Недяк С.П. \email{fvs@fet.tusur.ru}, ТУСУР
@@ -27,7 +45,46 @@
 \maketitle
 \tableofcontents
 
-\part{Обзор серии микроконтроллеров \cx}
+\part{Обзор семейства микроконтроллеров \cx}
+
+\cp{\url{http://ru.wikipedia.org/wiki/ARM\_(архитектура)}}
+
+Архитектура ARM (Advanced RISC Machine, Acorn RISC Machine, 
+усовершенствованная RISC-машина)\ --- семейство лицензируемых 32-битных и 
+64-битных микропроцессорных ядер разработки компании ARM Limited.
+
+Среди лицензиатов: практически все заметные разработчики цифровых
+электронных компонентов.
+Многие лицензиаты делают собственные версии ядер на базе ARM.
+
+Значимые семейства процессоров: ARM7, ARM9, ARM11 и Cortex.
+
+В 2007 году около 98\% из более чем миллиарда мобильных телефонов, продаваемых 
+ежегодно, были оснащены по крайней мере одним процессором ARM. По состоянию 
+на 2009 на процессоры ARM приходилось до 90\% всех встроенных 32-разрядных 
+процессоров. Процессоры ARM широко используются в потребительской 
+электронике\ --- в том числе КПК, мобильных телефонах, цифровых носителях и 
+плеерах, портативных игровых консолях, калькуляторах и компьютерных п
+ериферийных устройствах, таких как жесткие диски или маршрутизаторы.
+
+Эти процессоры имеют низкое энергопотребление, поэтому находят широкое 
+применение во встраиваемых системах и преобладают на рынке мобильных 
+устройств, для которых данный фактор немаловажен.
+
+В настоящее время значимыми являются несколько семейств процессоров ARM:
+
+\begin{itemize}
+\item ARM7 (с тактовой частотой до 60-72 МГц), предназначенные, например, для 
+недорогих мобильных телефонов и встраиваемых решений средней производительности. 
+В настоящее время активно вытесняется новым семейством Cortex.
+\item ARM9, ARM11 (с частотами до 1 ГГц) для продвинутых телефонов, карманных 
+компьютеров и встраиваемых решений высокой производительности.
+\item Cortex A\ --- новое семейство процессоров на смену ARM9 и ARM11.
+\item Cortex M\ --- новое семейство процессоров на смену ARM7, также 
+призванное занять новую для ARM нишу встраиваемых решений низкой 
+производительности. В семействе присутствуют три значимых ядра: \cm{0}, 
+\cm{3} и \cm{4}.
+\end{itemize}
 
 \chapter{Архитектура ядра}
 \chapter{Периферия}
@@ -64,7 +121,8 @@ E-mail: \email{info@milandr.ru}
 
 \subsection{КР1986ВЕ91Т}
 \subsection{MDR1986Q1}
-\section{LPCxxx}
+\section{NXP}
+\subsection{LPC210x}
 
 \part{Программное обеспечение}
 \chapter{Eclipse / GNU toolchain}
