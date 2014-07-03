@@ -1,12 +1,15 @@
+\documentclass[oneside,8pt]{book}
+
 \usepackage[T1,T2A]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[english,russian]{babel}
 \usepackage{indentfirst}
 
 %\usepackage[paperwidth=15cm,paperheight=7.5cm]{geometry} % планшет
-\usepackage[paperwidth=297mm,paperheight=210mm]{geometry} % A4
-%\usepackage[paperwidth=148mm,paperheight=105mm]{geometry} % A5
-\geometry{left=1cm,right=1cm,top=1cm,bottom=1cm}
+%\usepackage[paperwidth=297mm,paperheight=210mm]{geometry} % A4
+\usepackage[paperwidth=148mm,paperheight=105mm]{geometry} % A5
+%\geometry{left=1cm,right=1cm,top=1cm,bottom=1cm}
+\geometry{left=5mm,right=5mm,top=5mm,bottom=5mm}
 
 %\usepackage[colorlinks=true,
 %]{hyperref}
@@ -19,6 +22,7 @@ pdfsubject={ru manual on writing programs for Cortex-M MCUs},
 pdfkeywords={ARM} {Cortex} {MCU} {ARMatura} {Arduino} {SSAU}
 ]{hyperref}
 
+\usepackage{wrapfig}
 \usepackage{graphicx}
 \usepackage{epstopdf}
 \DeclareGraphicsExtensions{.eps}
@@ -68,7 +72,7 @@ keywordstyle=\color{blue}\texttt
 \usepackage[os=win]{menukeys}
 \newcommand{\winstart}{\includegraphics[width=5mm]{fig/windows.eps}}
 \newcommand{\file}[1]{\directory{#1}}
-\newcommand{\wcmd}[1]{\keys{\winstart+R}\ \menu{#1}}
+\newcommand{\wcmd}[1]{wcmd:#1}%{\keys{\winstart+R}\ \menu{#1}}
 
 
 \newcommand{\win}[1]{\includegraphics[width=10mm]{fig/windows.eps} #1}
