@@ -27,6 +27,7 @@ pdfkeywords={ARM} {Cortex} {MCU} {ARMatura} {Arduino} {SSAU}
 \usepackage{xcolor}
 \newcommand{\cppcolor}{\color[rgb]{0.94, 0.97, 1.0}} % Alice blue
 \newcommand{\asmcolor}{\color[rgb]{0.98, 0.92, 0.84}} % Antique white
+\newcommand{\concolor}{\color[rgb]{0.88, 1.0, 1.0}} % Light cyan
 
 %\definecolor{cppcolor}{rgb}{0.94, 0.97, 1.0}
 \lstset{frame=single,
@@ -39,6 +40,7 @@ keywordstyle=\color{blue}\texttt
 
 \lstdefinestyle{cpp}{language=C++,backgroundcolor=\cppcolor}
 \lstdefinestyle{asm}{language={[ARM]Assembler},backgroundcolor=\asmcolor}
+\lstdefinestyle{con}{backgroundcolor=\concolor}
 
 \newcommand{\cm}[1]{Cortex-M#1}
 \newcommand{\cx}{\cm{x}}
@@ -63,12 +65,17 @@ keywordstyle=\color{blue}\texttt
 
 \usepackage{wasysym} % smileys
 
-\usepackage{menukeys}
+\usepackage[os=win]{menukeys}
+\newcommand{\winstart}{\includegraphics[width=5mm]{fig/windows.eps}}
+\newcommand{\file}[1]{\directory{#1}}
+\newcommand{\wcmd}[1]{\keys{\winstart+R}\ \menu{#1}}
+
 
 \newcommand{\win}[1]{\includegraphics[width=10mm]{fig/windows.eps} #1}
 \newcommand{\lin}[1]{\includegraphics[width=10mm]{fig/linux.eps} #1}
 
 \newcommand{\linux}{Linux}
+\newcommand{\git}{Git}
 
 \usepackage{tocloft}
 \newcommand{\listlabname}{Лабораторные работы}

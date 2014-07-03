@@ -38,4 +38,71 @@
 
 \win{\labwork{Установка инструментального ПО для Windows}\label{winsoftinstall}}
 
+Создадим рабочий каталог, установим систему контроля версий \git\ref{git}\ и 
+получим локальную копию проекта этой книги, содержащий кроме текста для издательской системы
+\LaTeX\ еще и исходные коды библиотек, примеры кода и т.п., которые вы заходите использовать в своих
+проектах:
+
+\bigskip\wcmd{\url{http://git-scm.com/download/win}}
+
+Запуститься закачка установочного пакета scm-git (\file{Git-1.9.4-preview20140611.exe}), после его загрузки
+запустите установщик, 
+
+\bigskip
+\menu{Welcome>Next}, 
+
+\bigskip
+\menu{GNU GPL>Next}, 
+
+\bigskip
+\menu{Select components>Windows Explorer Integration>Simple Context Menu>Git GUI here>Next}
+
+\bigskip
+\menu{Use Git and optional Unix tools from the Command Prompt>Next}
+
+\bigskip
+\menu{Use OpenSSH>Next}
+
+\bigskip
+\menu{Checkout Windows-style>Next}
+
+\bigskip
+\menu{Extracting files...}
+
+\bigskip
+\menu{Completing Setup>[ ] View ReleaseNotes>Finish}
+
+\bigskip
+Проверим что \git\ правильно установился:
+
+\bigskip\wcmd{cmd}
+
+\bigskip
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>git --version
+git version 1.9.4.msysgit.0
+\end{lstlisting}
+
+\bigskip
+Создаем каталог \directory{D:/ARM}\ и выгружаем текущую копию этой книги из репозитория
+\url{https://github.com/ponyatov/CortexMx}
+
+\bigskip\wcmd{cmd}
+
+\bigskip
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\ponyatov>D:
+D:\>mkdir \ARM
+D:\>cd \ARM
+D:\ARM>git clone --depth=1 https://github.com/ponyatov/CortexMx.git book
+\end{lstlisting}
+
+\begin{enumerate}
+\item 
+\end{enumerate}
+
 \lin{\labwork{Установка инструментального ПО для \linux}\label{linsoftinstall}}
+
+\chapter{Управление версиями при написании ПО}
+
+\section{Git}\label{git}
