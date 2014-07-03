@@ -22,6 +22,8 @@ pdfkeywords={ARM} {Cortex} {MCU} {ARMatura} {Arduino} {SSAU}
 ]{hyperref}
 
 \usepackage{graphicx}
+\usepackage{epstopdf}
+\DeclareGraphicsExtensions{.eps}
 
 \usepackage{listings}
 \usepackage{xcolor}
@@ -61,6 +63,26 @@ keywordstyle=\color{blue}\texttt
 \newcommand{\periph}[1]{\texttt{#1}}
 \newcommand{\jtag}{\periph{JTAG}}
 
+\usepackage{wasysym} % smileys
+
+\usepackage{menukeys}
+
+\newcommand{\win}[1]{\includegraphics[width=10mm]{fig/windows.eps} #1}
+\newcommand{\lin}[1]{\includegraphics[width=10mm]{fig/linux.eps} #1}
+
+\newcommand{\linux}{Linux}
+
+\usepackage{tocloft}
+\newcommand{\listlabname}{Лабораторные работы}
+\newlistof{lab}{ex}{\listlabname}
+\newcommand{\labpart}[1]{\addcontentsline{ex}{part}{#1}}
+\newcounter{labworkcounter}
+\newcommand{\labwork}[1]{
+\refstepcounter{labworkcounter}
+\section*{ЛР\thelabworkcounter: #1}
+\addcontentsline{ex}{section}{ЛР\thelabworkcounter: #1}
+}
+
 \begin{document}
 
 \title{\Huge{Азбука ARMатурщика}\\
@@ -72,6 +94,7 @@ keywordstyle=\color{blue}\texttt
 }
 \maketitle
 \tableofcontents
+\listoflab
 
 \part{Обзор семейства микроконтроллеров \cx}
 
@@ -116,6 +139,8 @@ E-mail: \email{info@milandr.ru}
 \subsection{LPC210x}
 
 \part{Программное обеспечение}
+\include{workenv}
+
 \chapter{Eclipse / GNU toolchain}
 \section{Утилита Make}
 \section{binutils}
@@ -128,8 +153,6 @@ E-mail: \email{info@milandr.ru}
 \chapter{IAR Embeded Workbench}
 
 \part{Встраиваемый \cpp}
-
-\part{Лабораторные работы}
 
 \part{Литература}
 

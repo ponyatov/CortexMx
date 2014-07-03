@@ -4,5 +4,6 @@
 *.log
 *.pdf
 *.aux
-
-main.out
+*.out
+*.ex 
+*.gz 
