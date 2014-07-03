@@ -13,12 +13,12 @@
 Самый распространенный вариант. Вам придется ограничиться этим вариантом если вам не повезло
 с поставщиком контроллера: windows-only ПО поддержки, например софт для программатора, или
 внезапно библиотеки только для коммерческих компиляторов. Аналогичная ситуация будет в случае
-покупки какого-нибудь специфичного windows-only оборудования (лог.анализатор, измерительное 
+покупки какого-нибудь специфичного оборудования (лог.анализатор, измерительное 
 оборудование или просто принтер).
 
 Установку ОС не рассматриваем.
 
-\win{Секции текста книги, зависяцие от ОС, будет выделены вот так.}
+\win{Секции текста книги, зависящие от ОС, будут выделены вот так.}
 
 Для разработки встраиваемого ПО нужно поставить несколько пакетов, обеспечивающих
 совместимость с UNIX средами \ref{winsoftinstall}.
@@ -27,12 +27,12 @@
 
 \begin{enumerate}
 \item \label{linuxref1}\linux\ удобен для разработчика, 
-\item если он вам не удобен, см п.\ref{linuxref1}
+\item Если он вам не удобен, см п.\ref{linuxref1}
 \end{enumerate}
 
-\lin{\labwork{Установка Debian GNU/Linux}\label{debianinstall}}
+\lin{Секции текста книги, зависящие от ОС, будут выделены вот так.}
 
-\lin{Секции текста книги, зависяцие от ОС, будет выделены вот так.}
+\lin{\labwork{Установка Debian GNU/Linux}\label{debianinstall}}
 
 \section{Установка инструментального программного обеспечения}
 
@@ -40,8 +40,8 @@
 
 Создадим рабочий каталог, установим систему контроля версий \git\ref{git}\ и 
 получим локальную копию проекта этой книги, содержащий кроме текста для издательской системы
-\LaTeX\ еще и исходные коды библиотек, примеры кода и т.п., которые вы заходите использовать в своих
-проектах:
+\LaTeX\ еще и исходные коды библиотек, примеры кода и т.п., которые вы захотите
+использовать в своих проектах:
 
 \bigskip\wcmd{\url{http://git-scm.com/download/win}}
 
@@ -49,10 +49,10 @@
 запустите установщик, 
 
 \bigskip
-\menu{Welcome>Next}, 
+\menu{Welcome>Next}
 
 \bigskip
-\menu{GNU GPL>Next}, 
+\menu{GNU GPL>Next} 
 
 \bigskip
 \menu{Select components>Windows Explorer Integration>Simple Context Menu>Git GUI here>Next}
@@ -70,7 +70,7 @@
 \menu{Extracting files...}
 
 \bigskip
-\menu{Completing Setup>[ ] View ReleaseNotes>Finish}
+\menu{Completing Setup>\uncheckbox\ View ReleaseNotes>Finish}
 
 \bigskip
 Проверим что \git\ правильно установился:
@@ -82,6 +82,23 @@
 C:\Documents and Settings\pda>git --version
 git version 1.9.4.msysgit.0
 \end{lstlisting}
+
+\bigskip
+Первое, что вам следует сделать после установки \git а\ ---указать ваше имя и
+адрес электронной почты. Это важно, потому что каждый коммит в \git е содержит
+эту информацию, и она включена в коммиты, передаваемые вами:
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>git config --global user.name "Vasya Pupkin"
+C:\Documents and Settings\pda>git config --global user.email no@mail.com
+C:\Documents and Settings\pda>git config --global push.default simple
+\end{lstlisting}
+
+\bigskip
+Эти настройки достаточно сделать только один раз, поскольку в этом случае 
+\git\ будет использовать эти данные для всего, что вы делаете.
+ Если для каких-то отдельных проектов вы хотите указать другое имя или
+электронную почту, можно выполнить эту же команду без параметра \verb|--global|
+в каталоге с нужным проектом.
 
 \bigskip
 Создаем каталог \directory{D:/ARM}\ и выгружаем текущую копию этой книги из репозитория
@@ -105,4 +122,4 @@ D:\ARM>git clone --depth=1 https://github.com/ponyatov/CortexMx.git book
 
 \chapter{Управление версиями при написании ПО}
 
-\section{Git}\label{git}
+\section{Git}\label{git}\cite{progit}
