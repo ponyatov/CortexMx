@@ -1,5 +1,6 @@
 \documentclass[oneside,12pt]{book}
 
+\usepackage[T1,T2A]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[english,russian]{babel}
 \usepackage{indentfirst}
@@ -12,26 +13,45 @@
 %\usepackage[colorlinks=true,
 %]{hyperref}
 %\newcommand{\email}[2]{#1\ \href{mailto:#2}{<\nolinkurl{#2}>}}
-% \newcommand{\url}[1]{\emph{#1}}
 % %\newcommand{\email}[2]{\emph{#1\ <#2>}}
-\usepackage[unicode,colorlinks=true,
+\usepackage[unicode,colorlinks,
 pdftitle={Azbuka ARMaturschika (ru)},
 pdfauthor={(c) Dmitry Ponyatov <dponyatov@gmail.com>, SSAU ASCL},
 pdfsubject={ru manual on writing programs for Cortex-M MCUs},
 pdfkeywords={ARM} {Cortex} {MCU} {ARMatura} {Arduino} {SSAU}
 ]{hyperref}
 
+\usepackage{listings}
+\usepackage{xcolor}
+\newcommand{\cppcolor}{\color[rgb]{0.94, 0.97, 1.0}} % Alice blue
+\newcommand{\asmcolor}{\color[rgb]{0.98, 0.92, 0.84}} % Antique white
+
+%\definecolor{cppcolor}{rgb}{0.94, 0.97, 1.0}
+\lstset{frame=single,
+numbers=left, numberstyle=\small,
+commentstyle=\color{cyan}\texttt,
+tabsize=4,
+keywordstyle=\color{blue}\texttt
+}
+\usepackage{lstlangarm}
+
+\lstdefinestyle{cpp}{language=C++,backgroundcolor=\cppcolor}
+\lstdefinestyle{asm}{language={[ARM]Assembler},backgroundcolor=\asmcolor}
+
 \newcommand{\cm}[1]{Cortex-M#1}
 \newcommand{\cx}{\cm{x}}
 
 \newcommand{\vld}{STM32VLDISCOVERY}
 
-\renewcommand{\url}[1]{\textbf{#1}}
-\newcommand{\email}[1]{$<$\textbf{#1}$>$}
+%\renewcommand{\url}[1]{\textbf{#1}}
+\newcommand{\email}[1]{$<$\href{mailto:#1}{\textbf{#1}}$>$}
 
 \newcommand{\cpp}{$C^{+^{+}}$}
 
 \newcommand{\cp}[1]{\footnote{копипаста: #1}}
+
+\newcommand{\thmod}{Thumb}
+\newcommand{\armod}{ARM}
 
 \begin{document}
 
@@ -47,46 +67,9 @@ pdfkeywords={ARM} {Cortex} {MCU} {ARMatura} {Arduino} {SSAU}
 
 \part{Обзор семейства микроконтроллеров \cx}
 
-\cp{\url{http://ru.wikipedia.org/wiki/ARM\_(архитектура)}}
+\include{ARM}
 
-Архитектура ARM (Advanced RISC Machine, Acorn RISC Machine, 
-усовершенствованная RISC-машина)\ --- семейство лицензируемых 32-битных и 
-64-битных микропроцессорных ядер разработки компании ARM Limited.
-
-Среди лицензиатов: практически все заметные разработчики цифровых
-электронных компонентов.
-Многие лицензиаты делают собственные версии ядер на базе ARM.
-
-Значимые семейства процессоров: ARM7, ARM9, ARM11 и Cortex.
-
-В 2007 году около 98\% из более чем миллиарда мобильных телефонов, продаваемых 
-ежегодно, были оснащены по крайней мере одним процессором ARM. По состоянию 
-на 2009 на процессоры ARM приходилось до 90\% всех встроенных 32-разрядных 
-процессоров. Процессоры ARM широко используются в потребительской 
-электронике\ --- в том числе КПК, мобильных телефонах, цифровых носителях и 
-плеерах, портативных игровых консолях, калькуляторах и компьютерных п
-ериферийных устройствах, таких как жесткие диски или маршрутизаторы.
-
-Эти процессоры имеют низкое энергопотребление, поэтому находят широкое 
-применение во встраиваемых системах и преобладают на рынке мобильных 
-устройств, для которых данный фактор немаловажен.
-
-В настоящее время значимыми являются несколько семейств процессоров ARM:
-
-\begin{itemize}
-\item ARM7 (с тактовой частотой до 60-72 МГц), предназначенные, например, для 
-недорогих мобильных телефонов и встраиваемых решений средней производительности. 
-В настоящее время активно вытесняется новым семейством Cortex.
-\item ARM9, ARM11 (с частотами до 1 ГГц) для продвинутых телефонов, карманных 
-компьютеров и встраиваемых решений высокой производительности.
-\item Cortex A\ --- новое семейство процессоров на смену ARM9 и ARM11.
-\item Cortex M\ --- новое семейство процессоров на смену ARM7, также 
-призванное занять новую для ARM нишу встраиваемых решений низкой 
-производительности. В семействе присутствуют три значимых ядра: \cm{0}, 
-\cm{3} и \cm{4}.
-\end{itemize}
-
-\chapter{Архитектура ядра}
+\section{\cx}
 \chapter{Периферия}
 \section{Таймеры}
 \section{DMA}
