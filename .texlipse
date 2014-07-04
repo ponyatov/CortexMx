@@ -1,5 +1,5 @@
 #TeXlipse project settings
-#Thu Jul 03 21:23:08 GST 2014
+#Fri Jul 04 13:15:52 GMT+04:00 2014
 markTmpDer=true
 builderNum=2
 outputDir=
@@ -7,8 +7,8 @@ makeIndSty=
 bibrefDir=
 outputFormat=pdf
 tempDir=
-mainTexFile=main.tex
-outputFile=main.pdf
+mainTexFile=partial.tex
+outputFile=partial.pdf
 langSpell=ru
 markDer=true
 srcDir=
