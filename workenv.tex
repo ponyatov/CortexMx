@@ -114,7 +114,182 @@ D:\>cd \ARM
 D:\ARM>git clone --depth=1 https://github.com/ponyatov/CortexMx.git book
 \end{lstlisting}
 
+\bigskip
+Самая важная часть\ --- ставим GCC toolchain (набор инструментов)
+для процессоров ARM, собранный для \file{\$TARGET = arm-none-eabi}.
+Вариантов сборок для разработки для ARM под Windows много, есть и такие
+дистрибутивы как \href{http://www.coocox.org/}{CooCox IDE}, включаеющие полный
+комплект ПО одним пакетом. Ограничимся установкой варинта сборки под названием
+Yagarto:
 
+\bigskip\menu{\wcmd{\url{http://sourceforge.net/projects/yagarto/}}>Download}
+
+\bigskip
+Запускаем скачанный инсталлятор.
+
+\bigskip\menu{Welcome>Next}
+
+\bigskip\menu{License>Accept>Next}
+
+\bigskip\menu{Choose Components>\checkbox\ Add YAGARTO to PATH>Next}
+
+\bigskip\menu{Destination folder>D:/ARM/Yaga>Next}
+
+\bigskip\menu{Start Menu Folder>YAGARTO>Install}
+
+\bigskip\menu{Installation Complete>Next>Finish}
+
+\bigskip Яг\`{а} поставилась, теперь можно проверить что доступны базовые 
+утилиты:
+
+\bigskip Ассемблер
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>arm-none-eabi-as --version
+GNU assembler (GNU Binutils) 2.23.1
+Copyright 2012 Free Software Foundation, Inc.
+This program is free software; you may redistribute it under the terms of
+the GNU General Public License version 3 or later.
+This program has absolutely no warranty.
+This assembler was configured for a target of `arm-none-eabi'. 
+\end{lstlisting}
+\bigskip Линкер
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>arm-none-eabi-ld --version
+GNU ld (GNU Binutils) 2.23.1
+\end{lstlisting}
+\bigskip Утилиты для работы с объектными файлами в формате ELF
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>arm-none-eabi-objdump --version
+GNU objdump (GNU Binutils) 2.23.1
+\end{lstlisting}
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>arm-none-eabi-objcopy --version
+GNU objcopy (GNU Binutils) 2.23.1
+\end{lstlisting}
+\bigskip Препроцессор (\textbf{не} компилятор \cpp)
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>arm-none-eabi-cpp --version
+arm-none-eabi-cpp (GCC) 4.7.2
+Copyright (C) 2012 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+\end{lstlisting}
+\bigskip Компилятор Си
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>arm-none-eabi-gcc --version
+arm-none-eabi-gcc (GCC) 4.7.2
+\end{lstlisting}
+\bigskip Компилятор \cpp
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>arm-none-eabi-g++ --version
+arm-none-eabi-g++ (GCC) 4.7.2
+\end{lstlisting}
+
+\bigskip Утилита Make
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>make --version
+"make" is not internal or external command.
+
+C:\Documents and Settings\pda>arm-none-eabi-make --version
+"make" is not internal or external command.
+
+C:\Documents and Settings\pda>dir D:\ARM\Yaga\bin\*make*
+ Volume D has no label.
+ Serial #: 6588-9778
+
+ Direcory contents D:\ARM\Yaga\bin
+
+File not found
+\end{lstlisting}
+
+\bigskip Упс, а make почему-то в комплект не включили \frownie
+
+\bigskip Для совместимости скриптов придется поставить несколько пакетов
+из \file{GnuWin32}:
+
+\bigskip\wcmd{\url{http://gnuwin32.sourceforge.net/packages.html}}
+
+\bigskip\menu{\keys{Ctrl+F}>coreutils>\keys{Ctrl+Setup}}
+
+\menu{\keys{Ctrl+F}>wget>\keys{Ctrl+Setup}}
+
+\menu{\keys{Ctrl+F}>gnu make>\keys{Ctrl+Setup}}
+
+\bigskip\file{coreutils-5.3.0.exe} основные UNIX-утилиты типа rm ls , собранные
+под win32
+
+\bigskip\menu{Welcome>Next}
+
+\bigskip\menu{License>Accept>Next}
+
+\bigskip\menu{Folder>D:/ARM/GnuWin32>Next}
+
+\bigskip\menu{Components>Next}
+
+\bigskip\menu{Start Menu>GnuWin32/CoreUtils>Next}
+
+\bigskip\menu{Select Additional>Next}
+
+\bigskip\menu{Ready to Install>Next}
+
+\bigskip\menu{Compliting>Finish}
+
+\bigskip Аналогично ставим:
+
+\file{make-3.81.exe} утилита make
+
+\file{wget-1.11.4.exe} консольная утилита загрузки файлов по HTTP/FTP
+
+\file{grep-2.5.4.exe} утилита поиска строк в файлах и stdin/stdout потоке
+
+\bigskip Чтобы утилиты \file{GnuWin32}\ были доступны, нужно прописать
+переменную пользователя \verb|$PATH|\ в системном окружении.
+
+\bigskip\menu{Пуск>Настройка>Панель управления>Система>Дополнительно>Переменные
+среды}
+
+\bigskip\menu{Переменные среды>переменные пользователя>Создать/Изменить}
+
+\bigskip\menu{Имя переменной>PATH}
+
+\menu{Значение переменной>добавить в начало
+D:/ARM/GnuWin32/bin;D:/ARM/Yaga/bin;..}
+
+\menu{Ok>Ok>Ok}
+
+\bigskip Проверяем:
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>ls -la
+total 3111
+drwxr-xr-x   29 pda      user        0 Jul  4 14:03 .
+drwxr-xr-x    9 pda      user        0 Oct  8  2013 ..
+-rw-r--r--    1 pda      user     5242 May 22 14:29 .bash_history
+drwxr-xr-x    2 pda      user        0 May 23  2013 .borland
+drwxr-xr-x   18 pda      user        0 Sep  4  2013 .ccache
+drwxr-xr-x    3 pda      user        0 Mar 26  2013 .eclipse
+\end{lstlisting}
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>wget --version
+GNU Wget 1.7
+
+Copyright (C) 1995, 1996, 1997, 1998, 2000, 2001 Free Software Foundation, Inc.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+Originally written by Hrvoje Niksic <hniksic@arsdigita.com>.
+\end{lstlisting}
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>make --version
+GNU Make 3.81
+Copyright (C) 2006  Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+
+This program built for i386-pc-mingw32
+\end{lstlisting}
 
 \lin{\labwork{Установка инструментального ПО для \linux}\label{linsoftinstall}}
 
