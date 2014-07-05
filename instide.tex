@@ -155,6 +155,68 @@ default>OK}
 
 \bigskip\menu{Help>Check for Updates>Details>No updates found>OK}
 
-\bigskip В базовом варианте Eclipse поддерживает
+\bigskip В базовом варианте Eclipse поддерживает только Java, поэтому нужно
+установить расширение для работы с С/C++: \file{CDT}.
+
+\bigskip
+Проект \file{CDT}\ предоставляет полнофункциональную интегрированную среду
+для разработки на Си и \cpp. Поддерживаются: управление проектами и
+компиляцией для различных тулчейнов, стандартная сборка через
+\file{make}, навигация по исходным текстам, различные инструменты для
+работы с иходным текстом, такие как иерархия типов, граф вызовов, браузер
+подключаемых файлов, браузер макроопределений, редактор кода с подсветкой
+синтаксиса, сворачивание синтаксических структур (фолдинг) и гипертекстовая
+навигация, рефакторинг и генерация кода, средства визуальной отладки,
+включающие просмотр памяти, регистров и дизассемблер.
+
+\bigskip\wcmd{\url{http://www.eclipse.org/cdt/downloads.php}}
+
+\bigskip Выделить и скопировать в буфер обмена ссылку
+
+\file{p2 software repository}:
+\url{http://download.eclipse.org/tools/cdt/releases/8.4}.
+
+\bigskip Добавляем сетевое хранилище пакетов для \eclipse:
+
+\bigskip\menu{\eclipse>Help>Install New Software>Work with>Add}
+
+\bigskip\menu{Name>CDT}
+
+\menu{Location>http://download.eclipse.org/tools/cdt/releases/8.4}
+
+\menu{OK}
+
+\bigskip
+Выбрать (если оно не выбралось само) хранилище \menu{Work with:>CDT},
+и в дереве выбора пакетов выбрать:
+
+\bigskip
+\dirtree{%
+.1 CDT.
+.2 CDT Main Features.
+.3 \checkbox\ C/C++ Development Tools.
+.2 CDT Optional Features.
+.3 \checkbox\ C/C++ C99 LR Parser.
+.3 \checkbox\ C/C++ GCC Cross Compiler Support.
+.3 \checkbox\ C/C++ GDB Hardware Debugging.
+}
+
+\bigskip
+\menu{Next>Next>Licenses>Accept>Finish}
+
+\bigskip После установки пакетов появится окно с запросом перезапуска \eclipse.
+
+\bigskip
+В \eclipse\ есть так называемые \term{перспективы} (perspective)\ --- это
+переключаемые режимы отображения рабочего набора окон, настроенные под тип
+работы. По умолчанию запускается перспектива \window{Java}. Нас
+интересует перспектива \window{C/C++}:
+
+\bigskip\menu{Window>Open Perspective>Other>C/C++>Ok}
+
+\bigskip Также перспективу можно переключить кнопкой на панели в правом верхнем
+углу:
+
+\bigskip\includegraphics[width=0.9\textwidth]{fig/eclperpective.png}
 
 \end{document}
