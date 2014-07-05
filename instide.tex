@@ -2,6 +2,30 @@
 
 \begin{document}
 
+Общая структура рабочей среды разработчика встроенных систем:
+
+\begin{itemize}
+  \item Операционная система с набором типовых утилит
+  
+  Для Windows требуется дополнительно установить несколько модулей из пакета
+  \file{GnuWin32}, чтобы обеспечить минимальную совместимость с UNIX-средой.
+  
+  \item Пакет кросс-компилятора и утилит типа make, objdump,..
+  
+  Компилятор преобразует программы на языке программирования в \term{объектный
+  код} (смесь кусочков машинного кода со служебной информацией) или в
+  текст на языке ассемблера.
+  
+  \term{Кросс-компилятор}\ отличается от обычного компилятора тем, что
+  генерирует код не для компьютера на котором он выполняется
+  (\term{хост-система}, \verb|$HOST|), а для компьютера другой
+  архитектуры\ --- \term{целевой} системы, \verb|$TARGET|.
+  
+  \item ПО для программатора, JTAG-адаптера
+  \item Текстовый редактор или интегрированная среда разработки (IDE)
+  \item ПО адаптера JTAG
+\end{itemize}
+
 \win{\labwork{Установка IDE}\label{winide}}
 
 Для удобной работы доступно несколько бесплатных вариантов IDE (интегрированных сред разработки),
@@ -12,13 +36,35 @@
 
 \bigskip\wcmd{\url{http://www.oracle.com/technetwork/java/javase/downloads/}}
 
-\bigskip\menu{Java Platform, Standard Edition>JRE>Download>Accept License>jre-8u5-windows-i586.exe}
+\bigskip\begin{itemize}
+  \item 
+Минимальный вариант\ ---  ставим только Java Runtime:
 
-\bigskip\menu{jre-8u5-windows-i586.exe>Welcome>\checkbox\ Change destination folder>Install}
+\menu{Java Platform, Standard Edition>JRE>Download>Accept
+License>\file{jre-8u5-windows-i586.exe}}
 
-\bigskip\menu{Destination folder>D:/Java/jre8>Next>Installing>Close}
+\menu{\file{jre-8u5-windows-i586.exe}>Welcome>\checkbox\ Change destination
+folder>Install}
 
-\bigskip
+\menu{Destination folder>\file{D:/Java/jre8}>Next>Installing>Close}
+
+  \item
+Если вы планируете параллельно еще и осваивать язык Java\ --- ставим
+Java SE JDK: 
+
+\menu{Java Platform, Standard Edition>JDK>Download>Accept
+License>\file{jdk-8u5-windows-i586.exe}}
+
+\menu{\file{jdk-8u5-windows-i586.exe}>Welcome>Next}
+
+\menu{Install to: \file{D:/Java/jdk8}>Next}
+
+\menu{JRE Distination folder>Install to: \file{D:/Java/jre8}>Next}
+
+\menu{Java SE Development Kit 8 Update 5 Successfully Installed>Close}
+
+\end{itemize}
+
 Для установки доступны два варианта:
 \begin{enumerate}
 \item \textbf{Eclipse Standard} базовый вариант среды, в ЛР рассмотрен именно он для иллюстрации 
@@ -30,19 +76,31 @@
 
 \bigskip\wcmd{\url{http://www.eclipse.org/downloads/}}
 
-\bigskip\menu{Eclipse Standard>Windows 32 Bit>Download>eclipse-standard-luna-R-win32.zip}
+\bigskip\menu{Eclipse Standard>Windows 32
+Bit>Download>\file{eclipse-standard-luna-R-win32.zip}}
 
-\bigskip Перетащите каталог \directory{eclipse} из архива в \directory{D:/ARM} и создайте
-удобным для вас способом ссылку на \file{D:/ARM/eclipse/eclipse.exe}.
+\bigskip Перетащите каталог \file{eclipse} из архива в \file{D:/ARM} и
+создайте удобным для вас способом ссылку на \file{D:/ARM/eclipse/eclipse.exe}.
 
 \bigskip\includegraphics[height=0.3\textheight]{fig/EclipseSplash.png}
 
-\bigskip\menu{D:/ARM/eclipse/eclipse.exe>Workspace>D:/ARM>Use as default>OK}
+\bigskip Workspace\ --- рабочий каталог, в котором создаются каталоги отдельных
+проектов, типа \file{D:/WORK}. Eclipse создаст в нем служебный каталог
+\file{.metadata}, и поместит в него служебную информацию, относящуюся сразу ко
+всем проектам. Как побочный эффект, если в workspace уже есть какой-то каталог,
+можно создать новый проект (например \file{book}), и в левой части рабочей
+области \eclipse\ в окне \window{Project Explorer}\ появится дерево файлов
+\file{book/*}.
+
+\bigskip\menu{\file{D:/ARM/eclipse/eclipse.exe}>Workspace>\file{D:/ARM}>Use as
+default>OK}
 
 \bigskip\includegraphics[width=0.9\textwidth]{fig/EclipseMain.png}
 
 \bigskip Проверяем наличие обновлений
 
 \bigskip\menu{Help>Check for Updates>Details>No updates found>OK}
+
+\bigskip В базовом варианте Eclipse поддерживает
 
 \end{document}
