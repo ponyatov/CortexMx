@@ -1,0 +1,75 @@
+\labwork{Установка системы верстки документации \LaTeX}\label{texinstall}
+
+Если вы планируете писать полноценную документацию на программы
+и оборудование, или участовать в доделке этой книги, вы можете установить
+систему верстки \LaTeX.
+
+Для работы с \TeX\ требуется довольно приличное по усилиям
+(само)обучение \cite{lugovsky}, но оно оправдывается если вы часто 
+пишете документацию, особенно если в ней больше 10 формул.
+Готовить документацию в MS Word\ --- (само)убийство мозга и времени,
+идеология подстановочных макросов \TeX, богатый набор доп.пакетов
+и командный ввод формул очень доставляют.
+
+\win{Скачайте и установите пакет \miktex:}
+
+\bigskip\wcmd{\url{http://miktex.org/download}>Other Downloads>Net Installer}
+
+\menu{Save as:>\file{D:/ARM/soft/MikTeX/miktex-netsetup-2.9.4503}}
+
+\bigskip Загрузка дистрибутивных файлов
+
+\menu{\file{miktex-netsetup-2.9.4503}>License>Accept>Далее}
+
+\menu{Task>Download>Далее}
+
+Если у вас постоянное internet-соединение: \menu{Package Set>Basic MiKTeX>Далее}
+
+Для offline работы\footnote{когда неизвестно какие пакеты понадобятся\ ---
+\miktex\ умеет их докачивать по необходимости} \menu{Package
+Set>Complete MikTeX>Далее}
+
+\menu{Download Source>Russian Federation (ctan.uni-altai.ru)>Далее}
+
+\menu{Distribution
+Directory>\file{D:/ARM/soft/MikTeX}>Далее>Start>Executing>Далее>Close}
+
+\bigskip Установка из ранее загруженного дистрибутива
+
+\menu{\file{D:/ARM/soft/MikTeX/miktex-\alarm{netsetup}-2.9.4503}>License>Accept>Далее}
+
+\menu{Task>Install>Далее>Basic MiKTeX>Далее}
+
+\menu{Install for>Anyone/Only for user>Далее}
+
+\menu{Install \alarm{from}:>\file{D:/ARM/soft/MikTeX}>Далее}
+
+\menu{Install to:>\file{D:/LaTeX/MiKTeX}>Далее}
+
+\menu{Settings}
+
+\menu{Preferred paper>A4}
+
+Важная опция: автоматическая докачка отсутствующих пакетов
+\alarm{\menu{Install missing packages>Yes}}
+
+\menu{Далее>Start>Executing>Close}
+
+\bigskip Двухступенчатая установка позволяет сначала скачать полный дистрибутив
+\miktex, а затем установить его на другой компьютер, не подключенный к
+\internet, или c медленным/платным каналом не дающим взять и качнуть 200 Мб.
+
+\bigskip Для удобной работы с \file{.tex} файлами в \eclipse\ нужно поставить 
+дополнение \file{TeXlipse}:
+
+\bigskip
+\menu{\eclipse>Help>Install>Work with>Add}
+
+\menu{Name>TeXlipse}
+
+\menu{Location>\url{http://texlipse.sourceforge.net}}
+
+\dirtree{%}
+.1 TeXlipse.
+.2 \checkbox\ TeXlipse.
+}

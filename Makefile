@@ -6,8 +6,12 @@ TEX += instide.tex
 TEX += milandr.tex
 TEX += workenv.tex
 TEX += devkitstruc.tex
+TEX += labgitinstall.tex
 TEX += labinstjava.tex
 TEX += labinsteclipse.tex
+TEX += labdebianinst.tex
+TEX += texinstall.tex
+TEX += vcs.tex
 
 TEXTMP = *.aux *.log *.dvi *.pdf *.ex *.out
 
