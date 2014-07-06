@@ -16,9 +16,9 @@ TEX += vcs.tex
 TEX += labhello.tex
 TEX += labecreprj.tex
 TEX += labmkmake.tex
-TEX += hello/Makefile.mk
+TEX += tmp/hello.mk
 
-hello/Makefile.mk: hello/Makefile
+tmp/%.mk: %/Makefile
 	cp $< $@
 
 TEXTMP = *.aux *.log *.dvi *.pdf *.ex *.out
