@@ -32,19 +32,22 @@ pdfkeywords={ARM} {Cortex} {MCU} {ARMatura} {Arduino} {SSAU}
 \newcommand{\cppcolor}{\color[rgb]{0.94, 0.97, 1.0}} % Alice blue
 \newcommand{\asmcolor}{\color[rgb]{0.98, 0.92, 0.84}} % Antique white
 \newcommand{\concolor}{\color[rgb]{0.88, 1.0, 1.0}} % Light cyan
+\newcommand{\makecolor}{\color[rgb]{0.9, 0.9, 0.98}} % Lavender mist
 
 %\definecolor{cppcolor}{rgb}{0.94, 0.97, 1.0}
 \lstset{frame=single,
 numbers=left, numberstyle=\small,
 commentstyle=\color{cyan}\texttt,
 tabsize=4,
-keywordstyle=\color{blue}\texttt
+keywordstyle=\color{blue}\texttt,
+inputencoding=utf8, extendedchars=\true, keepspaces=true
 }
 \usepackage{lstlangarm}
 
 \lstdefinestyle{cpp}{language=C++,backgroundcolor=\cppcolor}
 \lstdefinestyle{asm}{language={[ARM]Assembler},backgroundcolor=\asmcolor}
 \lstdefinestyle{con}{backgroundcolor=\concolor}
+\lstdefinestyle{mk}{language=make,backgroundcolor=\makecolor}
 
 \newcommand{\cm}[1]{Cortex-M#1}
 \newcommand{\cx}{\cm{x}}
@@ -81,6 +84,8 @@ keywordstyle=\color{blue}\texttt
 \newcommand{\wcmd}[1]{\keys{\winstart+R}\ \directory{#1}}
 \newcommand{\checkbox}{$\boxtimes$}
 \newcommand{\uncheckbox}{$\square$}
+\newcommand{\lms}{\keys{$\lhd$}}
+\newcommand{\rms}{\keys{$\rhd$}}
 
 \newcommand{\win}[1]{\includegraphics[height=10ex]{fig/winlogo.jpg} #1}
 \newcommand{\lin}[1]{\includegraphics[height=10ex]{fig/linuxcolor.png} #1}
@@ -92,6 +97,9 @@ keywordstyle=\color{blue}\texttt
 \newcommand{\term}[1]{\underline{\color{DarkBlue} #1}}
 \newcommand{\miktex}{MiK\TeX}
 \newcommand{\internet}{Internet}
+
+\newcommand{\make}{\file{make}}
+\newcommand{\makefile}{\file{Makefile}}
 
 \usepackage{tocloft}
 \newcommand{\listlabname}{Лабораторные работы}
