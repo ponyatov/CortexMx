@@ -2,7 +2,7 @@
 
 \begin{document}
 
-\mytitle{учебное пособие}
+\mytitle{\ }
 \maketitle
 \tableofcontents
 \listoflab
@@ -11,50 +11,85 @@
 
 \include{ARM}
 
-\section{\cx}
-\chapter{Периферия}
-\section{Таймеры}
-\section{DMA}
-\section{UART}
-\section{CAN}
-\section{USB}
-\section{Ethernet}
-\chapter{Производители}
-\section{ST Microelectronics}
-\subsection{STM32F0xx /\cm{0}/}
-\include{STM32F1xx}
-\subsection{STM32F4xx /\cm{4}/} STM32F4DISCOVERY
-
-\include{milandr}
-
-\section{NXP}
-\subsection{LPC210x}
+% \section{\cx}
+% \chapter{Периферия}
+% \section{Таймеры}
+% \section{DMA}
+% \section{UART}
+% \section{CAN}
+% \section{USB}
+% \section{Ethernet}
+% \chapter{Производители}
+% \section{ST Microelectronics}
+% \subsection{STM32F0xx /\cm{0}/}
+% \include{STM32F1xx}
+% \subsection{STM32F4xx /\cm{4}/} STM32F4DISCOVERY
+% 
+% \include{milandr}
+% 
+% \section{NXP}
+% \subsection{LPC210x}
 
 \part{Программное обеспечение}
-\include{workenv}
 
-\chapter{Eclipse / GNU toolchain}
-\section{Утилита Make}
-\section{binutils}
-\subsection{Ассемблер GNU AS}
-\subsection{Линкер LD}
-\subsection{Утилиты работа с файлами формата ELF}
-\section{Компилятор GCC}
-\section{IDE Eclipse}
-\chapter{Keil MDK-ARM}
-\chapter{IAR Embeded Workbench}
+\chapter{Рабочая среда разработчика встраиваемых систем}
 
-Великолепный вводный видеокурс по IAR и основам разработки на ARM
+\include{devkitstruc}
 
-\menu{\cite{quantumleaps}>QuickStart>\href{http://youtu.be/3V9eqvkMzHA}{Lesson 0: Getting Started}}
+\labpart{Установка ПО}
+\include{labdebianinst}
+\include{labgitinstall}
+\include{labgnuchain}
+\include{labgnuwinstall}
+\include{labinstjava}
+\include{labinsteclipse}
+\include{texinstall}
+%\include{ПО для JTAG-адаптера}
+
+\chapter{Система управления версиями Git}
+\include{vcs}
+
+\chapter{Интегрированная среда разработки \eclipse}
+\include{eclipse}
+
+\chapter{Пакет кросс-компиляции GNU toolchain}
+\include{gnuchain}
+
+\part{Отладка}
+
+% \include{workenv}
+% 
+% \chapter{Eclipse / GNU toolchain}
+% \section{Утилита Make}
+% \section{binutils}
+% \subsection{Ассемблер GNU AS}
+% \subsection{Линкер LD}
+% \subsection{Утилиты работа с файлами формата ELF}
+% \section{Компилятор GCC}
+% \section{IDE Eclipse}
+% \chapter{Keil MDK-ARM}
+% \chapter{IAR Embeded Workbench}
+% 
+% Великолепный вводный видеокурс по IAR и основам разработки на ARM
+% 
+% \menu{\cite{quantumleaps}>QuickStart>\href{http://youtu.be/3V9eqvkMzHA}{Lesson 0: Getting Started}}
 
 \part{Встраиваемый \cpp}
 
 \part{RTOS}
-\chapter{FreeRTOS}
-\chapter{Keil RTX}
+% \chapter{FreeRTOS}
+% \chapter{Keil RTX}
 
 \part{Автоматное программирование /фреймворк QuantumLeaps/}
+
+\part{Разработка и изготовление железа}
+\chapter{САПР KiCAD}
+\chapter{Инструмент и оборудование}
+\chapter{Технологии изготовления плат и монтажа}
+
+\part{Подготовка документации}
+\chapter{DocBook}
+\chapter{\LaTeX}\include{latex}
 
 \include{bib}
 

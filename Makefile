@@ -17,7 +17,7 @@ TEXTMP = *.aux *.log *.dvi *.pdf *.ex *.out
 
 .PHONY: all clean
 
-all: labworks.pdf
+all: main.pdf
 
 clean:
 	rm -f $(TEXTMP)
