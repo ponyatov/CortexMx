@@ -1,0 +1,42 @@
+\labwork{Установка симулятора QEMU}\label{qemuinstall}
+
+Нередко в практике разработчика возникают ситуации, когда программное обеспечение (ПО) для микроконтроллера
+приходится писать в отсутствии под рукой аппаратной платформы.
+
+Например, печатная плата устройства отдана на подготовку к производству, а времени ждать
+готовое устройство для тестирования на нем программного обеспечения нет.
+
+В таких случаях для оценки работоспособности ПО можно воспользоваться программным симулятором целевого микроконтроллера.
+
+Для интегрированной среды разработки \eclipse\ CDT в качестве программного
+симулятора микроконтроллеров ARM можно использовать симулятор (или виртуальную машину,если быть точным) 
+\file{qemu-arm} с интерфейсом командной строки:
+
+\bigskip\menu{\wcmd{\url{http://qemu.weilnetz.de/w32/}}>\file{qemu-w32-setup-20140702.exe}}
+
+\menu{\file{qemu-w32-setup-20140702.exe}>Welcome>Next>License>Agree}
+
+\menu{Choose Components}
+
+\dirtree{%
+.1 QEMU.
+.2 \uncheckbox\ System Emulations.
+.3 \checkbox\ arm.
+.3 \checkbox\ armw.
+}
+
+\menu{Next}
+
+\menu{Destination Folder>\file{D:/ARM/qemu}>Next>Finish}
+
+\bigskip Добавьте \file{D:/ARM/qemu}\ в системную переменную
+\file{\$PATH}\ (\labref{winpath}).
+
+\bigskip
+
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>qemu-system-arm -version
+C:\Documents and Settings\pda>cat D:\ARM\qemu\stdout.txt
+QEMU emulator version 2.0.90, Copyright (c) 2003-2008 Fabrice Bellard
+\end{lstlisting}
+
