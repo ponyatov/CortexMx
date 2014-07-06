@@ -14,8 +14,22 @@
 
 \menu{This kind of project associated with C/C++ perspective>Yes}
 
- \bigskip В окне \window{Project Explorer}\ появится пустая закладка проекта
- \file{hello}. Если вдруг там будут какие-то файлы, значит кто-то до вас уже
+ \bigskip В окне \eclpx\ появится пустая закладка
+ проекта \file{hello}. Если вдруг там будут какие-то файлы, значит кто-то до вас уже
  создал проект, и что-то туда наляпал. В этом случе повторите создание, задав
  имя типа \file{hello<номер группы><FIO>}\ или типа того, для полной
  уверенности можно сначала посмотреть что в \file{D:/ARM}\ нет папки с таким именем.
+
+\bigskip Нужно сразу настроить несколько свойств проекта.
+
+\bigskip Команда-билдер для проекта\ --- задаем явно \file{make}:
+
+\bigskip\menu{\eclpx>\file{hello}>\rms>Properties>C/C++ Build}
+
+\menu{\uncheckbox\ Use default build command}
+
+\menu{Build command:>\file{make}}
+
+\menu{OK}
+
+
