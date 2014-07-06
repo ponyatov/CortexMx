@@ -28,7 +28,7 @@ pdfkeywords={ARM} {Cortex} {MCU} {ARMatura} {Arduino} {SSAU}
 
 \usepackage{listings}
 \usepackage{dirtree}
-\usepackage{xcolor}
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
 \newcommand{\cppcolor}{\color[rgb]{0.94, 0.97, 1.0}} % Alice blue
 \newcommand{\asmcolor}{\color[rgb]{0.98, 0.92, 0.84}} % Antique white
 \newcommand{\concolor}{\color[rgb]{0.88, 1.0, 1.0}} % Light cyan
@@ -76,17 +76,19 @@ keywordstyle=\color{blue}\texttt
 \newcommand{\winstart}{$\boxplus$}
 \newcommand{\file}[1]{\textbf{\textsf{#1}}}
 \newcommand{\window}[1]{\textbf{\textit{#1}}}
+\newcommand{\alarm}[1]{{\color{DarkRed}#1}}
 \newcommand{\wcmd}[1]{\keys{\winstart+R}\ \directory{#1}}
 \newcommand{\checkbox}{$\boxtimes$}
 \newcommand{\uncheckbox}{$\square$}
 
-\newcommand{\win}[1]{\includegraphics[width=10ex]{fig/winlogo.jpg} #1}
-\newcommand{\lin}[1]{\includegraphics[width=10ex]{fig/linux.eps} #1}
+\newcommand{\win}[1]{\includegraphics[height=10ex]{fig/winlogo.jpg} #1}
+\newcommand{\lin}[1]{\includegraphics[height=10ex]{fig/linuxcolor.png} #1}
 
 \newcommand{\linux}{Linux}
 \newcommand{\git}{Git}
 \newcommand{\eclipse}{\textcircled{$\equiv$}\textsc{eclipse}}
-\newcommand{\term}[1]{\underline{#1}}
+%\newcommand{\term}[1]{\underline{#1}}
+\newcommand{\term}[1]{\underline{\color{DarkBlue} #1}}
 
 \usepackage{tocloft}
 \newcommand{\listlabname}{Лабораторные работы}
@@ -98,4 +100,17 @@ keywordstyle=\color{blue}\texttt
 \section*{ЛР\thelabworkcounter: #1}
 \addcontentsline{toc}{subsection}{ЛР\thelabworkcounter: #1}
 \addcontentsline{ex}{section}{ЛР\thelabworkcounter: #1}
+}
+\newcommand{\labref}[1]{ЛР\ref{#1}}
+
+\newcommand{\mytitle}[1]{
+\title{\Huge{Азбука халтурщика-ARMатурщика}\\
+#1\\
+\normalsize{учебный курс по микроконтроллерам \cx:\\
+Миландр 1986ВЕ, STM32F, LPC21xx}}
+}
+
+\author{\copyright\\
+Понятов Д.А. \email{dponyatov@gmail.com}, ИКП СГАУ, \\
+Недяк С.П. \email{fvs@fet.tusur.ru}, ТУСУР
 }
