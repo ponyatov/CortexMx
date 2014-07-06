@@ -1,5 +1,5 @@
 #TeXlipse project settings
-#Sun Jul 06 12:30:23 GST 2014
+#Sun Jul 06 12:51:38 GST 2014
 markTmpDer=true
 builderNum=2
 outputDir=
@@ -7,8 +7,8 @@ makeIndSty=
 bibrefDir=
 outputFormat=pdf
 tempDir=
-mainTexFile=labset.tex
-outputFile=labset.pdf
+mainTexFile=labworks.tex
+outputFile=labworks.pdf
 langSpell=ru
 markDer=true
 srcDir=
