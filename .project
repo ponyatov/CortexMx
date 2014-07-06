@@ -44,4 +44,15 @@
 			<location>C:/MikTeX/29/tex/latex/tools/.tex</location>
 		</link>
 	</linkedResources>
+	<filteredResources>
+		<filter>
+			<id>1404675002186</id>
+			<name></name>
+			<type>6</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-true-(.+\.(aux|log|out|gz|ex))</arguments>
+			</matcher>
+		</filter>
+	</filteredResources>
 </projectDescription>
