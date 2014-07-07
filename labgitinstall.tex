@@ -1,0 +1,78 @@
+\labwork{Установка Git}\label{gitinstall}
+
+Создадим рабочий каталог, установим систему контроля версий \git\ref{git}\ и 
+получим локальную копию проекта этой книги, содержащий кроме текста для издательской системы
+\LaTeX\ еще и исходные коды библиотек, примеры кода и т.п., которые вы захотите
+использовать в своих проектах.
+
+\bigskip\wcmd{\url{http://git-scm.com/download/win}}
+
+Запуститься закачка установочного пакета scm-git (\file{Git-1.9.4-preview20140611.exe}), после его загрузки
+запустите установщик, 
+
+\bigskip
+\menu{Welcome>Next}
+
+\bigskip
+\menu{GNU GPL>Next} 
+
+\bigskip
+\menu{Select components>Windows Explorer Integration>Simple Context Menu>Git GUI here>Next}
+
+\bigskip
+\menu{Use Git and optional Unix tools from the Command Prompt>Next}
+
+\bigskip
+\menu{Use OpenSSH>Next}
+
+\bigskip
+\menu{Checkout Windows-style>Next}
+
+\bigskip
+\menu{Extracting files...}
+
+\bigskip
+\menu{Completing Setup>\uncheckbox\ View ReleaseNotes>Finish}
+
+\bigskip
+Проверим что \git\ правильно установился:
+
+\bigskip\wcmd{cmd}
+
+\bigskip
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>git --version
+git version 1.9.4.msysgit.0
+\end{lstlisting}
+
+\bigskip
+Первое, что вам следует сделать после установки \git а\ ---указать ваше имя и
+адрес электронной почты. Это важно, потому что каждый коммит в \git е содержит
+эту информацию, и она включена в коммиты, передаваемые вами:
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>git config --global user.name "Vasya Pupkin"
+C:\Documents and Settings\pda>git config --global user.email no@mail.com
+C:\Documents and Settings\pda>git config --global push.default simple
+\end{lstlisting}
+
+\bigskip
+Эти настройки достаточно сделать только один раз, поскольку в этом случае 
+\git\ будет использовать эти данные для всего, что вы делаете.
+ Если для каких-то отдельных проектов вы хотите указать другое имя или
+электронную почту, можно выполнить эту же команду без параметра \verb|--global|
+в каталоге с нужным проектом.
+
+\bigskip
+Создаем каталог \file{D:/ARM}\ и выгружаем текущую копию этой книги из
+репозитория \url{https://github.com/ponyatov/CortexMx}, создавая
+свой собственный локальный \term{репозиторий проекта}.
+
+\bigskip\wcmd{cmd}
+
+\bigskip
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>D:
+D:\>mkdir \ARM
+D:\>cd \ARM
+D:\ARM>git clone --depth=1 https://github.com/ponyatov/CortexMx.git book
+\end{lstlisting}

@@ -1,0 +1,94 @@
+\labwork{Установка GNU toolchain}\label{gnuchaininstall}
+
+\bigskip
+Самая важная часть\ --- ставим GCC toolchain (набор инструментов)
+для процессоров ARM, собранный для \file{\$TARGET = arm-none-eabi}.
+Вариантов сборок для разработки для ARM под Windows много, есть и такие
+дистрибутивы как \href{http://www.coocox.org/}{CooCox IDE}, включаеющие полный
+комплект ПО одним пакетом. Ограничимся установкой варинта сборки под названием
+Yagarto:
+
+\bigskip\menu{\wcmd{\url{http://sourceforge.net/projects/yagarto/}}>Download}
+
+\bigskip
+Запускаем скачанный инсталлятор.
+
+\bigskip\menu{Welcome>Next}
+
+\menu{License>Accept>Next}
+
+\menu{Choose Components>\checkbox\ Add YAGARTO to PATH>Next}
+
+\menu{Destination folder>D:/ARM/Yaga>Next}
+
+\menu{Start Menu Folder>YAGARTO>Install}
+
+\menu{Installation Complete>Next>Finish}
+
+\bigskip Яг\`{а} поставилась, теперь можно проверить что доступны базовые 
+утилиты:
+
+\bigskip Ассемблер
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>arm-none-eabi-as --version
+GNU assembler (GNU Binutils) 2.23.1
+Copyright 2012 Free Software Foundation, Inc.
+This program is free software; you may redistribute it under the terms of
+the GNU General Public License version 3 or later.
+This program has absolutely no warranty.
+This assembler was configured for a target of `arm-none-eabi'. 
+\end{lstlisting}
+\bigskip Линкер
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>arm-none-eabi-ld --version
+GNU ld (GNU Binutils) 2.23.1
+\end{lstlisting}
+\bigskip Утилиты для работы с объектными файлами в формате ELF
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>arm-none-eabi-objdump --version
+GNU objdump (GNU Binutils) 2.23.1
+\end{lstlisting}
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>arm-none-eabi-objcopy --version
+GNU objcopy (GNU Binutils) 2.23.1
+\end{lstlisting}
+\bigskip Препроцессор (\textbf{не} компилятор \cpp)
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>arm-none-eabi-cpp --version
+arm-none-eabi-cpp (GCC) 4.7.2
+Copyright (C) 2012 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+\end{lstlisting}
+\bigskip Компилятор Си
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>arm-none-eabi-gcc --version
+arm-none-eabi-gcc (GCC) 4.7.2
+\end{lstlisting}
+\bigskip Компилятор \cpp
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>arm-none-eabi-g++ --version
+arm-none-eabi-g++ (GCC) 4.7.2
+\end{lstlisting}
+
+\bigskip Утилита Make
+\begin{lstlisting}[style=con]
+C:\Documents and Settings\pda>make --version
+"make" is not internal or external command.
+
+C:\Documents and Settings\pda>arm-none-eabi-make --version
+"make" is not internal or external command.
+
+C:\Documents and Settings\pda>dir D:\ARM\Yaga\bin\*make*
+ Volume D has no label.
+ Serial #: 6588-9778
+
+ Direcory contents D:\ARM\Yaga\bin
+
+File not found
+\end{lstlisting}
+
+\bigskip Упс, а \make\ почему-то в комплект не включили \frownie.
+Придется его ставить отдельно в \labref{gnuwinstall}.
+
+

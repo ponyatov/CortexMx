@@ -27,23 +27,27 @@ pdfkeywords={ARM} {Cortex} {MCU} {ARMatura} {Arduino} {SSAU}
 \DeclareGraphicsExtensions{.eps}
 
 \usepackage{listings}
-\usepackage{xcolor}
+\usepackage{dirtree}
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
 \newcommand{\cppcolor}{\color[rgb]{0.94, 0.97, 1.0}} % Alice blue
 \newcommand{\asmcolor}{\color[rgb]{0.98, 0.92, 0.84}} % Antique white
 \newcommand{\concolor}{\color[rgb]{0.88, 1.0, 1.0}} % Light cyan
+\newcommand{\makecolor}{\color[rgb]{0.9, 0.9, 0.98}} % Lavender mist
 
 %\definecolor{cppcolor}{rgb}{0.94, 0.97, 1.0}
 \lstset{frame=single,
 numbers=left, numberstyle=\small,
-commentstyle=\color{cyan}\texttt,
 tabsize=4,
-keywordstyle=\color{blue}\texttt
+keywordstyle=\color{blue}\texttt,
+commentstyle=\color{cyan}\texttt,
+inputencoding=utf8, extendedchars=\true, keepspaces=true
 }
 \usepackage{lstlangarm}
 
 \lstdefinestyle{cpp}{language=C++,backgroundcolor=\cppcolor}
 \lstdefinestyle{asm}{language={[ARM]Assembler},backgroundcolor=\asmcolor}
 \lstdefinestyle{con}{backgroundcolor=\concolor}
+\lstdefinestyle{mk}{language=[gnu]make,backgroundcolor=\makecolor}
 
 \newcommand{\cm}[1]{Cortex-M#1}
 \newcommand{\cx}{\cm{x}}
@@ -59,6 +63,7 @@ keywordstyle=\color{blue}\texttt
 
 \newcommand{\thmod}{Thumb}
 \newcommand{\armod}{ARM}
+\newcommand{\arm}{ARM}
 
 \newcommand{\Reg}[1]{\textbf{#1}}
 \newcommand{\R}[1]{\Reg{R#1}}
@@ -69,19 +74,34 @@ keywordstyle=\color{blue}\texttt
 \usepackage{wasysym} % smileys
 \usepackage{gensymb} % celsius
 \usepackage{amssymb} % windows key
+\usepackage{textcomp} % bigcircle
 
 \usepackage[os=win]{menukeys}
 \newcommand{\winstart}{$\boxplus$}
-\newcommand{\file}[1]{\directory{#1}}
-\newcommand{\wcmd}[1]{\keys{\winstart+R}\ \file{#1}}
+\newcommand{\file}[1]{\textbf{\textsf{#1}}}
+\newcommand{\window}[1]{\textbf{\textit{#1}}}
+\newcommand{\alarm}[1]{{\color{DarkRed}#1}}
+\newcommand{\wcmd}[1]{\keys{\winstart+R}\ \directory{#1}}
 \newcommand{\checkbox}{$\boxtimes$}
 \newcommand{\uncheckbox}{$\square$}
+\newcommand{\lms}{\keys{$\lhd$}}
+\newcommand{\rms}{\keys{$\rhd$}}
+\newcommand{\eclpx}{\window{Project Explorer}}
 
-\newcommand{\win}[1]{\includegraphics[width=10mm]{fig/windows.eps} #1}
-\newcommand{\lin}[1]{\includegraphics[width=10mm]{fig/linux.eps} #1}
+\newcommand{\win}[1]{\includegraphics[height=10ex]{fig/winlogo.jpg} #1}
+\newcommand{\lin}[1]{\includegraphics[height=10ex]{fig/linuxcolor.png} #1}
 
 \newcommand{\linux}{Linux}
 \newcommand{\git}{Git}
+\newcommand{\eclipse}{\textcircled{$\equiv$}\textsc{eclipse}}
+%\newcommand{\term}[1]{\underline{#1}}
+\newcommand{\term}[1]{\underline{\color{DarkBlue} #1}}
+\newcommand{\miktex}{MiK\TeX}
+\newcommand{\internet}{Internet}
+\newcommand{\ql}{Quantum$^{\circledR}L^{e}aPs$}
+
+\newcommand{\make}{\file{make}}
+\newcommand{\makefile}{\file{Makefile}}
 
 \usepackage{tocloft}
 \newcommand{\listlabname}{Лабораторные работы}
@@ -93,4 +113,19 @@ keywordstyle=\color{blue}\texttt
 \section*{ЛР\thelabworkcounter: #1}
 \addcontentsline{toc}{subsection}{ЛР\thelabworkcounter: #1}
 \addcontentsline{ex}{section}{ЛР\thelabworkcounter: #1}
+}
+\newcommand{\labref}[1]{ЛР\ref{#1}}
+
+\newcommand{\thetitle}{Азбука халтурщика-ARMатурщика}
+
+\newcommand{\mytitle}[1]{
+\title{\Huge{\thetitle}\\
+#1\\
+\normalsize{учебный курс по микроконтроллерам \cx:\\
+Миландр 1986ВЕ, STM32F, LPC21xx}}
+}
+
+\author{\copyright\\
+Понятов Д.А. \email{dponyatov@gmail.com}, ИКП СГАУ, \\
+Недяк С.П. \email{fvs@fet.tusur.ru}, ТУСУР
 }
