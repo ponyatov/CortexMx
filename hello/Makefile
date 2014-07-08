@@ -48,8 +48,10 @@ clean:
 # тэг $@ заменяется на цель правила, т.е. %.o
 # тэг $< заменяется на первый источник, т.е. %.с
 %.o: %.c Makefile
-	$(CC) $(CFLAGS) -c -o $@ $< && $(OBJDUMP) -d $@ > $@.dump
+	$(CC) $(CFLAGS) -c -o $@ $<
+	$(OBJDUMP) -d $@ > $@.dump
 
 # макро-правило: как компилировать ассемблерные файлы
 %.o: %.S Makefile
-	$(AS) $(ASFLAGS) -o $@ $< && $(OBJDUMP) -xd $@ > $@.dump
+	$(AS) $(ASFLAGS) -o $@ $<
+	$(OBJDUMP) -xd $@ > $@.dump
