@@ -33,7 +33,7 @@ clean:
 
 part.pdf: $(TEX)
 	pdflatex part.tex
-	pdflatex part.tex
+	#pdflatex part.tex
 
 labworks.pdf: $(TEX)
 	pdflatex labworks.tex
