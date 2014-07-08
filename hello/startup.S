@@ -6,7 +6,7 @@
 
 .text // сегмент кода
 .thumb // Cortex-M умеет только Thumb режим
-//.code 32 // раскомментировать для ARM7TDMI (?)
+.code 32 // раскомментировать для ARM7TDMI (?)
 
 .func _vector
 _vector:	// таблица векторов прерываний/исключений
@@ -20,6 +20,7 @@ _vector:	// таблица векторов прерываний/исключений
 .string "(c) Azbuka ARMaturschika"
 .align 4
 
+//.thumb_func
 _reset:		// сюда передается управление при сбросе
 	B .
 

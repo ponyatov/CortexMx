@@ -7,7 +7,7 @@
 # простое присваивание значения переменной
 # обнуление переменной
 SOMEVAR =
-# целевая платформа $TARGET
+# целевая платформа $TARGET, часто называют "префикс целевой платформы"
 TARGET = arm-none-eabi
 # целевой процессор
 CPU = cortex-m3
@@ -20,11 +20,12 @@ TMPFILES = *.o *.hex *.dump
 AS = $(TARGET)-as
 CC = $(TARGET)-gcc
 LD = $(TARGET)-ld
-OBJDUMP = $(TARGET)-objdump 
+OBJDUMP = $(TARGET)-objdump
+OBJCOPY = $(TARGET)-objcopy
 MAKE = make
 
 # нестандартная (?) переменная - опции оптимизации
-OPTFLAGS = -O1
+OPTFLAGS = -O0
 # стандартная переменная - флаги компилятора Си
 CFLAGS  = $(CPUOPT) $(OPTFLAGS)
 # флаги ассемблера
@@ -49,9 +50,9 @@ clean:
 # тэг $< заменяется на первый источник, т.е. %.с
 %.o: %.c Makefile
 	$(CC) $(CFLAGS) -c -o $@ $<
-	$(OBJDUMP) -d $@ > $@.dump
+	$(OBJDUMP) -xd $@ > $@.dump
 
 # макро-правило: как компилировать ассемблерные файлы
+ASFLAGS = 
 %.o: %.S Makefile
-	$(AS) $(ASFLAGS) -o $@ $<
-	$(OBJDUMP) -xd $@ > $@.dump
+	$(AS) $(ASFLAGS) -o $@ $< && $(OBJDUMP) -xd $@ > $@.dump
