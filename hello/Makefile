@@ -55,10 +55,10 @@ clean:
 # тэг $< заменяется на первый источник, т.е. %.с
 %.o: %.c Makefile
 	$(CC) $(CFLAGS) -c -o $@ $<
-	$(OBJDUMP) -d $@
+	$(OBJDUMP) -dx $@
 
 # макро-правило: как компилировать ассемблерные файлы
 ASFLAGS = 
 %.o: %.S Makefile
 	$(AS) $(ASFLAGS) -o $@ $<
-	$(OBJDUMP) -d $@
+	$(OBJDUMP) -dx $@
