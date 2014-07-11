@@ -21,7 +21,8 @@ CPUOPT = -mcpu=$(CPU) -mthumb
 AS = $(TARGET)-as
 CC = $(TARGET)-gcc
 LD = $(TARGET)-ld
-OBJDUMP = $(TARGET)-objdump
+OBJDUMP = fix64.exe
+# $(TARGET)-objdump
 OBJCOPY = $(TARGET)-objcopy
 MAKE = make
 
@@ -39,7 +40,10 @@ ASFLAGS = $(CPUOPT)
 # и обрабатывается при вызове $(MAKE) без параметров
 
 # стандартная цель, предусматривающая сборку всего проекта 
-all: *.o
+all: fix64.exe *.o
+
+fix64.exe: fix64.c
+	gcc -o $@ $<
 
 # стандартная цель, удаление всех временных и конечных бинарных файлов
 clean:
