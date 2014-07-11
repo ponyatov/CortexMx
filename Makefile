@@ -19,6 +19,7 @@ TEX += labmkmake.tex
 TEX += tmp/hello.mk
 TEX += labgnuchain.tex
 TEX += labgnuwinstall.tex
+TEX += labdebinst.tex
 
 tmp/%.mk: %/Makefile
 	cp $< $@
