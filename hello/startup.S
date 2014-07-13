@@ -6,17 +6,24 @@
 
 .text // сегмент кода
 .thumb // Cortex-M умеет только Thumb режим
-.code 32 // раскомментировать для ARM7TDMI (?)
+//.code 32 // раскомментировать для ARM7TDMI (?)
 
-.func _vector
+//.func _vector
 _vector:	// таблица векторов прерываний/исключений
-	B _reset	// Reset Сброс относительный переход работает при ремапинге памяти
-	B .			// Undefined Instruction Неизвестная инструкия
-	B .			// Software Interrupt Программное прерывание
-	B .			// Prefetch Abort Сбой предвыборки
-.endfunc
+// используется команда относительного перехода,
+// т.к. она корректно работает при стартовом ремапинге памяти
+	B _reset	// Reset                 // Сброс
+	B .			// Undefined Instruction // Неизвестная инструкция
+	B .			// Software Interrupt    // Программное прерывание
+	B .			// Prefetch Abort        // Сбой предвыборки
+	B .			// Data Abort            // Сбой по данным
+	B .			// Reserved              // зарезервировано
+	B .			// IRQ                   // Прерывание
+	B .			// FIQ                   // Быстрое прерывание
+//.endfunc
 
 // строка копирайта, конец дополняется до границы машинного слова
+_copyright:
 .string "(c) Azbuka ARMaturschika"
 .align 4
 

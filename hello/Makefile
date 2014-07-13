@@ -15,6 +15,9 @@ TARGET = arm-none-eabi
 # целевой процессор
 CPU = cortex-m3
 CPUOPT = -mcpu=$(CPU) -mthumb
+# целевой процессор для запуска под gdb-симулятором ARM7TDMI
+CPU = arm7tdmi
+CPUOPT = -mcpu=$(CPU) 
 
 # присваивание переменной с подстановкой значений другой переменной
 # стандартные переменные, задающие команды ассемблера, компилятора и линкера 
@@ -28,10 +31,12 @@ MAKE = make
 
 # нестандартная (?) переменная - опции оптимизации
 OPTFLAGS = -O0
+# опции генерации отладочной информации
+DEBFLAGS = -g3 -ggdb
 # стандартная переменная - флаги компилятора Си
-CFLAGS  = $(CPUOPT) $(OPTFLAGS)
+CFLAGS  = $(CPUOPT) $(OPTFLAGS) $(DEBFLAGS)
 # флаги ассемблера
-ASFLAGS = $(CPUOPT)
+ASFLAGS = $(CPUOPT) $(DEBFLAGS)
 
 # указание что цели all и clean являются фиктивными целями, а не файлами
 .PHONY: all clean
@@ -40,8 +45,9 @@ ASFLAGS = $(CPUOPT)
 # и обрабатывается при вызове $(MAKE) без параметров
 
 # стандартная цель, предусматривающая сборку всего проекта 
-all: fix64.exe *.o
+all: fix64.exe startup.o init.o main.o
 
+# сборка затычки для x64 систем, требует установленный пакет MinGW
 fix64.exe: fix64.c
 	gcc -o $@ $<
 
@@ -58,7 +64,7 @@ clean:
 	$(OBJDUMP) -dx $@
 
 # макро-правило: как компилировать ассемблерные файлы
-ASFLAGS = 
+//ASFLAGS = 
 %.o: %.S Makefile
 	$(AS) $(ASFLAGS) -o $@ $<
 	$(OBJDUMP) -dx $@
