@@ -1,0 +1,18 @@
+\ProvidesFile{lstlanggnudump.sty}
+\lstdefinelanguage[GNU]{Dump}%
+   { 
+   		sensitive=true,
+   		alsoletter={-,.},
+   		keywords=[0]{start,address,architecture,READONLY,Sections,Size,
+   		Disassembly,of,section,
+   		VMA,LMA,SYMBOL,TABLE},
+   		keywords=[1]{elf32-littlearm,armv4t,.text,.data,.bss,.stack},
+   		keywords=[2]{HAS_RELOC,HAS_SYMS,RELOC,CONTENTS,ALLOC,LOAD,CODE,DATA},
+   		keywords=[3]{DEBUGGING},
+   		keywordstyle=[0]{\color{blue}},
+   		keywordstyle=[1]{\color{red}},
+   		keywordstyle=[2]{\color{magenta}},
+   		keywordstyle=[3]{\color{green}},
+   }[keywords,comments,strings]
+\endinput
+   

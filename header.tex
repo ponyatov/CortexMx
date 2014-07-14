@@ -41,18 +41,20 @@ numbers=left, numberstyle=\small, numbersep=1mm,
 tabsize=4,
 keywordstyle=\color{blue}\texttt,
 commentstyle=\color{cyan}\texttt,
-inputencoding=utf8, extendedchars=true, showspaces=false  
-%keepspaces=true,
+inputencoding=utf8, extendedchars=true, showspaces=false,  
+inputencoding=cp1251
 }
 \usepackage{lstlangarm}
 \usepackage{lstlanggnumake}
 \usepackage{lstlanggnuld}
+\usepackage{lstlanggnudump}
 
 \lstdefinestyle{cpp}{language=C++,backgroundcolor=\cppcolor}
 \lstdefinestyle{asm}{language={[ARM]Assembler},backgroundcolor=\asmcolor}
-\lstdefinestyle{gnuld}{language={[GNU]LinkScript},backgroundcolor=\ldcolor}
+\lstdefinestyle{gnuld}{language={[GNU]Link},backgroundcolor=\ldcolor}
 \lstdefinestyle{con}{backgroundcolor=\concolor}
-\lstdefinestyle{mk}{language=[GNU]Make,backgroundcolor=\makecolor,showtabs=true}
+\lstdefinestyle{mk}{language=[GNU]Make,backgroundcolor=\makecolor}
+\lstdefinestyle{objdump}{language=[GNU]Dump}
 
 \newcommand{\cm}[1]{Cortex-M#1}
 \newcommand{\cx}{\cm{x}}

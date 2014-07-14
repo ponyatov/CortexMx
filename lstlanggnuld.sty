@@ -1,20 +1,10 @@
 \ProvidesFile{lstlanggnuld.sty}
-    [2014/07/14+ listings language file for GNU LD]
-%%
-%% GNU LD listing style (copypasta) 2014 Dmitry Ponyatov
-%%
-\lstdefinelanguage[GNU]{LinkScript}%
+\lstdefinelanguage[GNU]{Link}%
    {
-% %   	morekeywords={entry,memory,sections,origin,length,align,AT},%
 	keywords={entry,memory,sections,origin,length,align,AT},%
-% %    morekeywords=[2]{.text,.data,.bss,.stack,flash,ram},%
- 	keywords=[2]{.text,.data,.bss,.stack,flash,ram},%
-%     alsoletter={.,0,1,2,3,4,5,6,7,8,9},%
-%     alsodigit={?,.,0,1,2,3,4,5,6,7,8,9,x,K,rx,rwx},%
-     sensitive=false,%
-%     morestring=[b]",%
-     comment=[s]{/*}{*/},%
-% %    morecomment=[s]{/*}{*/},%
-% 	moredelim=[l][\color{red}]{=},
+	alsoletter={.},
+ 	keywords=[2]{.text,.data,.bss,.stack,flash,ram,rx,rwx},%
+    sensitive=false,%
+    comment=[s]{/*}{*/},%
    }[keywords,comments,strings]
 \endinput

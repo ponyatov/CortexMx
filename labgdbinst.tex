@@ -147,7 +147,8 @@ GDB Hardware Debugging}, входящий в состав уже установ�
 с отладочной информацией, и в заголовок добавляются флаги, указывающие на
 ее наличие:
 
-\begin{lstlisting}[title=startup.o.dump]
+%\lstinputlisting[style=objdump,title=startup.o.objdump]{hello/startup.o.objdump}
+\begin{lstlisting}[style=objdump,title=startup.o.objdump]
 startup.o:     file format elf32-littlearm
 architecture: armv4t, flags 0x00000011: HAS_RELOC, HAS_SYMS
 ...

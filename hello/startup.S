@@ -40,9 +40,9 @@ _reset:		// сюда передается управление при сбросе
 .endfunc
 
 .data
-.word 0x12345678
+.word 0x12345678,1234
 
 .bss
-.comm buf,0x10
+.comm buf,0x10,10
 
 .end

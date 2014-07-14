@@ -2,12 +2,13 @@
 \lstdefinelanguage[GNU]{Make}%
    {
    		sensitive=true,
-   		alsoletter={-},
-   		morecomment=[l]{\#},
-   		keywords={.PHONY,all,clean,TARGET,CPU,CFLAGS,AS,LD,CC,
-   		OBJDUMP,OBJCOPY,MAKE,SIZE},
-   		keywords=[2]{-mcpu,-mthumb},
-   		keywords=[3]{$@}
-   		keywordstyle=[3]{\color{red}}
+   		alsoletter={-,.,\$,@,<,\&},
+   		comment=[l]{\#},
+   		keywords={.PHONY,all,clean,TARGET,CPU,CFLAGS,AS,LD,CC,\$@,\$<,\&\&,
+   		OBJDUMP,OBJCOPY,MAKE,SIZE,OPTFLAGS,DEBFLAGS,CPUOPT,ASFLAGS},
+   		keywords=[2]{-mcpu,-mthumb,-g,-g3,-ggdb,-O0,-O1,-O2,-Os,-Osize,-Ofast},
+%    		otherkeywords={\$@}
+%    		numberstyle=\color{cyan},
+   		showtabs=true
    }[keywords,comments,strings]
 \endinput
