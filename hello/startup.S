@@ -6,13 +6,15 @@
 
 .text // сегмент кода
 .thumb // Cortex-M умеет только Thumb режим
-.code 32 // раскомментировать для ARM7TDMI (?)
+//.code 32 // раскомментировать для ARM7TDMI (?)
 
 .func _vector
 .global _vector
 _vector:	// таблица векторов прерываний/исключений
 // используется команда относительного перехода,
 // т.к. она корректно работает при стартовом ремапинге памяти
+	.long _stack
+	.long _reset+1
 	B _reset	// Reset                 // Сброс
 	B .			// Undefined Instruction // Неизвестная инструкция
 	B .			// Software Interrupt    // Программное прерывание
@@ -35,7 +37,7 @@ _copyright:
 .func _reset
 .global _reset
 _reset:		// сюда передается управление при сбросе
-	LDR SP,=_stack_top
+//	LDR SP,=_stack_top
 	B .
 .endfunc
 
