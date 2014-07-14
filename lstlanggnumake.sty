@@ -1,0 +1,13 @@
+\ProvidesFile{lstlanggnumake.sty}
+\lstdefinelanguage[GNU]{Make}%
+   {
+   		sensitive=true,
+   		alsoletter={-},
+   		morecomment=[l]{\#},
+   		keywords={.PHONY,all,clean,TARGET,CPU,CFLAGS,AS,LD,CC,
+   		OBJDUMP,OBJCOPY,MAKE,SIZE},
+   		keywords=[2]{-mcpu,-mthumb},
+   		keywords=[3]{$@}
+   		keywordstyle=[3]{\color{red}}
+   }[keywords,comments,strings]
+\endinput

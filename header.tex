@@ -31,6 +31,7 @@ pdfkeywords={ARM} {Cortex} {MCU} {ARMatura} {Arduino} {SSAU}
 \usepackage[usenames,dvipsnames,svgnames]{xcolor}
 \newcommand{\cppcolor}{\color[rgb]{0.94, 0.97, 1.0}} % Alice blue
 \newcommand{\asmcolor}{\color[rgb]{0.98, 0.92, 0.84}} % Antique white
+\newcommand{\ldcolor}{\color[rgb]{0.67, 0.9, 0.93}} % Blizzard Blue
 \newcommand{\concolor}{\color[rgb]{0.88, 1.0, 1.0}} % Light cyan
 \newcommand{\makecolor}{\color[rgb]{0.9, 0.9, 0.98}} % Lavender mist
 
@@ -40,14 +41,18 @@ numbers=left, numberstyle=\small, numbersep=1mm,
 tabsize=4,
 keywordstyle=\color{blue}\texttt,
 commentstyle=\color{cyan}\texttt,
-inputencoding=utf8, extendedchars=\true, keepspaces=true
+inputencoding=utf8, extendedchars=true, showspaces=false  
+%keepspaces=true,
 }
 \usepackage{lstlangarm}
+\usepackage{lstlanggnumake}
+\usepackage{lstlanggnuld}
 
 \lstdefinestyle{cpp}{language=C++,backgroundcolor=\cppcolor}
 \lstdefinestyle{asm}{language={[ARM]Assembler},backgroundcolor=\asmcolor}
+\lstdefinestyle{gnuld}{language={[GNU]LinkScript},backgroundcolor=\ldcolor}
 \lstdefinestyle{con}{backgroundcolor=\concolor}
-\lstdefinestyle{mk}{language=[gnu]make,backgroundcolor=\makecolor,showtabs=true}
+\lstdefinestyle{mk}{language=[GNU]Make,backgroundcolor=\makecolor,showtabs=true}
 
 \newcommand{\cm}[1]{Cortex-M#1}
 \newcommand{\cx}{\cm{x}}

@@ -23,6 +23,7 @@ TEX += hello/main.c
 TEX += labgnuchain.tex
 TEX += labgnuwinstall.tex
 TEX += labgdbinst.tex
+TEX += lstlangarm.sty lstlanggnuld.sty lstlanggnumake.sty
 
 tmp/%.mk: %/Makefile
 	cp $< $@
