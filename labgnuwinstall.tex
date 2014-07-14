@@ -38,6 +38,42 @@
 
 \file{grep-2.5.4.exe} утилита поиска строк в файлах и stdin/stdout потоке
 
+\labwork{Установка MinGW}\label{labinstmingw}
+
+\bigskip
+\alarm{Под Windows x64 обнаружилась проблема\ --- если в
+\makefile\ используется перенаправление вывода команды в файл типа}
+\verb|objdump -xd program.o > program.o.dump| \alarm{ или маркеры сцепления, при
+выполнении
+\file{make} (из пакета \file{GnuWin32}) завершается с ошибкой}
+
+\verb|make: Interrupt/Exception caught| \verb|(code = 0xc00000fd,|
+\verb|addr = 0x4227d3)|\alarm{. 
+
+Для обхода этой проблемы был найден 
+способ\ --- поставить пакет \file{MinGW}: это GNU тулчейн для нативной
+компиляции программ под win32. За счет небольшой потери объема диска получаем
+решение проблемы с \file{make}\ на Windows x64, и заодно получаем возможность
+компилировать простые вспомогательные утилиты на Си/\cpp.}
+
+Кроме того, нужно стараться писать \term{портабельный}\ код максимально
+независимый от платформы\footnote{чтобы можно было по необходимость легко и
+быстро перенести ваш проект на любой другой микроконтроллер, или использовать
+одни и те же куски кода как на МК, так и на ПК, например процедуры
+кодирования/декодирования данных или реализаци протоколов обмена данными}, а
+тестировать платформо-независимость можно, компилируя один и тот же код
+одновременно и для микроконтроллера, и для выполнения под Windows.
+
+\bigskip
+\alarm{Для совместимости поставим 32-битную версию \file{MinGW}.}
+
+\bigskip
+\wcmd{\url{http://www.mingw.org/}}
+
+\menu{\keys{Download Installer}>\file{mingw-get-setup.exe}>Install}
+
+\menu{Installation Directory>\file{D:/MinGW}>Continue}
+
 \labwork{Редактирование системной переменной Windows
 \file{\$PATH}}\label{winpath}
 
@@ -52,7 +88,7 @@
 \bigskip\menu{Имя переменной>PATH}
 
 \menu{Значение переменной>добавить в начало
-D:/ARM/GnuWin32/bin;D:/ARM/Yaga/bin;..}
+D:/ARM/GnuWin32/bin;D:/MinGW/bin;D:/ARM/Yaga/bin;..}
 
 \menu{Ok>Ok>Ok}
 
@@ -80,14 +116,11 @@ GNU General Public License for more details.
 Originally written by Hrvoje Niksic <hniksic@arsdigita.com>.
 \end{lstlisting}
 \begin{lstlisting}[style=con]
-C:\Documents and Settings\pda>make --version
-GNU Make 3.81
-Copyright (C) 2006  Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.
-There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.
-
-This program built for i386-pc-mingw32
+C:\Documents and Settings\pda>mingw32-make --version
+GNU Make 3.82.90
+Built for i686-pc-mingw32
+Copyright (C) 1988-2012 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
 \end{lstlisting}
-
-

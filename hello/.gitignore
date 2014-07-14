@@ -1,5 +1,5 @@
 *~
 *.swp
 *.o
-*.dump
+*.objdump
 elf.elf

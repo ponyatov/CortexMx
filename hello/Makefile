@@ -8,13 +8,16 @@
 # обнуление переменной
 SOMEVAR =
 # маски временных файлов
-TMPFILES = *.o *.hex *.dump
+TMPFILES = *.o *.elf *.hex *.objdump
 
 # целевая платформа $TARGET, часто называют "префикс целевой платформы"
 TARGET = arm-none-eabi
 # целевой процессор
 CPU = cortex-m3
 CPUOPT = -mcpu=$(CPU) -mthumb
+
+# переопределение переменных
+
 # целевой процессор для запуска под gdb-симулятором ARM7TDMI
 CPU = arm7tdmi
 CPUOPT = -mcpu=$(CPU) 
@@ -24,11 +27,10 @@ CPUOPT = -mcpu=$(CPU)
 AS = $(TARGET)-as
 CC = $(TARGET)-gcc
 LD = $(TARGET)-ld
-OBJDUMP = fix64.exe
-# $(TARGET)-objdump
+OBJDUMP = $(TARGET)-objdump
 OBJCOPY = $(TARGET)-objcopy
 SIZE = $(TARGET)-size
-MAKE = make
+MAKE = mingw32-make
 
 # нестандартная (?) переменная - опции оптимизации
 OPTFLAGS = -O0
@@ -48,15 +50,11 @@ ASFLAGS = $(CPUOPT) $(DEBFLAGS)
 # стандартная цель, предусматривающая сборку всего проекта 
 all: elf.elf
 
-elf.elf: fix64.exe $(CPU).ld startup.o init.o main.o
-	$(LD) -T $(CPU).ld -o $@ *.o
-	$(OBJDUMP) -xd $@
+elf.elf: $(CPU).ld startup.o init.o main.o
+	$(LD) -T $(CPU).ld -o $@ *.o && \
+	$(OBJDUMP) -xd $@ > $@.objdump && \
 	$(SIZE) $@
-
-# сборка затычки для x64 систем, требует установленный пакет MinGW
-fix64.exe: fix64.c
-	gcc -o $@ $<
-
+	
 # стандартная цель, удаление всех временных и конечных бинарных файлов
 clean:
 	rm -f $(TMPFILES)
@@ -67,10 +65,8 @@ clean:
 # тэг $< заменяется на первый источник, т.е. %.с
 %.o: %.c Makefile
 	$(CC) $(CFLAGS) -c -o $@ $<
-	$(OBJDUMP) -dx $@
+	$(OBJDUMP) -dx $@ > $@.objdump
 
 # макро-правило: как компилировать ассемблерные файлы
-//ASFLAGS = 
 %.o: %.S Makefile
-	$(AS) $(ASFLAGS) -o $@ $<
-	$(OBJDUMP) -dx $@
+	$(AS) $(ASFLAGS) -o $@ $< && $(OBJDUMP) -dx $@ > $@.objdump
