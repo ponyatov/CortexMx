@@ -27,6 +27,7 @@ LD = $(TARGET)-ld
 OBJDUMP = fix64.exe
 # $(TARGET)-objdump
 OBJCOPY = $(TARGET)-objcopy
+SIZE = $(TARGET)-size
 MAKE = make
 
 # нестандартная (?) переменная - опции оптимизации
@@ -45,7 +46,12 @@ ASFLAGS = $(CPUOPT) $(DEBFLAGS)
 # и обрабатывается при вызове $(MAKE) без параметров
 
 # стандартная цель, предусматривающая сборку всего проекта 
-all: fix64.exe startup.o init.o main.o
+all: elf.elf
+
+elf.elf: fix64.exe $(CPU).ld startup.o init.o main.o
+	$(LD) -T $(CPU).ld -o $@ *.o
+	$(OBJDUMP) -xd $@
+	$(SIZE) $@
 
 # сборка затычки для x64 систем, требует установленный пакет MinGW
 fix64.exe: fix64.c

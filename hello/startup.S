@@ -6,9 +6,10 @@
 
 .text // сегмент кода
 .thumb // Cortex-M умеет только Thumb режим
-//.code 32 // раскомментировать для ARM7TDMI (?)
+.code 32 // раскомментировать для ARM7TDMI (?)
 
-//.func _vector
+.func _vector
+.global _vector
 _vector:	// таблица векторов прерываний/исключений
 // используется команда относительного перехода,
 // т.к. она корректно работает при стартовом ремапинге памяти
@@ -20,15 +21,28 @@ _vector:	// таблица векторов прерываний/исключений
 	B .			// Reserved              // зарезервировано
 	B .			// IRQ                   // Прерывание
 	B .			// FIQ                   // Быстрое прерывание
-//.endfunc
+.endfunc
 
 // строка копирайта, конец дополняется до границы машинного слова
+.func _copyright
+.global _copyright
 _copyright:
 .string "(c) Azbuka ARMaturschika"
 .align 4
+.endfunc
 
 //.thumb_func
+.func _reset
+.global _reset
 _reset:		// сюда передается управление при сбросе
+	LDR SP,=_stack_top
 	B .
+.endfunc
+
+.data
+.word 0x12345678
+
+.bss
+.comm buf,0x10
 
 .end

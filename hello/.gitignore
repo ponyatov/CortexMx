@@ -2,3 +2,4 @@
 *.swp
 *.o
 *.dump
+elf.elf
