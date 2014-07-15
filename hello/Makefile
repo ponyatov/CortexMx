@@ -13,8 +13,8 @@ TMPFILES = *.o *.elf *.hex *.objdump
 # целевая платформа $TARGET, часто называют "префикс целевой платформы"
 TARGET = arm-none-eabi
 # целевой процессор
-CPU = cortex-m3
-CPUOPT = -mcpu=$(CPU) -mthumb
+CPU = lm3s811
+CPUOPT = -mcpu=cortex-m3 -mthumb
 
 # переопределение переменных
 
@@ -50,7 +50,7 @@ ASFLAGS = $(CPUOPT) $(DEBFLAGS)
 # стандартная цель, предусматривающая сборку всего проекта 
 all: elf.elf
 
-elf.elf: $(CPU).ld startup.o init.o main.o
+elf.elf: $(CPU).ld generic.ld startup.o init.o main.o
 	$(LD) -T $(CPU).ld -o $@ *.o && \
 	$(OBJDUMP) -xd $@ > $@.objdump && \
 	$(SIZE) $@
