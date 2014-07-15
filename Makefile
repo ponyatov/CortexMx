@@ -22,7 +22,7 @@ TEX += hello/init.c
 TEX += hello/main.c
 TEX += labgnuchain.tex
 TEX += labgnuwinstall.tex
-TEX += labgdbinst.tex
+TEX += labgdbinst.tex labqemuecl.tex
 TEX += lstlangarm.sty lstlanggnuld.sty lstlanggnumake.sty lstlanggnudump.sty
 
 tmp/%.mk: %/Makefile
