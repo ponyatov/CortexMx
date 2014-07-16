@@ -1,5 +1,6 @@
 TEX = main.tex labworks.tex part.tex header.tex
 TEX += ARM.tex
+TEX += CMSIS.tex
 TEX += STM32F1xx.tex
 TEX += bib.tex
 TEX += instide.tex
@@ -24,6 +25,7 @@ TEX += labgnuchain.tex
 TEX += labgnuwinstall.tex
 TEX += labgdbinst.tex labqemuecl.tex
 TEX += lstlangarm.sty lstlanggnuld.sty lstlanggnumake.sty lstlanggnudump.sty
+TEX += cmsisintro.tex
 
 tmp/%.mk: %/Makefile
 	cp $< $@
