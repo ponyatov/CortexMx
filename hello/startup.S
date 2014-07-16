@@ -2,12 +2,12 @@
 // этот стартовый код должен быть слинкован на начало ПЗУ,
 // которое не обязательно начинается с нулевого адреса
 
-.text	// сегмент кода
 .thumb	// Cortex-M умеет только Thumb режим
 
-.func _vector
-.global _vector
-_vector:	// таблица векторов прерываний/исключений Cortex-M
+.section ".vectors"
+.func _vectors
+.global _vectors
+_vectors:	// таблица векторов прерываний/исключений Cortex-M
 // используется команда относительного перехода,
 // т.к. она корректно работает при стартовом ремапинге памяти
 	.word _stack_top	// Initial SP  значение указателя стека после сброса
@@ -37,12 +37,15 @@ _vector:	// таблица векторов прерываний/исключений Cortex-M
 .endfunc
 
 // строка копирайта, конец дополняется до границы машинного слова
-.func _copyright
-.global _copyright
-_copyright:
-.string "(c) Azbuka ARMaturschika"
+.section ".copyright"
+.func _C_startup
+.global _C_startup
+_C_startup:
+.string "startup.asm (c) Azbuka ARMaturschika"
 .align 4
 .endfunc
+
+.text	// сегмент кода
 
 // сюда передается управление при сбросе
 .thumb_func

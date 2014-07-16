@@ -13,8 +13,8 @@ TMPFILES = *.o *.elf *.hex *.objdump
 # целевая платформа $TARGET, часто называют "префикс целевой платформы"
 TARGET = arm-none-eabi
 # целевой процессор
-CPU = lm3s811
-CPUOPT = -mcpu=cortex-m3 -mthumb
+CPU = LM3S811
+CPUOPT = -mcpu=cortex-m3 -mthumb -DCPU=$(CPU)
 
 # переопределение переменных
 
@@ -33,7 +33,7 @@ SIZE = $(TARGET)-size
 MAKE = mingw32-make
 
 # нестандартная (?) переменная - опции оптимизации
-OPTFLAGS = -O0
+OPTFLAGS = -O1
 # опции генерации отладочной информации
 DEBFLAGS = -g3 -ggdb
 # стандартная переменная - флаги компилятора Си
@@ -54,7 +54,7 @@ elf.elf: $(CPU).ld generic.ld startup.o init.o main.o
 	$(LD) -T $(CPU).ld -o $@ *.o && \
 	$(OBJDUMP) -xd $@ > $@.objdump && \
 	$(SIZE) $@
-	
+	 
 # стандартная цель, удаление всех временных и конечных бинарных файлов
 clean:
 	rm -f $(TMPFILES)
