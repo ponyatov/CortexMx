@@ -14,3 +14,7 @@ cd /c/ARM/book/toolchain
 
 make gz		загрузка исходников
 
+make dirs	создание структуры каталогов
+
+make binutils	сборка ассемблера, линкера и т.п.
+
