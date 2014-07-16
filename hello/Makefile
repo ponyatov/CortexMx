@@ -70,3 +70,9 @@ clean:
 # макро-правило: как компилировать ассемблерные файлы
 %.o: %.S Makefile
 	$(AS) $(ASFLAGS) -o $@ $< && $(OBJDUMP) -dx $@ > $@.objdump
+
+# запуск симулятора
+qemu: elf.elf
+	C:\takeda\qemu-system-arm -M lm3s811evb -kernel $< -s -S
+	
+	
