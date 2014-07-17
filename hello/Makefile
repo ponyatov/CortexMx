@@ -30,7 +30,9 @@ LD = $(TARGET)-ld
 OBJDUMP = $(TARGET)-objdump
 OBJCOPY = $(TARGET)-objcopy
 SIZE = $(TARGET)-size
+GDB = $(TARGET)-gdb
 MAKE = mingw32-make
+EMU = qemu-system-arm -M lm3s811evb -S -kernel
 
 # нестандартная (?) переменная - опции оптимизации
 OPTFLAGS = -O1
@@ -72,7 +74,9 @@ clean:
 	$(AS) $(ASFLAGS) -o $@ $< && $(OBJDUMP) -dx $@ > $@.objdump
 
 # запуск симулятора
-qemu: elf.elf
-	C:\takeda\qemu-system-arm -M lm3s811evb -kernel $< -s -S
-	
-	
+emu: elf.elf
+	$(EMU) $<
+
+# запуск отладчика	
+deb: elf.elf
+	$(GDB) $<
