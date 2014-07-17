@@ -27,6 +27,7 @@ TEX += labgdbinst.tex labqemuecl.tex
 TEX += lstlangarm.sty lstlanggnuld.sty lstlanggnumake.sty lstlanggnudump.sty
 TEX += cmsisintro.tex
 TEX += mktoolchain.tex tmp/toolchain.mk
+TEX += labinststsoft.tex
 
 tmp/%.mk: %/Makefile
 	cp $< $@
