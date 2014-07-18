@@ -9,7 +9,7 @@ TCNAME = cortex
 # путь установки в формате MSYS
 TC = /c/ARM/$(TCNAME)
 # пусть установке в формате Windows
-TCPATH = C:\ARM\$(TCNAME)
+TCPATH = "C:\\ARM\\$(TCNAME)"
 
 # версии пакетов: при желании обновиться корректировать здесь
 BINUTILS_VER = 2.24
