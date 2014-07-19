@@ -3,3 +3,5 @@
 *.o
 *.objdump
 elf.elf
+bin.bin
+hex.hex
