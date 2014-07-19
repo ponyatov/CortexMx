@@ -339,7 +339,16 @@ exception is accompanied with a comment explaining why this exception was made.
 
 \subsection{CPAL Functions}
 
+All functions in the Core Peripheral Access Layer are reentrant and can be
+called from different interrupt service routines (ISR). CPAL functions are also
+non-blocking\footnote{Memory barriers are exempt from that rule although they
+might stall the processor for a few cycles.}\ in the sense that they do not 
+contain any wait-loops.
 
+The majority of functions in the CPAL have been implemented in the header file
+\file{core\_cm3.h}\ as \verb|static| \verb|inline| functions. This allows the
+compiler to optimize the function calls by placing the instructions that make up the called
+function along with other code from which the function was called.
 
 \subsection{Interrupt Service Routines}
 \subsection{Other Coding Conventions}
