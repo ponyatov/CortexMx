@@ -1,6 +1,5 @@
 TEX = main.tex labworks.tex part.tex header.tex
 TEX += ARM.tex
-TEX += CMSIS.tex
 TEX += STM32F1xx.tex
 TEX += bib.tex
 TEX += instide.tex
@@ -25,7 +24,6 @@ TEX += labgnuchain.tex
 TEX += labgnuwinstall.tex
 TEX += labgdbinst.tex labqemuecl.tex
 TEX += lstlangarm.sty lstlanggnuld.sty lstlanggnumake.sty lstlanggnudump.sty
-TEX += cmsisintro.tex
 TEX += mktoolchain.tex tmp/toolchain.mk
 TEX += labinststsoft.tex
 
@@ -35,10 +33,17 @@ tmp/%.mk: %/Makefile
 TEXTMP = *.aux *.log *.dvi *.pdf *.ex *.out
 
 .PHONY: all clean
-all: part.pdf
+all: duolos.pdf
 
 clean:
 	rm -f $(TEXTMP)
+	
+DUOLOS = duolos_CMSIS/duolos.tex header.tex bib.tex
+DUOLOS += duolos_CMSIS/cmsisstruc.png 
+DUOLOS += duolos_CMSIS/cmsisdevcosts.png 
+
+duolos.pdf: $(DUOLOS)
+	pdflatex duolos_CMSIS/duolos.tex
 
 part.pdf: $(TEX)
 	pdflatex part.tex

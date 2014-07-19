@@ -1,0 +1,343 @@
+\include{header}
+
+\usepackage{tcolorbox}
+\newcommand{\ru}[1]{{\color{blue}#1}}
+
+\begin{document}
+\mytitle{основы CMSIS}
+\maketitle
+\setcounter{tocdepth}{3}\tableofcontents
+
+\section{\copyright}
+\cp{двойной лось
+\url{http://www.doulos.com/knowhow/arm/CMSIS/CMSIS\_Doulos\_Tutorial.pdf}}
+
+\bigskip
+This tutorial material is part of a series to be published progressively by
+Doulos.
+
+\bigskip
+You can find the full set of currently published Tutorials and register for
+notification of future additional at \url{www.doulos.com/knowhow}
+
+\bigskip
+You can also download the full source code of the examples used within the
+Tutorial at the same URL.
+
+\bigskip
+Also check out the Doulos ARM Training and service options at
+\url{www.doulos.com/arm}
+
+\bigskip
+Or email \email{info@doulos.com} for further information
+
+\bigskip
+First published by Doulos March 2009
+
+\bigskip
+Copyright 2009 Doulos. All rights reserved. All trademarks acknowledged. All
+information is provided “as is” without warranty of any kind.
+
+\section{Introduction}
+
+The Cortex Microcontroller Software Interface Standard (CMSIS) supports
+developers and vendors in creating reusable software components for 
+\arm\ \cm{}\ based systems.
+
+\ru{
+Cortex Microcontroller Software Interface Standard (CMSIS)\footnote{стандарт
+программного интерфейса микроконтроллеров Cortex}\ обеспечивает разработчикам и
+производителям МК создание повторно используемых программных компонентов для
+систем на основе микроконтроллеров \cm{}.
+}
+
+The \arm\ \cm{3}\ processor is the first core from ARM specifically designed for
+the Microcontroller market. This core includes many common features (NVIC,
+Timer, Debug-hardware) needed for this market. This will enable developers to
+port and reuse software (e.g. a real time kernel) with much less effort to
+\cm{3}\ based MCUs.
+
+\ru{
+Процессор \arm\ \cm{3}\ первое ядро от компании \arm\ специально разработанное
+для рынка микроконтроллеров. Это ядро включает множество типовых блоков (NVIC,
+таймеры, отладочный интрефейс) необходимых на этом рынке. Это позволяет
+разработчикам с минимальными усилиями портировать и повторно использовать уже
+написанное ПО\footnote{например ядро ОС реального времени}\ для МК семейства
+\cm{3}\ любых производителей.
+}
+
+With a significant amount of hardware components being identical, a large
+portion of the Hardware Abstraction Layer (HAL) can be identical. However,
+reality has shown that lacking a common standard we find a variety of HAL/driver
+libraries for different devices, which, as far as the \cm{3}\ part is
+concerned essentially do the same thing\ --– just differently.
+
+\ru{
+Благодаря идентичности большого колиства аппаратных компонентов, также
+идентичным оказывается и Hardware Abstraction Layer (HAL)\footnote{программный
+слой аппаратной абстракции}.
+Тем не менее, реальность показывает что отсутствие общего стандарта приводит к
+множеству несовместимых версий библотек HAL и драйверов для различных МК, что не
+соответствует идее полной переносимости ПО в серии \cm{3}.
+}
+
+The latest study of the development for the embedded market shows that software
+complexity and cost will increase over time, see figure left.
+Reusing Software and having a common standard to govern how to write and debug
+the software will be essential to minimising costs for future developments.
+
+\ru{
+Последние исследования разработок для рынка встраиваемого ПО показывают, что
+сложность программного обеспечения и его стоимость постоянно увеличиваются.
+Повторное использование кода и наличие общего стандарта управляющего способами
+написания и отладки ПО необходимы для минимизации стоимости разработки и
+сопровождения.
+
+\includegraphics[height=30ex]{duolos_CMSIS/cmsisdevcosts.png}
+стоимости разработки
+}
+
+\bigskip
+With more \cm{3}\ based MCUs about to come onto the market, ARM has recognized
+that after solving the diversity issue on the hardware side, there is still a
+need to create a standard to access these hardware components.
+
+\ru{
+Анализируя ситуацию с взрывным ростом количества моделей МК \cm{3}\ на рынке,
+компания \arm\ обнаружила что полная идентичность аппаратной части недостаточна
+для обеспечения совместимости, и необходимо создание стандарта доступа к
+аппаратным компонентам.
+}
+
+The result of that effort is CMSIS; a framework to be extended by vendors, while
+taking advantage of a common API (Application Programming Interface) for core
+specific components and conventions that define how the device specific portions
+should be implemented to make developers feel right at home when they reuse code
+or develop new code for ARM \cm{}\ based devices.
+
+\ru{
+Результатом этих исследований является \cmsis: фреймворк, расширямый
+поставщиками МК, с сохранением полезных свойств общего API (Application
+Programming Interface)\footnote{прикладной программный интерфейс} для ядреных
+компонентов и соглашениями о том, как должны быть реализованы части зависимые от
+железа, чтобы разработчики чувствовали себя как дома при повторном использовании
+ил разработки нового кода для семейства \cm{}.
+}
+
+\section{Структура \cmsis}
+
+CMSIS can be divided into three basic function layers:
+
+\ru{\cmsis\ может быть поделен на три основных слоя:}
+
+\begin{itemize}
+\item Core Peripheral Access Layer (CPAL)
+
+The lowest level defines addresses, and access methods for common components and
+functionality that exists in every Cortex-M system. Access to core registers,
+NVIC, debug subsystem is provided by this layer. Tool specific access to special
+purpose registers (e.g. CONTROL, xPSR), will be provided in the form of inline
+functions or compiler intrinsics. This layer will be provided by ARM.
+
+\ru{
+Самый нижний уровень определяет адреса, и методы доступа к общим компонентам и
+функциям, существующим в каждой \cm{}-системе. Этим уровнем
+описывается доступ к регистрам ядра, NVIC\footnote{Nested Vector Interrupt
+Controller, контроллер вложенных прерываний}, подсистеме отладки.
+Инструментальный доступ к спецрегистрам (\file{CONTROL},\file{xPSR})
+предоставляется в форме inline-функций или интринсик компилятора. Этот уровень
+обеспечивается лицензиатом архитектуры\ --- компанией \arm.
+}
+
+\item Middleware Access Layer (MWAL)
+
+This layer is also defined by ARM, but will be adapted by silicon vendors for
+their respective devices.
+The Middleware Access Layer defines a common API for accessing peripherals. The
+Middleware Access Layer is still under development and no further information is
+available at this point.
+
+\ru{
+Этот слой также специфицируется \arm, но адаптируется производителем кристаллов
+для их конкретных изделий. Слой MWAL определяет общий API для доступа к
+периферии. Этот слой все еще находится на стадии доработки, и на текущий момент
+более подробная информация неступна.
+}
+
+\item Device Peripheral Access Layer (DPAL)
+
+Hardware register addresses and other definitions, as well as device specific
+access functions will be defined in this layer. The Device Peripheral Access
+Layer is very similar to the Core Peripheral Access Layer and will be provided
+by the silicon vendor. Access methods provided by CPAL may be referenced and the
+vector table will be adapted to include device specific exception handler
+address.
+
+\ru{
+Слой содержит адреса аппаратных регистров и другие определения, в том числе
+функции доступа к специфичным особенностям чипов.
+DPAL сильно похож на CPAL, но предоставляется поставщиком кристаллов.
+В CPAL могут быть описаны методы доступа и адаптированная таблица векторов,
+содержащая обработчики исключений, специфичные для конкретного МК.
+}
+
+While DPAL is intended to be extended by the silicon vendor, let’s not forget
+about Cortex-M based FPGA products, which effectively put developers into the
+position of a silicon vendor.
+
+\ru{
+DPAL предназначен для расширения вендором, но не стоит забывать о
+FPGA-продуктах с примением \cm{}-ядер, которые ставят разработчиков в положение
+вендора.
+}
+
+\end{itemize}
+
+The basic structure and the functional flow is illustrated in the Figure 2. below.
+
+\bigskip
+\includegraphics[width=0.9\textwidth]{duolos_CMSIS/cmsisstruc.png}
+
+Figure 2 CMSIS Structure functional flow
+
+\ru{Рис.2 Функциональная структура CMSIS}
+
+\bigskip
+As far as MCU based systems are concerned it might make sense for developers to
+treat the entire PCB system as monolithic block. There is no reason to
+differentiate between a memory mapped register inside the MCU and a memory
+mapped register external to the MCU, connected via external memory interface.
+The benefit of applying a standard like CMSIS is that existing guidelines on how
+to access these devices set a clear goal on how to implement and integrate
+critical parts of the software.
+Other team members will find a familiar environment.
+
+\subsection{File Structure}
+
+File names in CMSIS are standardized as follows:
+
+\begin{tcolorbox}
+\begin{tabular}{l l}
+\file{core\_cm3.h} &\cm{3}\ global declarations and definitions, static
+function definitions \\
+\file{core\_cm3.c} &\cm{3}\ global definitions\\
+\file{<device>.h} &Top-level header file (device specific). To be included by
+application code.\\
+&Includes \file{core\_cm3.h} and \file{system\_<device>.h}\\
+\file{system\_<device>.h} &Device specific declarations\\
+\file{system\_<device>.c} &Device specific definitions, e.g.
+\verb|SystemInit()|\\
+\end{tabular}
+\end{tcolorbox}
+
+Application code will only include the top-level header file which implicitly
+pulls in all other essential
+
+\bigskip
+\includegraphics[width=0.5\textwidth]{duolos_CMSIS/stm32.png}
+\bigskip
+
+header files. The illustration below shows the flow and dependencies of the
+header files \file{stm32.h}, \file{core\_cm3.h} and \file{system\_stm32.h},
+which are part of CMSIS release V1P0.
+
+\begin{lstlisting}[style=cpp]
+/* Configuration of the Cortex-M3 Processor and Core Peripherals */
+#define __MPU_PRESENT 0			 /*!< STM32 does not provide a MPU present or not*/
+#define __NVIC_PRIO_BITS 4		 /*!< STM32 uses 4 Bits for the Priority Levels */
+#define __Vendor_SysTickConfig 0 /*!< Set to 1 if different SysTick Config isused */
+ 
+#include "core_cm3.h" 	 		 /* Cortex-M3 processor and core peripherals */ 
+#include "system_stm32.h" 		 /* STM32 System */
+\end{lstlisting}
+
+The \file{<device>.h} file is the central include file and provided by the
+silicon vendor. The application programmer is using that as the main include file in his
+C source code. Note that the ARM \cm{3}\ has some optional hardware features
+(e.g. the MPU, number of Interrupts and the number of the NVIC priority bits)
+the silicon vendors may have implemented differently. The listing above shows
+that STM32 implements four out of eight possible priority bits. The macro
+\verb"__NVIC_PRIO_BITS"\ is set here to 4. STM32 does not offer a Memory
+Protection Unit (MPU). Accordingly, the macro \verb"__MPU_PRESENT"\ has the
+value 0.
+
+The next example shows the corresponding definitions for a NXP LPC17xx device.
+In this Cortex-M3 implementation five priority bits have been implemented and an
+MPU is available.
+
+\begin{lstlisting}[style=cpp]
+/* Configuration of the Cortex-M3 Processor and Core Peripherals */
+#define __MPU_PRESENT 1 		 /*!< MPU present or not */
+#define __NVIC_PRIO_BITS 5 		 /*!< Number of Bits used for Priority Levels */
+#define __Vendor_SysTickConfig 0 /*!< Set to 1 if different SysTick Config is used */
+
+#include "..\core_cm3.h" 	/* Cortex-M3 processor and core peripherals */
+#include "system_LPC17xx.h" /* System Header */
+\end{lstlisting}
+
+The \verb"__Vendor_SysTickConfig"\ defined is showing in both cases the default
+setting. When this macro is set to 1, the \verb|SysTickConfig()|\ function in
+the \file{cm3\_core.h}\ is excluded. In this case the file 
+\file{<device>.h}\ must contain a vendor specific implementation of this
+function.
+
+\subsection{Tool Independence}
+
+CMSIS exists in a three-dimensional space of the form
+vendor$\div$device$\div$tool chain.
+In order to remove one dimension (tool chain), the common files
+\file{core\_cm3.c}\ and \file{core\_cm3.h}\ contain all essential tool specific
+declarations and definitions.
+
+\bigskip
+Example:
+
+\begin{lstlisting}[style=cpp]
+/* define compiler specific symbols */
+#if defined ( __CC_ARM )
+	#define __ASM __asm				/*!< asm keyword for armcc */
+	#define __INLINE __inline		/*!< inline keyword for armcc */
+#elif defined ( __ICCARM__ )
+	#define __ASM __asm				/*!< asm keyword for iarcc */
+	#define __INLINE inline			/*!< inline keyword for iarcc.
+									Only avaiable in High optimization mode! */
+	#define __nop __no_operation	/*!< no operation intrinsic in iarcc */
+#elif defined ( __GNUC__ )
+	#define __ASM asm 				/*!< asm keyword for gcc */
+	#define __INLINE inline 		/*!< inline keyword for gcc */
+#endif
+\end{lstlisting}
+
+The remaining parts of CMSIS can now simply use the macro \verb|__INLINE|\ to
+define an inline function.
+
+\ru{Остальная часть \cmsis\ теперь может просто использовать макрос}
+\verb|__INLINE|\ \ru{для определения инлайн-функций.}
+
+\bigskip
+Currently three of the most important C-compilers are supported: ARM RealView
+(armcc), IAR EWARM (iccarm), and GNU Compiler Collection (gcc). This is expected
+to cover the majority of tool chains.
+
+\ru{
+На настоящий момент поддерживаются три наиболее применяемых Си-компилятора:
+ARM RealView (armcc), IAR EWARM (iccarm), и GNU Compiler Collection (gcc).
+}
+
+\subsection{MISRA-C}
+\subsection{CPAL Functions}
+\subsection{Interrupt Service Routines}
+\subsection{Other Coding Conventions}
+\subsubsection{Identifiers}
+\subsubsection{Comments}
+\subsubsection{Data Types}
+\subsection{Debugging}
+\subsection{Future Updates}
+\section{Tutorial 1 – A First Example}
+\subsection{Example 1 Starting point}
+\subsection{Example 2 Converting to CMSIS}
+\section{Tutorial 2 – ITM Debug}
+\section{Summary}
+
+\include{bib}
+\end{document}
