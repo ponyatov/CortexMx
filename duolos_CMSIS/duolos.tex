@@ -478,6 +478,48 @@ to automatically extract that information for debug purposes.
 \end{lstlisting}
 
 \subsection{Debugging}
+
+A common requirement in software development is some sort of terminal output for
+debugging. Text/graphics displays in embedded devices cannot be assumed to be at
+hand (or might be in use), which previously left the developer with essentially 
+two choices:
+
+\begin{enumerate}
+\item Use one of the ubiquitous UARTs and connect a terminal
+
+Issues: All UARTs might be in use, access to UART signals might not be possible
+for reasons that include pin-sharing, PCB layout, etc.
+
+\item Use the semihosting mechanism
+
+Issue: Significant software overhead on target CPU, might not be supported in
+the same way by all tool chains, potential impact on timing behavior.
+\end{enumerate}
+
+With \cm{3}\ the preferred method makes use of the Instrumentation Trace
+Macrocell (ITM), which is part of the processor macro cell and thus always
+present.\footnote{Always present in \cm{3}\ rev1 cores. \cm{3}\ rev2 makes
+ITM an optional feature.}
+
+A Serial Wire Viewer (SWV) capable debug adapter can receive ITM data through
+the SWO (Serial Wire Out) debug pin. ITM implements 32 general purpose data
+channels. CMSIS builds on top of this and declares channel 0 to be used for
+terminal output, along with a function called \verb|ITM_SendChar()| which can be
+used as low-level driver function for printf-style output. A second channel (31) 
+has been reserved for OS aware debugging, which means that a kernel can use it
+to transmit kernel specific data which could then be interpreted by the debug
+tool. 
+
+With this standardization, tool vendors have it much easier to implement
+specific debug features, such as e.g. terminal emulation for data received via
+ITM channel 0. Developers on the other hand can rely on this feature to dump
+state information, without having to configure UARTs and external terminal
+emulators. See our Tutorial 2 later in this document.
+
+Access privilege can be configured for groups of ITM channels. In order to use
+ITM channel 0, unprivileged access must be granted, whereas ITM channel 31 is in
+a different group and may allow privileged access only.
+
 \subsection{Future Updates}
 \section{Tutorial 1 – A First Example}
 \subsection{Example 1 Starting point}
