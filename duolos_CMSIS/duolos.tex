@@ -325,7 +325,22 @@ ARM RealView (armcc), IAR EWARM (iccarm), и GNU Compiler Collection (gcc).
 }
 
 \subsection{MISRA-C}
+
+Besides defining an API for Cortex-M core peripherals and guidelines on how to
+support device peripherals, CMSIS defines some coding guidelines and
+conventions. Most important is that the CMSIS code base is MISRA-C 2004
+compliant, which implies that every extension should be compliant, too. MISRA-C
+is a set of safety rules established by the “Motor Industry Software Reliability
+Association” for the C programming language. Maintaining MISRA compliance can be
+tricky, in particular when implementing driver level software. Therefore,
+pragma-like exceptions in PCLint style are scattered across the source code. Be
+aware that other tools, e.g. MISRA checker in IAR EWARM, might flag errors. Each
+exception is accompanied with a comment explaining why this exception was made.
+
 \subsection{CPAL Functions}
+
+
+
 \subsection{Interrupt Service Routines}
 \subsection{Other Coding Conventions}
 \subsubsection{Identifiers}
