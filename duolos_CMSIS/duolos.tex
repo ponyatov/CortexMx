@@ -521,6 +521,19 @@ ITM channel 0, unprivileged access must be granted, whereas ITM channel 31 is in
 a different group and may allow privileged access only.
 
 \subsection{Future Updates}
+
+The CMSIS developers have taken care to provide macros indicating the CMSIS
+version used in a project. That way provisions can be made to prevent code to be
+used with a different CMSIS version than originally intended.
+
+\begin{lstlisting}[style=cpp]
+#define __CM3_CMSIS_VERSION_MAIN (0x01)		/* [31:16] main version */
+#define __CM3_CMSIS_VERSION_SUB (0x10)		/* [15:0] sub version */
+
+#define __CM3_CMSIS_VERSION ((__CM3_CMSIS_VERSION_MAIN << 16) | \
+							__CM3_CMSIS_VERSION_SUB)
+\end{lstlisting}
+
 \section{Tutorial 1 – A First Example}
 \subsection{Example 1 Starting point}
 \subsection{Example 2 Converting to CMSIS}
