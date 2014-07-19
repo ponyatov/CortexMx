@@ -29,8 +29,5 @@ void (*_vectors[])(void)={
 */
 };
 
-void Reset_Handler(void)     /* Reset Handler */
-{
-	init();
-	for(;;) main();
-}
+
+__attribute__((weak)) void Reset_Handler(void) {for(;;);}	/* Reset Handler */

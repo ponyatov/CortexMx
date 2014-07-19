@@ -9,7 +9,7 @@ char _C_init[]=QUOTE(CPU) " init (c) Azbuka ARMaturschika";
 
 // пример условной компиляции по значению макроса, заданного
 // в командной строке запуска компилятора -DCPU=$(CPU)
-#if CPU==LM3S81122
+#if CPU==LM3S811
 	#include "LM3S811.h"
 #else
 	// пример как аварийно остановить компиляцию
@@ -17,8 +17,9 @@ char _C_init[]=QUOTE(CPU) " init (c) Azbuka ARMaturschika";
 	#error CPU not supported
 #endif
 
-//#pragma message QUOTE(CPU)
-//#error not supported
+// пример переопределения weak функции:
+// замена обработчика из startup.c собственным обработчиком исключений
+void Reset_Handler(void) { init(); for (;;) main(); }
 
 // точка входа
 init () {}
