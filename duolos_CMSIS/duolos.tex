@@ -351,6 +351,44 @@ compiler to optimize the function calls by placing the instructions that make up
 function along with other code from which the function was called.
 
 \subsection{Interrupt Service Routines}
+
+Exception handlers will get a name suffix \verb|_Handler|, while (external)
+interrupt handlers get the suffix \verb|_IRQHandler|. There must be a default
+handler for each interrupt, which executes an infinite loop.
+Tool specific configuration must make sure that this default handler will be
+used as fall-back if no user-provided handler exists. It done
+Through \verb|__weak| declaration in EWARM and RVCT armcc,
+\verb|__attribute__((weak))| in GCC and RVCT armcc and
+\verb|[WEAK]| export in RVCT/armasm.
+
+Given that the \cm{}\ NVIC provides byte-arrays and bit-strings to configure
+priorities and interrupt source en-/disable, an enumerated type \verb|IRQn_t|
+with an element for each exception/interrupt position with the suffix
+\verb|_IRQn|\ must be defined for each interrupt (\file{<device>.h}). The system
+handler names are common for all devices and must not be changed.
+
+\begin{lstlisting}[style=cpp,title=Listing shows the generic part of the
+(\file{<device>.h}) file.] typedef enum IRQn
+{
+/****** Cortex-M3 Processor Exceptions Numbers *******************************/
+ NonMaskableInt_IRQn = -14, 	/*!< 2 Non Maskable Interrupt */
+ MemoryManagement_IRQn = -12, 	/*!< 4 Cortex-M3 Memory Mgmt Interrupt */
+ BusFault_IRQn = -11, 			/*!< 5 Cortex-M3 Bus Fault Interrupt */
+ UsageFault_IRQn = -10, 		/*!< 6 Cortex-M3 Usage Fault Interrupt */
+ SVCall_IRQn = -5, 				/*!< 11 Cortex-M3 SV Call Interrupt */
+ DebugMonitor_IRQn = -4, 		/*!< 12 Cortex-M3 Debug Monitor Interrupt */
+ PendSV_IRQn = -2, 				/*!< 14 Cortex-M3 Pend SV Interrupt */
+ SysTick_IRQn = -1, 			/*!< 15 Cortex-M3 System Tick Interrupt */
+/****** Device specific Interrupt Numbers ************************************/
+ UART_IRQn = 0, 				/*!< Example Interrupt */
+} IRQn_Type;
+\end{lstlisting}
+
+All system handlers have negative virtual slot numbers so that they can be
+distinguished in functions that abstract from the differences between system
+handlers and external interrupt handlers. External interrupt handlers start at
+the index 0.
+
 \subsection{Other Coding Conventions}
 \subsubsection{Identifiers}
 \subsubsection{Comments}
