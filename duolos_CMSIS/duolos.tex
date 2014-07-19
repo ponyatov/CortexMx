@@ -390,9 +390,93 @@ handlers and external interrupt handlers. External interrupt handlers start at
 the index 0.
 
 \subsection{Other Coding Conventions}
+
+The CMSIS documentation recommends a few more things regarding capitalization of
+identifiers, commenting code.
+
 \subsubsection{Identifiers}
+
+\begin{itemize}
+  \item Capital names to identify Core Registers, Peripheral Registers, and CPU
+  Instructions.
+  
+  E.g.: \verb|NVIC->AIRCR|, \verb|GPIOB|, \verb|LDMIAEQ|
+  
+  \item “CamelCase” (mix of upper- and lower-case letters) names to identify
+  peripherals access functions and interrupts.
+
+ E.g.: \verb|SysTickConfig()|, \verb|DebugMonitor_IRQn|
+
+  \item Peripheral prefix (\verb|<name>_|) to identify functions that belong to
+  specific peripherals.
+
+ E.g.: \verb|ITM_SendChar()|, \verb|NVIC_SystemReset()|
+
+\end{itemize}
+
 \subsubsection{Comments}
+
+CMSIS uses \term{Doxygen}\ style comments for all definitions and encourages
+developers to do the same.
+
+In particular, the comment for each function definition should at least contain
+
+\begin{itemize}
+\item one-line brief function overview. (Tag: \verb|@brief|)
+\item detailed parameter explanation. (Tag: \verb|@param|)
+\item detailed information about return values. (Tag: \verb|@return|)
+\item detailed description of the actual function.
+\end{itemize}
+
+The example below shows the beginning of a function definition:
+
+\begin{lstlisting}[style=cpp]
+/**
+ * @brief Enable Interrupt in NVIC Interrupt Controller
+ *
+ * @param IRQn_Type IRQn specifies the interrupt number
+ * @return none
+ *
+ * Enable a device specific interupt in the NVIC interrupt controller.
+ * The interrupt number cannot be a negative value.
+ */
+static __INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
+{
+// . . .
+}
+\end{lstlisting}
+
+The tags can be parsed by the documentation tool Doxygen, which is used to
+create cross-referenced source code documentation in various formats
+(\url{http://www.stack.nl/~dimitri/doxygen/index.html}). The tag syntax is
+rather minimalistic and does not impair readability of the source code. Please
+consult the Doxygen Documentation for details about tag syntax.
+
+As an alternative to regular C block comments (\verb|/* */|) CMSIS explicitly
+allows line comments (\verb|//|, so called C++-comments). If you are concerned
+about MISRA compliance, be aware though, that MISRA-C 2004 doesn’t allow line
+comments according to rule 2.2.
+
+\ru{
+CMSIS предлагает альтернативу обычным сишным /* блочным комментариям */ в виде
+// строчных комментариев, так называмых \cpp-комментариев. Если вас беспокоит
+выполнение превил MISRA, учтите что} \alarm{MISRA-C:2004 не разрешает
+использовать строчные комментарии согласно правилу 2.2}.
+
 \subsubsection{Data Types}
+
+All data types referenced by CMSIS are based on those defined in the standard C
+header file \file{stdint.h}. Data structures for core registers are defined
+CMSIS header file \file{core\_cm3.h}, along with macros for qualifying registers
+according to their access permissions. The rationale is that tools might be able
+to automatically extract that information for debug purposes.
+
+\begin{lstlisting}[style=cpp]
+#define 	__I 	volatile const	/*!< defines 'read only' permissions */
+#define		__O 	volatile 		/*!< defines 'write only' permissions */
+#define 	__IO 	volatile 		/*!< defines 'read / write' permissions */
+\end{lstlisting}
+
 \subsection{Debugging}
 \subsection{Future Updates}
 \section{Tutorial 1 – A First Example}
