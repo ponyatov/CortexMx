@@ -49,12 +49,17 @@ ASFLAGS = $(CPUOPT) $(DEBFLAGS)
 # и обрабатывается при вызове $(MAKE) без параметров
 
 # стандартная цель, предусматривающая сборку всего проекта 
-all: elf.elf
+all: elf.elf bin.bin hex.hex
 
 elf.elf: $(CPU).ld generic.ld startup.o init.o main.o
 	$(LD) -T ../hello/$(CPU).ld -T ../hello/generic.ld -o $@ *.o && \
 	$(OBJDUMP) -xd $@ > $@.objdump && \
 	$(SIZE) $@
+	
+hex.hex: elf.elf
+	$(OBJCOPY) -O ihex $< $@	
+bin.bin: elf.elf
+	$(OBJCOPY) -O binary $< $@	
 	 
 # стандартная цель, удаление всех временных и конечных бинарных файлов
 clean:
