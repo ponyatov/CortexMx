@@ -535,10 +535,199 @@ used with a different CMSIS version than originally intended.
 \end{lstlisting}
 
 \section{Tutorial 1 – A First Example}
+
+In order to explain application of CMSIS in real projects, we are going to look
+at a simple example of a \cm{3}\ application. The program compiles for STM32
+processors and a project file for the Keil $\mu$Vision IDE has been provided.
+Porting the example to other tool chains, such as IAR EWARM is straight forward
+and the IAR EWARM version is provided as well. A great number of CMSIS function
+definitions can be found in \file{core\_cm3.h}\ as “static inline” functions.
+Depending on the compiler optimization level, this helps getting very efficient
+instruction sequences rather than actual function calls, while ensuring a
+certain level of type safety.
+
+After clock and GPIO initialization, the SysTick timer is configured to a period
+of 0.5 seconds. Whenever the handler executes it toggles the state of
+\verb|GPIOB[15]|.
+
 \subsection{Example 1 Starting point}
+
+Initially, the program was implemented using STMicroelectronics’ FWLib, a
+library that provides access to \cm{3}\ internals and STM32 peripherals. Near
+to medium term, firmware libraries such as FWLib will be based on CMSIS. Parts
+of FWLib that will eventually form the DPAL (see above).
+
+\lstinputlisting[inputencoding=cp1251,style=cpp]{duolos_CMSIS/stm1.c}
+
+\lstinputlisting[inputencoding=cp1251,style=cpp]{duolos_CMSIS/stm2.c}
+
+The two listings above show the contents of main.c, and \file{stm32f10x\_it.c}.
+This latter file contains interrupt handler templates from ST’s FWLib, which
+have to be adapted to implement project specific functionality.
+
 \subsection{Example 2 Converting to CMSIS}
+
+In a second step, the program has been converted to using CMSIS. The CMSIS
+version used is V1P10 as downloaded via the link above. We want to make sure to
+use the same CMSIS that has been used to develop the program and check the
+version number.
+
+\lstinputlisting[inputencoding=cp1251,style=cpp]{duolos_CMSIS/stm3.c}
+
+Initial support for STM32 MCU is part of CMSIS and is pulled in by including the
+header file \file{stm32.h}. At the point of writing this tutorial a fully CMSIS
+complaint FWLib was not available so some compromises and hand adjustments hand
+to be made. Fore this reason, we will include both, FWLib and CMSIS files. Until
+vendors have full adopted CMSIS small issues will have to be dealt with when
+combining CMSIS with a vendor library.
+
+In this case simply including the FWLib main header file \file{stm32f10x\_lib.h}
+in addition to \file{stm32.h} triggers a number of error messages caused by
+multiple definitions of functions and macros. To avoid this, we will have to
+selectively include individual FWLib headers (see below). All FWLib headers
+depend on definitions in the files \file{cortexm3\_core.h} and
+\file{stm32f10x\_map.h}. Most of the definitions in these two header files have
+already been defined by CMSIS (\file{core\_cm3.h} and \file{system\_stm32.h})
+and we have to pretend to FWLib that both header files had been included already.
+
+\begin{lstlisting}[style=cpp]
+// Prevent interference with FWLib
+#define __STM32F10x_MAP_H
+#include <stm32f10x_type.h>
+#include <stm32f10x_gpio.h>
+#include <stm32f10x_rcc.h>
+\end{lstlisting}
+
+Actual system initialization will be encapsulated by the CMSIS function
+\verb|SystemInit()|, which has to be implemented by the silicon vendor. As a
+minimal requirement, this function would initialize the MCU’s clock system. In
+case of the reference implementation in \file{system\_stm32.c},
+\verb|SystemInit()| also initializes the Flash memory interface. CMSIS defines a
+single system variable, \verb|SystemFrequency|, which is supposed to reflect the
+frequency of both core and SysTick timer in Hz. This concept is sufficient for a
+minimal implementation but will likely have to be extended for actual MCU as
+demonstrated by CMSIS’ \file{system\_stm32.c}, in which several variables have
+been defined to hold the frequency values of different clock domains in the
+STM32 MCU. SysTick timer and core could have different frequencies and care must
+be taken when using SystemFrequency in a program.
+
+Current CMSIS does not initialize peripheral clocks and it is arguable whether
+it should. In any case we use the corresponding FWLib function to enable GPIOB
+clock.
+
+\begin{lstlisting}[style=cpp]
+// Initialization moved to SystemInit() in system_stm32.c. Clock
+// configuration now handled by #defines. Use uVision
+// configuration wizard or text editor to change.
+SystemInit(); 										// *** CMSIS change ***
+// APB peripherals still have to be enabled individually.
+RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+\end{lstlisting}
+
+NVIC group- and sub-priority configuration is handled by the function
+\verb|NVIC_SetPriorityGrouping()|, where the direct encoding of the
+\verb|PRIGROUP| field in \verb|SCB->AIRCR| is used. We choose the value 4, which
+represents 3 bits for group (preempting) and 5 bits for the sub priority. A
+general formula to calculate the proper value is \verb|PRIGROUP = bitssub-1|.
+
+\begin{lstlisting}[style=cpp]
+// priority configuration: 3.5
+NVIC_SetPriorityGrouping(4); 		// *** CMSIS change ***
+\end{lstlisting}
+
+Different from the initial version of the example, the CMSIS variant does not at
+this point set the SysTick handler priority. This is part of the SysTick
+initialization and will be covered later.
+
+\begin{lstlisting}[style=cpp]
+GPIO_Init(GPIOB, &GPIOB_InitStruct);
+GPIO_WriteBit(GPIOB, GPIO_Pin_All, Bit_RESET);
+\end{lstlisting}
+
+Following NVIC set-up, we use plain FWLib functions to configure GPIO port B.
+
+\begin{lstlisting}[style=cpp]
+SysTick_Config(SystemFrequency/2); // *** CMSIS Change ***
+
+// SysTick_Config() hardcodes priority. We will overwrite this.
+NVIC_SetPriority(SysTick_IRQn, 14); // *** CMSIS change ***
+\end{lstlisting}
+
+\verb|SysTick_Config()|, provided by CMSIS, programs the reload register with
+the parameter value. The function also selects HCLK (core clock) as clock
+source, enables SysTick interrupts and starts the counter. The function also
+fixes the SysTick handler priority to the lowest priority in the system, which
+is the recommended SysTick priority for use in an RTOS scheduler for instance.
+In our example, however, we prefer a different priority and override the hard
+coded value with an additional call to \verb|NVIC_SetPriority()|. This function
+abstracts from the difference between \cm{3}\ system handlers and external
+interrupt handlers. All configurable system exceptions will be identified by
+negative IRQ numbers (see above).
+
+\begin{lstlisting}[style=cpp]
+__irq void SysTick_Handler()
+{
+	static BitAction toggle = Bit_SET;
+	GPIO_WriteBit(GPIOB, GPIO_Pin_15, toggle);
+	if (toggle == Bit_SET) {
+		puts("Pin state is ON");
+		toggle = Bit_RESET;
+	} else {
+		puts("Pin state is OFF");
+		toggle = Bit_SET;
+	}
+}
+\end{lstlisting}
+
+The SysTick handler code above does not need any modification. FWLib naming
+conventions is complying with CMSIS, in that the names of all internal exception
+handlers must end in \verb|_Handler|. Names of external interrupt handlers must
+end in \verb|_IRQHandler|. The handler implementation accesses the GPIO port via
+FWLib functions and definitions.
+
 \section{Tutorial 2 – ITM Debug}
+
+To exercise some CMSIS debug functionality for our first example from tutorial
+1, we add debug output messages via calls to \verb|puts()|. We will now redirect
+character output to Instrumentation Trace Macrocell (ITM), (remember that CMSIS
+reserves ITM channel 0 for this), using the CMSIS function
+\verb|ITM_SendChar()|. A mechanism called retargeting enables us to provide our
+own implementation of a system function.
+
+\begin{lstlisting}[style=cpp]
+// retarget fputc() for debug output via ITM
+int fputc(int c, FILE *stream) {
+	return (int)ITM_SendChar((uint32_t)c);
+}
+\end{lstlisting}
+
+The standard C function \verb|fputc()|, which will eventually be called by
+\verb|puts()| in our SysTick handler, will be re-implemented, taking advantage
+of the function \verb|ITM_SendChar()|. The result of this retarget can now be
+easily monitored in $\mu$Vision ITM viewer as shown in the screenshot below.
+
+\includegraphics[width=0.5\textwidth]{duolos_CMSIS/ITMshot.png}
+
+If you are going to use the IAR EWARM tool for this example it is not necessary
+to manually retarget this function. Instead, in the project options dialog under
+“General Options” there is a tab “Library Configuration” tab, which offers
+checkboxes to enable this functionality. The screenshot below shows which
+settings are required to redirect standard output.
+
+\includegraphics[width=0.6\textwidth]{duolos_CMSIS/simplecmsis.png}
+
 \section{Summary}
+
+The CMSIS will reduce the learning-curve for the application programmers by
+providing a consistent software framework, ensuring consistent documentation and
+easy deployment of boilerplate code across various compiler vendors. The
+consequent use and implementation of CMSIS across many silicon and middleware
+software partners will simplify the verification and certification process and
+therefore reduce future project risk. The adapted common programming techniques
+though CMSIS will simplify the long term maintenance due to easier to understand
+source code. The silicon vendors can focus on there added value and device
+features. All reasons together will reduce software development cost and time to
+get new products to the market.
 
 \include{bib}
 \end{document}
