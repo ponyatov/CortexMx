@@ -19,7 +19,7 @@ char _C_init[]=QUOTE(CPU) " init (c) Azbuka ARMaturschika";
 
 // пример переопределения weak функции:
 // замена обработчика из startup.c собственным обработчиком исключений
-void Reset_Handler(void) { init(); for (;;) main(); }
+//void Reset_Handler(void) { init(); for (;;) main(); }
 
 // точка входа
 init () {}
