@@ -1,3 +1,5 @@
+TARGFILE = part.pdf
+
 TEX = main.tex labworks.tex part.tex header.tex
 TEX += ARM.tex
 TEX += STM32F1xx.tex
@@ -33,14 +35,17 @@ tmp/%.mk: %/Makefile
 TEXTMP = *.aux *.log *.dvi *.pdf *.ex *.out
 
 .PHONY: all clean
-all: duolos.pdf
+all: $(TARGFILE)
 
 clean:
 	rm -f $(TEXTMP)
 	
 DUOLOS = duolos_CMSIS/duolos.tex header.tex bib.tex
 DUOLOS += duolos_CMSIS/cmsisstruc.png 
-DUOLOS += duolos_CMSIS/cmsisdevcosts.png 
+DUOLOS += duolos_CMSIS/cmsisdevcosts.png
+DUOLOS += duolos_CMSIS/ITMshot.png
+DUOLOS += duolos_CMSIS/simplecmsis.png
+DUOLOS += duolos_CMSIS/stm32.png
 
 duolos.pdf: $(DUOLOS)
 	pdflatex duolos_CMSIS/duolos.tex
