@@ -41,7 +41,10 @@ CFG_B = $(CFG) --prefix=$(B)
 CFG_H = $(CFG) --prefix=$(H)
 CFG_T = $(CFG) --prefix=$(T)
 
-CFG_B_GMP = --disable-static --enable-shared
+CFG_B_CCLIBS = --with-gmp=$(B) --with-mpfr=$(B) --with-mpc=$(B) --disable-shared
+CFG_B_GMP = $(CFG_B_CCLIBS)
+CFG_B_MPFR = $(CFG_B_CCLIBS)
+CFG_B_MPC = $(CFG_B_CCLIBS)
 
 # команды
 WGET = wget -N -P $(GZ)
@@ -53,7 +56,7 @@ INSTALL = make install-strip
 CC_H = @CC@
 CFLAGS_H = @CFLAGS@
 
-.PHONY: debianpackages all dirs distclean gz 
+.PHONY: debianpackages all dirs distclean gz
 
 # главная цель
 all:
@@ -86,7 +89,14 @@ $(SRC)/%/README: $(GZ)/%.tar.xz
 	cd $(SRC) && xzcat $< | tar x && touch $@	
 
 # сборка бинарников для $BUILD
+.PHONY: gmp_b mpfr_b mpc_b cclibs_b
+cclibs_b: gmp_b mpfr_b mpc_b
 gmp_b: $(SRC)/$(GMP)/README
 	rm -rf $(TMP)/$(GMP) && mkdir $(TMP)/$(GMP) && cd $(TMP)/$(GMP) &&\
-	$(SRC)/$(GMP)/$(CFG_B) $(CFG_B_GMP) && echo $(MAKE) 
-#	&& $(INSTALL)
+	$(SRC)/$(GMP)/$(CFG_B) $(CFG_B_GMP) && $(MAKE) && $(INSTALL)
+mpfr_b: $(SRC)/$(MPFR)/README
+	rm -rf $(TMP)/$(MPFR) && mkdir $(TMP)/$(MPFR) && cd $(TMP)/$(MPFR) &&\
+	$(SRC)/$(MPFR)/$(CFG_B) $(CFG_B_MPFR) && $(MAKE) && $(INSTALL)
+mpc_b: $(SRC)/$(MPC)/README
+	rm -rf $(TMP)/$(MPC) && mkdir $(TMP)/$(MPC) && cd $(TMP)/$(MPC) &&\
+	$(SRC)/$(MPC)/$(CFG_B) $(CFG_B_MPC) && $(MAKE) && $(INSTALL)
