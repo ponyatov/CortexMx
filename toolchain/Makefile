@@ -3,9 +3,23 @@
 # вменяемо реализовать _быструю_ сборку под win пока не удалось
 
 # тройка канадского креста
-BUILD = 
-HOST = mingw32
-TARGET = arm-none-eabi
+BUILD	= build
+HOST	= i686-mingw32
+TARGET	= arm-none-eabi
+
+# версии пакетов
+BINUTILS_VER = 2.24
+GMP_VER = 5.1.3
+MPFR_VER = 3.1.2
+MPC_VER = 1.0.2
+GCC_VER = 4.9.1
+
+# имена пакетов
+BINUTILS = binutils-$(BINUTILS_VER)
+GMP = gmp-$(GMP_VER)
+MPFR = mpfr-$(MPFR_VER)
+MPC = mpc-$(MPC_VER)
+GCC = gcc-$(GCC_VER)
 
 # рабочие каталоги
 #	каталог для сборки и прочих временных файлов (рекомендуется в ramfs)
@@ -18,17 +32,45 @@ GZ = $(PWD)/gz
 B = $(PWD)/$(BUILD)
 H = $(PWD)/$(HOST)
 T = $(PWD)/$(TARGET)
-DIRS = $(TMP) $(SRC) $(GZ) $(B) $(H) $(T)
+DIRS = $(TMP) $(SRC) $(B) $(H) $(T)
 
-.PHONY: debianpackages all dirs distclean
+# команды
+WGET = wget -N -P $(GZ)
+MAKE = make -j$(NUMBER_OF_PROCESSORS)
+INSTALL = make install-strip 
 
+.PHONY: debianpackages all dirs distclean gz 
+
+# главная цель
 all:
 
+# создание дерева каталогов
 dirs:
-	mkdir -p $(DIRS)
+	mkdir -p $(DIRS) $(GZ)
+# зачистка дерева каталогов
 distclean:
 	rm -rf $(DIRS) ; make dirs
 
-# цель установки пакетов нужных для сборки под Debian GNU/Linux
+# установка пакетов нужных для сборки под Debian GNU/Linux
 debianpackages:
-	aptitute install make
+	aptitude install make binutils gcc m4 flex bison
+
+# закачка дистрибутивов пакетов в исходниках
+gz:
+	$(WGET) http://ftp.gnu.org/gnu/binutils/$(BINUTILS).tar.bz2
+	$(WGET) ftp://ftp.gmplib.org/pub/gmp/$(GMP).tar.bz2
+	$(WGET) http://www.mpfr.org/mpfr-current/$(MPFR).tar.bz2
+	$(WGET) http://www.multiprecision.org/mpc/download/$(MPC).tar.gz
+	$(WGET) http://gcc.skazkaforyou.com/releases/$(GCC)/$(GCC).tar.bz2
+
+# правила распаковки исходников
+$(SRC)/%/README: $(GZ)/%.tar.gz
+	cd $(SRC) &&  zcat $< | tar x && touch $@
+$(SRC)/%/README: $(GZ)/%.tar.bz2
+	cd $(SRC) && bzcat $< | tar x && touch $@
+$(SRC)/%/README: $(GZ)/%.tar.xz
+	cd $(SRC) && xzcat $< | tar x && touch $@	
+
+# сборка бинарников для $BUILD
+gmp_b: $(SRC)/$(GMP)/README
+
