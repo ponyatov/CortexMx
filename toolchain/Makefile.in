@@ -3,11 +3,18 @@
 # вменяемо реализовать _быструю_ сборку под win пока не удалось
 
 # тройка канадского креста @build@ @host@ @target@
-BUILD	= build
-HOST_CPU = i686
-HOST	= $(HOST_CPU)-mingw32
-TARGET	= arm-none-eabi
-TARGET_CPU = cortex-m3
+BUILD		= build
+BUILD_CFG	= --disable-multilib	
+
+HOST_CPU	= i686
+HOST		= $(HOST_CPU)-mingw32
+HOST_CFG	= --disable-multilib \
+	--with-cpu=$(HOST_CPU) --with-tune=$(HOST_CPU)
+
+TARGET		= arm-none-eabi
+TARGET_CPU	= cortex-m3
+TARGET_CFG	= --disable-multilib --disable-interwork \
+	--with-cpu=$(TARGET_CPU) --with-tune=$(TARGET_CPU) --with-mode=thumb
 
 # версии пакетов
 BINUTILS_VER = 2.24
@@ -52,13 +59,11 @@ CFG_B_MPFR = $(CFG_B_CCLIBS)
 CFG_B_MPC = $(CFG_B_CCLIBS)
 
 CFG_B_BINUTILS = --program-prefix=$(BUILD)- \
-	--disable-multilib	
+	$(BUILD_CFG)
 CFG_H_BINUTILS = --program-prefix=$(HOST)- --target=$(HOST) \
-	--disable-multilib \
-	--with-cpu=$(HOST_CPU) --with-tune=$(HOST_CPU)
+	$(HOST_CFG)
 CFG_T_BINUTILS = --program-prefix=$(TARGET)- --target=$(TARGET) \
-	--disable-multilib --disable-interwork \
-	--with-cpu=$(TARGET_CPU) --with-tune=$(TARGET_CPU)
+	$(TARGET_CFG)
 
 # команды
 WGET = wget -N -P $(GZ)
