@@ -2,11 +2,12 @@
 # сборка выполняется под Linux по схеме "канадский крест"
 # вменяемо реализовать _быструю_ сборку под win пока не удалось
 
-# тройка канадского креста
+# тройка канадского креста @build@ @host@ @target@
 BUILD	= build
-# @build@ @host@ @target@
-HOST	= i686-mingw32
+HOST_CPU = i686
+HOST	= $(HOST_CPU)-mingw32
 TARGET	= arm-none-eabi
+TARGET_CPU = cortex-m3
 
 # версии пакетов
 BINUTILS_VER = 2.24
@@ -36,8 +37,12 @@ T = $(PWD)/$(TARGET)
 DIRS = $(TMP) $(SRC) $(B) $(H) $(T)
 
 # параметры для configure
+
+CC_H = ccache @CC@ -pipe
+CFLAGS_H = @CFLAGS@
+
 CFG = configure --disable-nls
-CFG_B = $(CFG) --prefix=$(B)
+CFG_B = $(CFG) CC="$(CC_H)" --prefix=$(B)
 CFG_H = $(CFG) --prefix=$(H)
 CFG_T = $(CFG) --prefix=$(T)
 
@@ -46,15 +51,21 @@ CFG_B_GMP = $(CFG_B_CCLIBS)
 CFG_B_MPFR = $(CFG_B_CCLIBS)
 CFG_B_MPC = $(CFG_B_CCLIBS)
 
+CFG_B_BINUTILS = --program-prefix=$(BUILD)- \
+	--disable-multilib	
+CFG_H_BINUTILS = --program-prefix=$(HOST)- --target=$(HOST) \
+	--disable-multilib \
+	--with-cpu=$(HOST_CPU) --with-tune=$(HOST_CPU)
+CFG_T_BINUTILS = --program-prefix=$(TARGET)- --target=$(TARGET) \
+	--disable-multilib --disable-interwork \
+	--with-cpu=$(TARGET_CPU) --with-tune=$(TARGET_CPU)
+
 # команды
 WGET = wget -N -P $(GZ)
 
 NUMBER_OF_PROCESSORS ?= $(shell cat /proc/cpuinfo |grep processor|wc -l)
 MAKE = make -j$(NUMBER_OF_PROCESSORS)
 INSTALL = make install-strip 
-
-CC_H = @CC@
-CFLAGS_H = @CFLAGS@
 
 .PHONY: debianpackages all dirs distclean gz
 
@@ -89,6 +100,8 @@ $(SRC)/%/README: $(GZ)/%.tar.xz
 	cd $(SRC) && xzcat $< | tar x && touch $@	
 
 # сборка бинарников для $BUILD
+
+# библиотеки поддержки для сборки gcc
 .PHONY: gmp_b mpfr_b mpc_b cclibs_b
 cclibs_b: gmp_b mpfr_b mpc_b
 gmp_b: $(SRC)/$(GMP)/README
@@ -100,3 +113,16 @@ mpfr_b: $(SRC)/$(MPFR)/README
 mpc_b: $(SRC)/$(MPC)/README
 	rm -rf $(TMP)/$(MPC) && mkdir $(TMP)/$(MPC) && cd $(TMP)/$(MPC) &&\
 	$(SRC)/$(MPC)/$(CFG_B) $(CFG_B_MPC) && $(MAKE) && $(INSTALL)
+
+# $(BUILD)-toolchain
+.PHONY: binutils_b gcc_b
+binutils_b: $(SRC)/$(BINUTILS)/README
+	# >B
+	rm -rf $(TMP)/$(BINUTILS) && mkdir $(TMP)/$(BINUTILS) && cd $(TMP)/$(BINUTILS) &&\
+	$(SRC)/$(BINUTILS)/$(CFG_B) $(CFG_B_BINUTILS) && $(MAKE) && $(INSTALL)
+	# >H
+	rm -rf $(TMP)/$(BINUTILS) && mkdir $(TMP)/$(BINUTILS) && cd $(TMP)/$(BINUTILS) &&\
+	$(SRC)/$(BINUTILS)/$(CFG_B) $(CFG_H_BINUTILS) && $(MAKE) && $(INSTALL)
+	# >T
+	rm -rf $(TMP)/$(BINUTILS) && mkdir $(TMP)/$(BINUTILS) && cd $(TMP)/$(BINUTILS) &&\
+	$(SRC)/$(BINUTILS)/$(CFG_B) $(CFG_T_BINUTILS) && $(MAKE) && $(INSTALL)
