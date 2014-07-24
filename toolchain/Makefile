@@ -53,10 +53,10 @@ CFG_B = $(CFG) CC="$(CC_H)" --prefix=$(B)
 CFG_H = $(CFG) --prefix=$(H)
 CFG_T = $(CFG) --prefix=$(T)
 
-CFG_B_CCLIBS = --with-gmp=$(B) --with-mpfr=$(B) --with-mpc=$(B) --disable-shared
-CFG_B_GMP = $(CFG_B_CCLIBS)
-CFG_B_MPFR = $(CFG_B_CCLIBS)
-CFG_B_MPC = $(CFG_B_CCLIBS)
+CFG_B_CCLIBS = --with-gmp=$(B) --with-mpfr=$(B) --with-mpc=$(B)
+CFG_B_GMP = $(CFG_B_CCLIBS) --disable-shared
+CFG_B_MPFR = $(CFG_B_CCLIBS) --disable-shared
+CFG_B_MPC = $(CFG_B_CCLIBS) --disable-shared
 
 CFG_B_BINUTILS = --program-prefix=$(BUILD)- \
 	$(BUILD_CFG)
@@ -64,6 +64,8 @@ CFG_H_BINUTILS = --program-prefix=$(HOST)- --target=$(HOST) \
 	$(HOST_CFG)
 CFG_T_BINUTILS = --program-prefix=$(TARGET)- --target=$(TARGET) \
 	$(TARGET_CFG)
+	
+CFG_B_GCC = $(CFG_B_BINUTILS) $(CFG_B_CCLIBS) --enable-languages="c"	
 
 # команды
 WGET = wget -N -P $(GZ)
@@ -86,7 +88,7 @@ distclean:
 
 # установка пакетов нужных для сборки под Debian GNU/Linux
 debianpackages:
-	aptitude install make binutils gcc m4 flex bison
+	aptitude install make binutils gcc g++ m4 flex bison
 
 # закачка дистрибутивов пакетов в исходниках
 gz:
@@ -133,3 +135,6 @@ binutils_b: $(SRC)/$(BINUTILS)/README
 	$(SRC)/$(BINUTILS)/$(CFG_B) $(CFG_T_BINUTILS) && $(MAKE) && $(INSTALL)
 
 gcc_b: $(SRC)/$(GCC)/README
+	# >B
+	rm -rf $(TMP)/$(GCC) && mkdir $(TMP)/$(GCC) && cd $(TMP)/$(GCC) &&\
+	$(SRC)/$(GCC)/$(CFG_B) $(CFG_B_GCC) && $(MAKE) && $(INSTALL)
