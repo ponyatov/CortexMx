@@ -45,8 +45,8 @@ DIRS = $(TMP) $(SRC) $(B) $(H) $(T)
 
 # параметры для configure
 
-CC_H = ccache @CC@ -pipe
-CFLAGS_H = @CFLAGS@
+CC_H = ccache gcc -pipe
+CFLAGS_H = -g -O2
 
 CFG = configure --disable-nls
 CFG_B = $(CFG) CC="$(CC_H)" --prefix=$(B)
@@ -131,3 +131,5 @@ binutils_b: $(SRC)/$(BINUTILS)/README
 	# >T
 	rm -rf $(TMP)/$(BINUTILS) && mkdir $(TMP)/$(BINUTILS) && cd $(TMP)/$(BINUTILS) &&\
 	$(SRC)/$(BINUTILS)/$(CFG_B) $(CFG_T_BINUTILS) && $(MAKE) && $(INSTALL)
+
+gcc_b: $(SRC)/$(GCC)/README

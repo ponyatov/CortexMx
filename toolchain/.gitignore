@@ -4,5 +4,4 @@ src/*
 configure
 auto*.cache
 config.status
-Makefile
 build
