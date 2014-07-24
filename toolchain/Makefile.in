@@ -45,6 +45,8 @@ CFG_B_GMP = --disable-static --enable-shared
 
 # команды
 WGET = wget -N -P $(GZ)
+
+NUMBER_OF_PROCESSORS ?= $(shell cat /proc/cpuinfo |grep processor|wc -l)
 MAKE = make -j$(NUMBER_OF_PROCESSORS)
 INSTALL = make install-strip 
 
@@ -86,4 +88,5 @@ $(SRC)/%/README: $(GZ)/%.tar.xz
 # сборка бинарников для $BUILD
 gmp_b: $(SRC)/$(GMP)/README
 	rm -rf $(TMP)/$(GMP) && mkdir $(TMP)/$(GMP) && cd $(TMP)/$(GMP) &&\
-	$(SRC)/$(GMP)/$(CFG_B) $(CFG_B_GMP)
+	$(SRC)/$(GMP)/$(CFG_B) $(CFG_B_GMP) && echo $(MAKE) 
+#	&& $(INSTALL)
