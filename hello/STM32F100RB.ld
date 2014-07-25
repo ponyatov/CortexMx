@@ -9,4 +9,4 @@ MEMORY
 }
 _stack_size = 1K; /* размер стека */
 
-INCLUDE generic.ld
+/* INCLUDE generic.ld */
