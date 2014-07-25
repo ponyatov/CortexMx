@@ -17,18 +17,20 @@ TARGET_CFG	= --disable-multilib --disable-interwork \
 	--with-cpu=$(TARGET_CPU) --with-tune=$(TARGET_CPU) --with-mode=thumb
 
 # версии пакетов
-BINUTILS_VER = 2.24
-GMP_VER = 5.1.3
-MPFR_VER = 3.1.2
-MPC_VER = 1.0.2
-GCC_VER = 4.9.1
+BINUTILS_VER	= 2.24
+GMP_VER			= 5.1.3
+MPFR_VER		= 3.1.2
+MPC_VER			= 1.0.2
+GCC_VER			= 4.9.1
+NEWLIB_VER		= 2.1.0
 
 # имена пакетов
-BINUTILS = binutils-$(BINUTILS_VER)
-GMP = gmp-$(GMP_VER)
-MPFR = mpfr-$(MPFR_VER)
-MPC = mpc-$(MPC_VER)
-GCC = gcc-$(GCC_VER)
+BINUTILS	= binutils-$(BINUTILS_VER)
+GMP			= gmp-$(GMP_VER)
+MPFR		= mpfr-$(MPFR_VER)
+MPC			= mpc-$(MPC_VER)
+GCC			= gcc-$(GCC_VER)
+NEWLIB		= newlib-$(NEWLIB_VER)
 
 # рабочие каталоги
 #	каталог для сборки и прочих временных файлов (рекомендуется в ramfs)
@@ -65,12 +67,15 @@ CFG_H_BINUTILS = --program-prefix=$(HOST)- --target=$(HOST) \
 CFG_T_BINUTILS = --program-prefix=$(TARGET)- --target=$(TARGET) \
 	$(TARGET_CFG)
 	
-CFG_B_GCC = $(CFG_B_BINUTILS) $(CFG_B_CCLIBS) --enable-languages="c"	
+CFG_B_GCC = $(CFG_B_BINUTILS) $(CFG_B_CCLIBS) --enable-languages="c" \
+	--disable-bootstrap
+CFG_H_GCC = $(CFG_H_BINUTILS) $(CFG_B_CCLIBS) --enable-languages="c" \
+	--disable-win32-registry	
 
 # команды
 WGET = wget -N -P $(GZ)
 
-NUMBER_OF_PROCESSORS ?= $(shell cat /proc/cpuinfo |grep processor|wc -l)
+NUMBER_OF_PROCESSORS ?= $(shell grep processor /proc/cpuinfo|wc -l)
 MAKE = make -j$(NUMBER_OF_PROCESSORS)
 INSTALL = make install-strip 
 
@@ -92,11 +97,13 @@ debianpackages:
 
 # закачка дистрибутивов пакетов в исходниках
 gz:
+	exit 1
 	$(WGET) http://ftp.gnu.org/gnu/binutils/$(BINUTILS).tar.bz2
 	$(WGET) ftp://ftp.gmplib.org/pub/gmp/$(GMP).tar.bz2
 	$(WGET) http://www.mpfr.org/mpfr-current/$(MPFR).tar.bz2
 	$(WGET) http://www.multiprecision.org/mpc/download/$(MPC).tar.gz
 	$(WGET) http://gcc.skazkaforyou.com/releases/$(GCC)/$(GCC).tar.bz2
+	$(WGET) ftp://sourceware.org/pub/newlib/$(NEWLIB).tar.gz
 
 # правила распаковки исходников
 $(SRC)/%/README: $(GZ)/%.tar.gz
