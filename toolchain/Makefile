@@ -21,10 +21,10 @@ BINUTILS_VER	= 2.24
 GMP_VER			= 5.1.3
 MPFR_VER		= 3.1.2
 MPC_VER			= 1.0.2
-PPL_VER			= 0.11
+#PPL_VER			= 0.11
 #CLOOG_VER		= 0.18.2
-CLOOG_VER		= 0.15.11
-ISL_VER			= 0.12.2
+#CLOOG_VER		= 0.15.11
+#ISL_VER			= 0.12.2
 GCC_VER			= 4.9.1
 NEWLIB_VER		= 2.1.0
 W32API_VER		= 4.0.3
@@ -34,10 +34,10 @@ BINUTILS	= binutils-$(BINUTILS_VER)
 GMP			= gmp-$(GMP_VER)
 MPFR		= mpfr-$(MPFR_VER)
 MPC			= mpc-$(MPC_VER)
-PPL			= ppl-$(PPL_VER)
+#PPL			= ppl-$(PPL_VER)
 #CLOOG		= cloog-$(CLOOG_VER)
-CLOOG		= cloog-ppl-$(CLOOG_VER)
-ISL			= isl-$(ISL_VER)
+#CLOOG		= cloog-ppl-$(CLOOG_VER)
+#ISL			= isl-$(ISL_VER)
 GCC			= gcc-$(GCC_VER)
 NEWLIB		= newlib-$(NEWLIB_VER)
 W32API		= w32api-$(W32API_VER)-1-mingw32-src
@@ -69,14 +69,15 @@ CFG_B = $(CFG) --prefix=$(B) \
 CFG_H = $(CFG) --prefix=$(H)
 CFG_T = $(CFG) --prefix=$(T)
 
-CFG_B_CCLIBS = --with-gmp=$(B) --with-mpfr=$(B) --with-mpc=$(B) \
-	--with-ppl=$(B) --with-cloog=$(B)
+CFG_B_CCLIBS = --with-gmp=$(B) --with-mpfr=$(B) --with-mpc=$(B)
+#	--with-ppl=$(B) --with-cloog=$(B) --with-isl=$(B)
 CFG_B_GMP = $(CFG_B_CCLIBS) --disable-shared --enable-cxx
 CFG_B_MPFR = $(CFG_B_CCLIBS) --disable-shared
 CFG_B_MPC = $(CFG_B_CCLIBS) --disable-shared
-CFG_B_PPL = $(CFG_B_CCLIBS) --disable-shared
-CFG_B_CLOOG = $(CFG_B_CCLIBS) --disable-shared 
+#CFG_B_PPL = $(CFG_B_CCLIBS) --disable-shared
+#CFG_B_CLOOG = $(CFG_B_CCLIBS) --disable-shared 
 #--with-gmp=build --with-gmp-prefix=$(B)
+#CFG_B_ISL = $(CFG_B_CCLIBS) --disable-shared --with-gmp=build --with-gmp-prefix=$(B)
 
 CFG_BINUTILS = --enable-lto
 #--enable-cloog-back-end=isl
@@ -115,21 +116,19 @@ debianpackages:
 
 # закачка дистрибутивов пакетов в исходниках
 gz:
-	$(WGET) ftp://gcc.gnu.org/pub/gcc/infrastructure/$(ISL).tar.bz2
-	exit 1
-	$(WGET) ftp://gcc.gnu.org/pub/gcc/infrastructure/$(PPL).tar.gz
-	exit 1
-	$(WGET) ftp://gcc.gnu.org/pub/gcc/infrastructure/$(CLOOG).tar.gz
-#	$(WGET) http://www.bastoul.net/cloog/pages/download/$(CLOOG).tar.gz
 	exit 1
 	$(WGET) http://ftp.gnu.org/gnu/binutils/$(BINUTILS).tar.bz2
 	$(WGET) ftp://ftp.gmplib.org/pub/gmp/$(GMP).tar.bz2
 	$(WGET) http://www.mpfr.org/mpfr-current/$(MPFR).tar.bz2
 	$(WGET) http://www.multiprecision.org/mpc/download/$(MPC).tar.gz
-#	$(WGET) http://bugseng.com/products/ppl/download/ftp/releases/$(PPL_VER)/$(PPL).tar.bz2
 	$(WGET) http://gcc.skazkaforyou.com/releases/$(GCC)/$(GCC).tar.bz2
 	$(WGET) ftp://sourceware.org/pub/newlib/$(NEWLIB).tar.gz
 	$(WGET) http://downloads.sourceforge.net/project/mingw/MinGW/Base/w32api/w32api-$(W32API_VER)/$(W32API).tar.lzma
+#	$(WGET) http://bugseng.com/products/ppl/download/ftp/releases/$(PPL_VER)/$(PPL).tar.bz2
+#	$(WGET) ftp://gcc.gnu.org/pub/gcc/infrastructure/$(CLOOG).tar.gz
+#	$(WGET) http://www.bastoul.net/cloog/pages/download/$(CLOOG).tar.gz
+#	$(WGET) ftp://gcc.gnu.org/pub/gcc/infrastructure/$(ISL).tar.bz2
+#	$(WGET) ftp://gcc.gnu.org/pub/gcc/infrastructure/$(PPL).tar.gz
 
 # правила распаковки исходников
 $(SRC)/%/README: $(GZ)/%.tar.gz
@@ -164,6 +163,10 @@ ppl_b: $(SRC)/$(PPL)/README
 cloog_b: $(SRC)/$(CLOOG)/README
 	rm -rf $(TMP)/$(CLOOG) && mkdir $(TMP)/$(CLOOG) && cd $(TMP)/$(CLOOG) &&\
 	$(SRC)/$(CLOOG)/$(CFG_B) $(CFG_B_CLOOG) 
+#	&& $(MAKE) && $(INSTALL)
+isl_b: $(SRC)/$(ISL)/README
+	rm -rf $(TMP)/$(ISL) && mkdir $(TMP)/$(ISL) && cd $(TMP)/$(ISL) &&\
+	$(SRC)/$(ISL)/$(CFG_B) $(CFG_B_ISL) 
 #	&& $(MAKE) && $(INSTALL)
 
 # $(BUILD)-toolchain
