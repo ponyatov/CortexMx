@@ -6,3 +6,4 @@ auto*.cache
 config.status
 build
 i?86-mingw32
+gz
