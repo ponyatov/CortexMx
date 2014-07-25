@@ -21,6 +21,8 @@ BINUTILS_VER	= 2.24
 GMP_VER			= 5.1.3
 MPFR_VER		= 3.1.2
 MPC_VER			= 1.0.2
+PPL_VER			= 1.1
+CLOOG_VER		= 0.18.1
 GCC_VER			= 4.9.1
 NEWLIB_VER		= 2.1.0
 W32API_VER		= 4.0.3
@@ -30,6 +32,8 @@ BINUTILS	= binutils-$(BINUTILS_VER)
 GMP			= gmp-$(GMP_VER)
 MPFR		= mpfr-$(MPFR_VER)
 MPC			= mpc-$(MPC_VER)
+PPL			= ppl-$(PPL_VER)
+CLOOG		= cloog-$(CLOOG_VER)
 GCC			= gcc-$(GCC_VER)
 NEWLIB		= newlib-$(NEWLIB_VER)
 W32API		= w32api-$(W32API_VER)-1-mingw32-src
@@ -49,18 +53,25 @@ DIRS = $(TMP) $(SRC) $(B) $(H) $(T)
 
 # параметры для configure
 
-CC_H = ccache gcc -pipe
-CFLAGS_H = -g -O2
+CC_B = ccache gcc -pipe
+CXX_B = ccache g++ -pipe
+CFLAGS_B = -Ofast -march=native -mtune=native
+CXXFLAGS_B = $(CFLAGS_B)
 
 CFG = configure --disable-nls
-CFG_B = $(CFG) CC="$(CC_H)" --prefix=$(B)
+CFG_B = $(CFG) --prefix=$(B) \
+	CC="$(CC_B)" CFLAGS="$(CFLAGS_B)" \
+	CXX="$(CXX_B)" CXXFLAGS="$(CXXFLAGS_B)"
 CFG_H = $(CFG) --prefix=$(H)
 CFG_T = $(CFG) --prefix=$(T)
 
-CFG_B_CCLIBS = --with-gmp=$(B) --with-mpfr=$(B) --with-mpc=$(B)
-CFG_B_GMP = $(CFG_B_CCLIBS) --disable-shared
+CFG_B_CCLIBS = --with-gmp=$(B) --with-mpfr=$(B) --with-mpc=$(B) \
+	--with-ppl=$(B) --with-cloog=$(B)
+CFG_B_GMP = $(CFG_B_CCLIBS) --disable-shared --enable-cxx
 CFG_B_MPFR = $(CFG_B_CCLIBS) --disable-shared
 CFG_B_MPC = $(CFG_B_CCLIBS) --disable-shared
+CFG_B_PPL = $(CFG_B_CCLIBS) --disable-shared
+CFG_B_CLOOG = $(CFG_B_CCLIBS) --disable-shared
 
 CFG_BINUTILS = --enable-lto
 CFG_B_BINUTILS = $(CFG_BINUTILS) --program-prefix=$(BUILD)- $(BUILD_CFG)
@@ -98,10 +109,13 @@ debianpackages:
 
 # закачка дистрибутивов пакетов в исходниках
 gz:
+	$(WGET) http://www.bastoul.net/cloog/pages/download/count.php3?url=./$(CLOOG).tar.gz -O $(GZ)/$(CLOOG).tar.gz
+	exit 1
 	$(WGET) http://ftp.gnu.org/gnu/binutils/$(BINUTILS).tar.bz2
 	$(WGET) ftp://ftp.gmplib.org/pub/gmp/$(GMP).tar.bz2
 	$(WGET) http://www.mpfr.org/mpfr-current/$(MPFR).tar.bz2
 	$(WGET) http://www.multiprecision.org/mpc/download/$(MPC).tar.gz
+	$(WGET) http://bugseng.com/products/ppl/download/ftp/releases/$(PPL_VER)/$(PPL).tar.bz2
 	$(WGET) http://gcc.skazkaforyou.com/releases/$(GCC)/$(GCC).tar.bz2
 	$(WGET) ftp://sourceware.org/pub/newlib/$(NEWLIB).tar.gz
 	$(WGET) http://downloads.sourceforge.net/project/mingw/MinGW/Base/w32api/w32api-$(W32API_VER)/$(W32API).tar.lzma
@@ -122,8 +136,8 @@ $(SRC)/$(W32API)/README: $(GZ)/$(W32API).tar.lzma
 # сборка бинарников для $BUILD
 
 # библиотеки поддержки для сборки gcc
-.PHONY: gmp_b mpfr_b mpc_b cclibs_b
-cclibs_b: gmp_b mpfr_b mpc_b
+.PHONY: gmp_b mpfr_b mpc_b ppl_b ppl_b cloog_b cclibs_b
+cclibs_b: gmp_b mpfr_b mpc_b ppl_b cloog_b
 gmp_b: $(SRC)/$(GMP)/README
 	rm -rf $(TMP)/$(GMP) && mkdir $(TMP)/$(GMP) && cd $(TMP)/$(GMP) &&\
 	$(SRC)/$(GMP)/$(CFG_B) $(CFG_B_GMP) && $(MAKE) && $(INSTALL)
@@ -133,6 +147,13 @@ mpfr_b: $(SRC)/$(MPFR)/README
 mpc_b: $(SRC)/$(MPC)/README
 	rm -rf $(TMP)/$(MPC) && mkdir $(TMP)/$(MPC) && cd $(TMP)/$(MPC) &&\
 	$(SRC)/$(MPC)/$(CFG_B) $(CFG_B_MPC) && $(MAKE) && $(INSTALL)
+ppl_b: $(SRC)/$(PPL)/README
+	rm -rf $(TMP)/$(PPL) && mkdir $(TMP)/$(PPL) && cd $(TMP)/$(PPL) &&\
+	$(SRC)/$(PPL)/$(CFG_B) $(CFG_B_PPL) && $(MAKE) && $(INSTALL)
+cloog_b: $(SRC)/$(CLOOG)/README
+	rm -rf $(TMP)/$(CLOOG) && mkdir $(TMP)/$(CLOOG) && cd $(TMP)/$(CLOOG) &&\
+	$(SRC)/$(CLOOG)/$(CFG_B) $(CFG_B_CLOOG) 
+#	&& $(MAKE) && $(INSTALL)
 
 # $(BUILD)-toolchain
 .PHONY: binutils_b gcc_b
