@@ -21,8 +21,10 @@ BINUTILS_VER	= 2.24
 GMP_VER			= 5.1.3
 MPFR_VER		= 3.1.2
 MPC_VER			= 1.0.2
-PPL_VER			= 1.1
-CLOOG_VER		= 0.18.1
+PPL_VER			= 0.11
+#CLOOG_VER		= 0.18.2
+CLOOG_VER		= 0.15.11
+ISL_VER			= 0.12.2
 GCC_VER			= 4.9.1
 NEWLIB_VER		= 2.1.0
 W32API_VER		= 4.0.3
@@ -33,7 +35,9 @@ GMP			= gmp-$(GMP_VER)
 MPFR		= mpfr-$(MPFR_VER)
 MPC			= mpc-$(MPC_VER)
 PPL			= ppl-$(PPL_VER)
-CLOOG		= cloog-$(CLOOG_VER)
+#CLOOG		= cloog-$(CLOOG_VER)
+CLOOG		= cloog-ppl-$(CLOOG_VER)
+ISL			= isl-$(ISL_VER)
 GCC			= gcc-$(GCC_VER)
 NEWLIB		= newlib-$(NEWLIB_VER)
 W32API		= w32api-$(W32API_VER)-1-mingw32-src
@@ -71,9 +75,11 @@ CFG_B_GMP = $(CFG_B_CCLIBS) --disable-shared --enable-cxx
 CFG_B_MPFR = $(CFG_B_CCLIBS) --disable-shared
 CFG_B_MPC = $(CFG_B_CCLIBS) --disable-shared
 CFG_B_PPL = $(CFG_B_CCLIBS) --disable-shared
-CFG_B_CLOOG = $(CFG_B_CCLIBS) --disable-shared
+CFG_B_CLOOG = $(CFG_B_CCLIBS) --disable-shared 
+#--with-gmp=build --with-gmp-prefix=$(B)
 
 CFG_BINUTILS = --enable-lto
+#--enable-cloog-back-end=isl
 CFG_B_BINUTILS = $(CFG_BINUTILS) --program-prefix=$(BUILD)- $(BUILD_CFG)
 CFG_H_BINUTILS = $(CFG_BINUTILS) --program-prefix=$(HOST)- --target=$(HOST) $(HOST_CFG)
 CFG_T_BINUTILS = $(CFG_BINUTILS) --program-prefix=$(TARGET)- --target=$(TARGET) $(TARGET_CFG)
@@ -109,13 +115,18 @@ debianpackages:
 
 # закачка дистрибутивов пакетов в исходниках
 gz:
-	$(WGET) http://www.bastoul.net/cloog/pages/download/count.php3?url=./$(CLOOG).tar.gz -O $(GZ)/$(CLOOG).tar.gz
+	$(WGET) ftp://gcc.gnu.org/pub/gcc/infrastructure/$(ISL).tar.bz2
+	exit 1
+	$(WGET) ftp://gcc.gnu.org/pub/gcc/infrastructure/$(PPL).tar.gz
+	exit 1
+	$(WGET) ftp://gcc.gnu.org/pub/gcc/infrastructure/$(CLOOG).tar.gz
+#	$(WGET) http://www.bastoul.net/cloog/pages/download/$(CLOOG).tar.gz
 	exit 1
 	$(WGET) http://ftp.gnu.org/gnu/binutils/$(BINUTILS).tar.bz2
 	$(WGET) ftp://ftp.gmplib.org/pub/gmp/$(GMP).tar.bz2
 	$(WGET) http://www.mpfr.org/mpfr-current/$(MPFR).tar.bz2
 	$(WGET) http://www.multiprecision.org/mpc/download/$(MPC).tar.gz
-	$(WGET) http://bugseng.com/products/ppl/download/ftp/releases/$(PPL_VER)/$(PPL).tar.bz2
+#	$(WGET) http://bugseng.com/products/ppl/download/ftp/releases/$(PPL_VER)/$(PPL).tar.bz2
 	$(WGET) http://gcc.skazkaforyou.com/releases/$(GCC)/$(GCC).tar.bz2
 	$(WGET) ftp://sourceware.org/pub/newlib/$(NEWLIB).tar.gz
 	$(WGET) http://downloads.sourceforge.net/project/mingw/MinGW/Base/w32api/w32api-$(W32API_VER)/$(W32API).tar.lzma
