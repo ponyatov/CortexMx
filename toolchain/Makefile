@@ -74,8 +74,8 @@ CFG_B_GCC = $(CFG_B_BINUTILS) $(CFG_B_CCLIBS) --enable-languages="c" \
 CFG_H_GCC = $(CFG_H_BINUTILS) $(CFG_B_CCLIBS) --enable-languages="c" \
 	--disable-win32-registry	
 CFG_T_GCC = $(CFG_T_BINUTILS) $(CFG_B_CCLIBS) --enable-languages="c" \
-	--disable-libssp --disable-libquadmath \
 	--without-headers --with-newlib
+#	--disable-libssp --disable-libquadmath \
 
 # команды
 WGET = wget --no-check-certificate -N -P $(GZ)
