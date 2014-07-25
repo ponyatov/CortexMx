@@ -18,19 +18,19 @@ TARGET_CFG	= --disable-multilib --disable-interwork \
 
 # версии пакетов
 BINUTILS_VER	= 2.24
-GMP_VER			= 5.1.3
-MPFR_VER		= 3.1.2
-MPC_VER			= 1.0.2
-GCC_VER			= 4.9.1
-NEWLIB_VER		= 2.1.0
-W32API_VER		= 4.0.3
+GMP_VER		= 5.1.3
+MPFR_VER	= 3.1.2
+MPC_VER		= 1.0.2
+GCC_VER		= 4.9.1
+NEWLIB_VER	= 2.1.0
+W32API_VER	= 4.0.3
 
 # имена пакетов
 BINUTILS	= binutils-$(BINUTILS_VER)
-GMP			= gmp-$(GMP_VER)
+GMP		= gmp-$(GMP_VER)
 MPFR		= mpfr-$(MPFR_VER)
-MPC			= mpc-$(MPC_VER)
-GCC			= gcc-$(GCC_VER)
+MPC		= mpc-$(MPC_VER)
+GCC		= gcc-$(GCC_VER)
 NEWLIB		= newlib-$(NEWLIB_VER)
 W32API		= w32api-$(W32API_VER)-1-mingw32-src
 
@@ -62,19 +62,15 @@ CFG_B_GMP = $(CFG_B_CCLIBS) --disable-shared
 CFG_B_MPFR = $(CFG_B_CCLIBS) --disable-shared
 CFG_B_MPC = $(CFG_B_CCLIBS) --disable-shared
 
-CFG_B_BINUTILS = --program-prefix=$(BUILD)- \
-	$(BUILD_CFG)
-CFG_H_BINUTILS = --program-prefix=$(HOST)- --target=$(HOST) \
-	$(HOST_CFG)
-CFG_T_BINUTILS = --program-prefix=$(TARGET)- --target=$(TARGET) \
-	$(TARGET_CFG)
-	
-CFG_B_GCC = $(CFG_B_BINUTILS) $(CFG_B_CCLIBS) --enable-languages="c" \
-	--disable-bootstrap
-CFG_H_GCC = $(CFG_H_BINUTILS) $(CFG_B_CCLIBS) --enable-languages="c" \
-	--disable-win32-registry	
-CFG_T_GCC = $(CFG_T_BINUTILS) $(CFG_B_CCLIBS) --enable-languages="c" \
-	--without-headers --with-newlib
+CFG_BINUTILS = --enable-lto
+CFG_B_BINUTILS = $(CFG_BINUTILS) --program-prefix=$(BUILD)- $(BUILD_CFG)
+CFG_H_BINUTILS = $(CFG_BINUTILS) --program-prefix=$(HOST)- --target=$(HOST) $(HOST_CFG)
+CFG_T_BINUTILS = $(CFG_BINUTILS) --program-prefix=$(TARGET)- --target=$(TARGET) $(TARGET_CFG)
+
+CFG_GCC = --enable-languages="c"	
+CFG_B_GCC = $(CFG_GCC) $(CFG_B_BINUTILS) $(CFG_B_CCLIBS) --disable-bootstrap
+CFG_H_GCC = $(CFG_GCC) $(CFG_H_BINUTILS) $(CFG_B_CCLIBS) --disable-win32-registry	
+CFG_T_GCC = $(CFG_GCC) $(CFG_T_BINUTILS) $(CFG_B_CCLIBS) --without-headers --with-newlib
 #	--disable-libssp --disable-libquadmath \
 
 # команды
@@ -94,7 +90,7 @@ dirs:
 	mkdir -p $(DIRS) $(GZ)
 # зачистка дерева каталогов
 distclean:
-	rm -rf $(DIRS) ; make dirs
+	make dirs ; rm -rf $(TMP)/* $(SRC)/* $(BUILD)/* $(HOST)/* $(TARGET)/*
 
 # установка пакетов нужных для сборки под Debian GNU/Linux
 debianpackages:
@@ -102,14 +98,13 @@ debianpackages:
 
 # закачка дистрибутивов пакетов в исходниках
 gz:
-	$(WGET) http://downloads.sourceforge.net/project/mingw/MinGW/Base/w32api/w32api-$(W32API_VER)/$(W32API).tar.lzma
-	exit 1
 	$(WGET) http://ftp.gnu.org/gnu/binutils/$(BINUTILS).tar.bz2
 	$(WGET) ftp://ftp.gmplib.org/pub/gmp/$(GMP).tar.bz2
 	$(WGET) http://www.mpfr.org/mpfr-current/$(MPFR).tar.bz2
 	$(WGET) http://www.multiprecision.org/mpc/download/$(MPC).tar.gz
 	$(WGET) http://gcc.skazkaforyou.com/releases/$(GCC)/$(GCC).tar.bz2
 	$(WGET) ftp://sourceware.org/pub/newlib/$(NEWLIB).tar.gz
+	$(WGET) http://downloads.sourceforge.net/project/mingw/MinGW/Base/w32api/w32api-$(W32API_VER)/$(W32API).tar.lzma
 
 # правила распаковки исходников
 $(SRC)/%/README: $(GZ)/%.tar.gz
