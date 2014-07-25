@@ -162,3 +162,4 @@ gcc_b: $(SRC)/$(GCC)/README
 	$(SRC)/$(GCC)/$(CFG_B) $(CFG_B_GCC) && $(MAKE) && $(INSTALL)
 
 w32api: $(SRC)/$(W32API)/README
+	cp -r $(SRC)/$(W32API)/include $(H)/
