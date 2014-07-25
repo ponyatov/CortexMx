@@ -18,19 +18,19 @@ TARGET_CFG	= --disable-multilib --disable-interwork \
 
 # версии пакетов
 BINUTILS_VER	= 2.24
-GMP_VER		= 5.1.3
-MPFR_VER	= 3.1.2
-MPC_VER		= 1.0.2
-GCC_VER		= 4.9.1
-NEWLIB_VER	= 2.1.0
-W32API_VER	= 4.0.3
+GMP_VER			= 5.1.3
+MPFR_VER		= 3.1.2
+MPC_VER			= 1.0.2
+GCC_VER			= 4.9.1
+NEWLIB_VER		= 2.1.0
+W32API_VER		= 4.0.3
 
 # имена пакетов
 BINUTILS	= binutils-$(BINUTILS_VER)
-GMP		= gmp-$(GMP_VER)
+GMP			= gmp-$(GMP_VER)
 MPFR		= mpfr-$(MPFR_VER)
-MPC		= mpc-$(MPC_VER)
-GCC		= gcc-$(GCC_VER)
+MPC			= mpc-$(MPC_VER)
+GCC			= gcc-$(GCC_VER)
 NEWLIB		= newlib-$(NEWLIB_VER)
 W32API		= w32api-$(W32API_VER)-1-mingw32-src
 
