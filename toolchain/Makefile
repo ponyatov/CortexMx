@@ -21,10 +21,10 @@ BINUTILS_VER	= 2.24
 GMP_VER			= 5.1.3
 MPFR_VER		= 3.1.2
 MPC_VER			= 1.0.2
-#PPL_VER			= 0.11
+#PPL_VER		= 0.11
 #CLOOG_VER		= 0.18.2
 #CLOOG_VER		= 0.15.11
-#ISL_VER			= 0.12.2
+#ISL_VER		= 0.12.2
 GCC_VER			= 4.9.1
 NEWLIB_VER		= 2.1.0
 W32API_VER		= 4.0.3
@@ -34,10 +34,10 @@ BINUTILS	= binutils-$(BINUTILS_VER)
 GMP			= gmp-$(GMP_VER)
 MPFR		= mpfr-$(MPFR_VER)
 MPC			= mpc-$(MPC_VER)
-#PPL			= ppl-$(PPL_VER)
+#PPL		= ppl-$(PPL_VER)
 #CLOOG		= cloog-$(CLOOG_VER)
 #CLOOG		= cloog-ppl-$(CLOOG_VER)
-#ISL			= isl-$(ISL_VER)
+#ISL		= isl-$(ISL_VER)
 GCC			= gcc-$(GCC_VER)
 NEWLIB		= newlib-$(NEWLIB_VER)
 W32API		= w32api-$(W32API_VER)-1-mingw32-src
@@ -146,8 +146,8 @@ $(SRC)/$(W32API)/README: $(GZ)/$(W32API).tar.lzma
 # сборка бинарников для $BUILD
 
 # библиотеки поддержки для сборки gcc
-.PHONY: gmp_b mpfr_b mpc_b ppl_b ppl_b cloog_b cclibs_b
-cclibs_b: gmp_b mpfr_b mpc_b ppl_b cloog_b
+.PHONY: gmp_b mpfr_b mpc_b cclibs_b
+cclibs_b: gmp_b mpfr_b mpc_b
 gmp_b: $(SRC)/$(GMP)/README
 	rm -rf $(TMP)/$(GMP) && mkdir $(TMP)/$(GMP) && cd $(TMP)/$(GMP) &&\
 	$(SRC)/$(GMP)/$(CFG_B) $(CFG_B_GMP) && $(MAKE) && $(INSTALL)
@@ -157,16 +157,16 @@ mpfr_b: $(SRC)/$(MPFR)/README
 mpc_b: $(SRC)/$(MPC)/README
 	rm -rf $(TMP)/$(MPC) && mkdir $(TMP)/$(MPC) && cd $(TMP)/$(MPC) &&\
 	$(SRC)/$(MPC)/$(CFG_B) $(CFG_B_MPC) && $(MAKE) && $(INSTALL)
-ppl_b: $(SRC)/$(PPL)/README
-	rm -rf $(TMP)/$(PPL) && mkdir $(TMP)/$(PPL) && cd $(TMP)/$(PPL) &&\
-	$(SRC)/$(PPL)/$(CFG_B) $(CFG_B_PPL) && $(MAKE) && $(INSTALL)
-cloog_b: $(SRC)/$(CLOOG)/README
-	rm -rf $(TMP)/$(CLOOG) && mkdir $(TMP)/$(CLOOG) && cd $(TMP)/$(CLOOG) &&\
-	$(SRC)/$(CLOOG)/$(CFG_B) $(CFG_B_CLOOG) 
+#ppl_b: $(SRC)/$(PPL)/README
+#	rm -rf $(TMP)/$(PPL) && mkdir $(TMP)/$(PPL) && cd $(TMP)/$(PPL) &&\
+#	$(SRC)/$(PPL)/$(CFG_B) $(CFG_B_PPL) && $(MAKE) && $(INSTALL)
+#cloog_b: $(SRC)/$(CLOOG)/README
+#	rm -rf $(TMP)/$(CLOOG) && mkdir $(TMP)/$(CLOOG) && cd $(TMP)/$(CLOOG) &&\
+#	$(SRC)/$(CLOOG)/$(CFG_B) $(CFG_B_CLOOG) 
 #	&& $(MAKE) && $(INSTALL)
-isl_b: $(SRC)/$(ISL)/README
-	rm -rf $(TMP)/$(ISL) && mkdir $(TMP)/$(ISL) && cd $(TMP)/$(ISL) &&\
-	$(SRC)/$(ISL)/$(CFG_B) $(CFG_B_ISL) 
+#isl_b: $(SRC)/$(ISL)/README
+#	rm -rf $(TMP)/$(ISL) && mkdir $(TMP)/$(ISL) && cd $(TMP)/$(ISL) &&\
+#	$(SRC)/$(ISL)/$(CFG_B) $(CFG_B_ISL) 
 #	&& $(MAKE) && $(INSTALL)
 
 # $(BUILD)-toolchain
