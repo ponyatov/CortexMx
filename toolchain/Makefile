@@ -75,6 +75,8 @@ CFG_H_GCC = $(CFG_H_BINUTILS) $(CFG_B_CCLIBS) $(CFG_GCC) --disable-win32-registr
 CFG_T_GCC = $(CFG_T_BINUTILS) $(CFG_B_CCLIBS) $(CFG_GCC) --without-headers --with-newlib
 #	--disable-libssp --disable-libquadmath
 
+CFG_H_W32API = --host=$(HOST)
+
 # команды
 WGET = wget --no-check-certificate -N -P $(GZ)
 
@@ -159,13 +161,18 @@ gcc_bb: $(SRC)/$(GCC)/README
 	# >B
 	rm -rf $(TMP)/$(GCC) && mkdir $(TMP)/$(GCC) && cd $(TMP)/$(GCC) &&\
 	$(SRC)/$(GCC)/$(CFG_B) $(CFG_B_GCC) && $(MAKE) && $(INSTALL)
+gcc_bh: $(SRC)/$(GCC)/README
+	# >H
+	rm -rf $(TMP)/$(GCC) && mkdir $(TMP)/$(GCC) && cd $(TMP)/$(GCC) &&\
+	$(SRC)/$(GCC)/$(CFG_B) $(CFG_H_GCC) && $(MAKE) && $(INSTALL)
 gcc_bt: $(SRC)/$(GCC)/README
 	# >T
 	rm -rf $(TMP)/$(GCC) && mkdir $(TMP)/$(GCC) && cd $(TMP)/$(GCC) &&\
 	$(SRC)/$(GCC)/$(CFG_B) $(CFG_T_GCC) && $(MAKE) && $(INSTALL)
 
 w32api: $(SRC)/$(W32API)/README
-	cp -r $(SRC)/$(W32API)/include $(H)/
+	rm -rf $(TMP)/$(W32API) && mkdir $(TMP)/$(W32API) && cd $(TMP)/$(W32API) &&\
+	$(SRC)/$(W32API)/$(CFG_H) $(CFG_H_W32API) && make 
 
 armkit: $(TARGET)/generic.ld \
 	$(TARGET)/STM32F100RB.ld $(TARGET)/LM3S811.ld \
