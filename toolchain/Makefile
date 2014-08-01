@@ -126,7 +126,8 @@ $(SRC)/$(W32API)/README: $(GZ)/$(W32API).tar.lzma
 # сборка бинарников для $BUILD
 
 # библиотеки поддержки для сборки gcc
-.PHONY: cclibs_b gmp_b mpfr_b mpc_b
+.PHONY: cclibs_src cclibs_b gmp_b mpfr_b mpc_b
+cclibs_src: $(SRC)/$(GMP)/README $(SRC)/$(MPFR)/README $(SRC)/$(MPC)/README
 cclibs_b: gmp_b mpfr_b mpc_b
 gmp_b: $(SRC)/$(GMP)/README
 	rm -rf $(TMP)/$(GMP) && mkdir $(TMP)/$(GMP) && cd $(TMP)/$(GMP) &&\
@@ -139,7 +140,8 @@ mpc_b: $(SRC)/$(MPC)/README
 	$(SRC)/$(MPC)/$(CFG_B) $(CFG_B_MPC) && $(MAKE) && $(INSTALL)
 
 # $(BUILD)-toolchain
-.PHONY: binutils_b binutils_bb binutils_bh binutils_bt
+.PHONY: binutils_src binutils_b binutils_bb binutils_bh binutils_bt
+binutils_src: $(SRC)/$(BINUTILS)/README
 binutils_b: binutils_bb binutils_bh binutils_bt
 binutils_bb: $(SRC)/$(BINUTILS)/README
 	# >B
@@ -154,7 +156,8 @@ binutils_bt: $(SRC)/$(BINUTILS)/README
 	rm -rf $(TMP)/$(BINUTILS) && mkdir $(TMP)/$(BINUTILS) && cd $(TMP)/$(BINUTILS) &&\
 	$(SRC)/$(BINUTILS)/$(CFG_B) $(CFG_T_BINUTILS) && $(MAKE) && $(INSTALL)
 
-.PHONY: gcc_b gcc_bb gcc_bh cc_bt
+.PHONY: gcc_src gcc_b gcc_bb gcc_bh cc_bt
+gcc_src: $(SRC)/$(GCC)/README
 gcc_b: gcc_bb gcc_bh cc_bt
 gcc_bb: $(SRC)/$(GCC)/README
 	# >B
