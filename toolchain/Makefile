@@ -45,7 +45,8 @@ GZ = $(PWD)/gz
 B = $(PWD)/$(BUILD)
 H = $(PWD)/$(HOST)
 T = $(PWD)/$(TARGET)
-DIRS = $(TMP) $(SRC) $(B) $(H) $(T)
+DIRS = $(TMP) $(B) $(H) $(T)
+RAMBUILD = $(TMP)
 
 # параметры для configure
 
@@ -90,10 +91,10 @@ all:
 
 # создание дерева каталогов
 dirs:
-	mkdir -p $(DIRS) $(GZ)
+	mkdir -p $(DIRS) $(GZ) $(SRC) 
 # зачистка дерева каталогов
 distclean:
-	make dirs ; rm -rf $(TMP)/* $(SRC)/* $(BUILD)/* $(HOST)/* $(TARGET)/*
+	make dirs ; rm -rf $(TMP)/* $(BUILD)/* $(HOST)/* $(TARGET)/*
 
 # установка пакетов нужных для сборки под Debian GNU/Linux
 debianpackages:
@@ -122,6 +123,9 @@ $(SRC)/$(W32API)/README: $(GZ)/$(W32API).tar.lzma
 	cd $(SRC) && lzcat $< | tar x && \
 	mv $(SRC)/w32api-$(W32API_VER)-1.mingw32-src $(SRC)/$(W32API) &&\
 	touch $@	
+	
+.PHONY: src
+src: cclibs_src gcc_src binutils_src
 
 # сборка бинарников для $BUILD
 
@@ -131,13 +135,16 @@ cclibs_src: $(SRC)/$(GMP)/README $(SRC)/$(MPFR)/README $(SRC)/$(MPC)/README
 cclibs_b: gmp_b mpfr_b mpc_b
 gmp_b: $(SRC)/$(GMP)/README
 	rm -rf $(TMP)/$(GMP) && mkdir $(TMP)/$(GMP) && cd $(TMP)/$(GMP) &&\
-	$(SRC)/$(GMP)/$(CFG_B) $(CFG_B_GMP) && $(MAKE) && $(INSTALL)
+	$(SRC)/$(GMP)/$(CFG_B) $(CFG_B_GMP) && $(MAKE) && $(INSTALL) &&\
+	rm -rf $(RAMBUILD)/$(GMP)
 mpfr_b: $(SRC)/$(MPFR)/README
 	rm -rf $(TMP)/$(MPFR) && mkdir $(TMP)/$(MPFR) && cd $(TMP)/$(MPFR) &&\
-	$(SRC)/$(MPFR)/$(CFG_B) $(CFG_B_MPFR) && $(MAKE) && $(INSTALL)
+	$(SRC)/$(MPFR)/$(CFG_B) $(CFG_B_MPFR) && $(MAKE) && $(INSTALL) &&\
+	rm -rf $(RAMBUILD)/$(MPFR)
 mpc_b: $(SRC)/$(MPC)/README
 	rm -rf $(TMP)/$(MPC) && mkdir $(TMP)/$(MPC) && cd $(TMP)/$(MPC) &&\
-	$(SRC)/$(MPC)/$(CFG_B) $(CFG_B_MPC) && $(MAKE) && $(INSTALL)
+	$(SRC)/$(MPC)/$(CFG_B) $(CFG_B_MPC) && $(MAKE) && $(INSTALL) &&\
+	rm -rf $(RAMBUILD)/$(MPC)
 
 # $(BUILD)-toolchain
 .PHONY: binutils_src binutils_b binutils_bb binutils_bh binutils_bt
@@ -162,15 +169,18 @@ gcc_b: gcc_bb gcc_bh cc_bt
 gcc_bb: $(SRC)/$(GCC)/README
 	# >B
 	rm -rf $(TMP)/$(GCC) && mkdir $(TMP)/$(GCC) && cd $(TMP)/$(GCC) &&\
-	$(SRC)/$(GCC)/$(CFG_B) $(CFG_B_GCC) && $(MAKE) && $(INSTALL)
+	$(SRC)/$(GCC)/$(CFG_B) $(CFG_B_GCC) && $(MAKE) && $(INSTALL) &&\
+	rm -rf $(RAMBUILD)/$(GCC)
 gcc_bh: $(SRC)/$(GCC)/README
 	# >H
 	rm -rf $(TMP)/$(GCC) && mkdir $(TMP)/$(GCC) && cd $(TMP)/$(GCC) &&\
-	$(SRC)/$(GCC)/$(CFG_B) $(CFG_H_GCC) && $(MAKE) && $(INSTALL)
+	$(SRC)/$(GCC)/$(CFG_B) $(CFG_H_GCC) && $(MAKE) && $(INSTALL) &&\
+	rm -rf $(RAMBUILD)/$(GCC)
 gcc_bt: $(SRC)/$(GCC)/README
 	# >T
 	rm -rf $(TMP)/$(GCC) && mkdir $(TMP)/$(GCC) && cd $(TMP)/$(GCC) &&\
-	$(SRC)/$(GCC)/$(CFG_B) $(CFG_T_GCC) && $(MAKE) && $(INSTALL)
+	$(SRC)/$(GCC)/$(CFG_B) $(CFG_T_GCC) && $(MAKE) && $(INSTALL) &&\
+	rm -rf $(RAMBUILD)/$(GCC)
 
 w32api: $(SRC)/$(W32API)/README
 	rm -rf $(TMP)/$(W32API) && mkdir $(TMP)/$(W32API) && cd $(TMP)/$(W32API) &&\
@@ -181,3 +191,4 @@ armkit: $(TARGET)/generic.ld \
 	$(TARGET)/startup.c $(TARGET)/vectors.h
 $(TARGET)/%: ../hello/%
 	iconv -f cp1251 -t utf8 $< > $@
+
