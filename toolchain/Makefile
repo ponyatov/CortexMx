@@ -49,10 +49,9 @@ DIRS = $(TMP) $(SRC) $(B) $(H) $(T)
 
 # параметры для configure
 
-CC_B = ccache gcc -pipe
-CXX_B = ccache g++ -pipe
-CFLAGS_B = -Ofast -march=native -mtune=native
-CXXFLAGS_B = $(CFLAGS_B)
+CCACHE = ccache
+CC_B = $(CCACHE) gcc -pipe
+CXX_B = $(CCACHE) g++ -pipe
 
 CFG = configure --disable-nls
 CFG_B  = $(CFG) --prefix=$(B) CC="$(CC_B)" CXX="$(CXX_B)"
@@ -176,6 +175,6 @@ w32api: $(SRC)/$(W32API)/README
 
 armkit: $(TARGET)/generic.ld \
 	$(TARGET)/STM32F100RB.ld $(TARGET)/LM3S811.ld \
-	$(TARGET)/startup.c
+	$(TARGET)/startup.c $(TARGET)/vectors.h
 $(TARGET)/%: ../hello/%
 	iconv -f cp1251 -t utf8 $< > $@
