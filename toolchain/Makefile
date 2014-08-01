@@ -47,20 +47,24 @@ H = $(PWD)/$(HOST)
 T = $(PWD)/$(TARGET)
 DIRS = $(TMP) $(B) $(H) $(T)
 RAMBUILD = $(TMP)
+PATH := $(B)/bin:$(PATH)
 
 # параметры для configure
 
 CCACHE = ccache
-CC_B = $(CCACHE) gcc -pipe
-CXX_B = $(CCACHE) g++ -pipe
+CC_B0 = $(CCACHE) gcc -pipe
+CXX_B0 = $(CCACHE) g++ -pipe
+CC_B = $(CCACHE) $(BUILD)-gcc -pipe
+CXX_B = $(CCACHE) $(BUILD)-g++ -pipe
 
 CFG = configure --disable-nls
+CFG_B0 = $(CFG) --prefix=$(B) CC="$(CC_B0)" CXX="$(CXX_B0)"
 CFG_B  = $(CFG) --prefix=$(B) CC="$(CC_B)" CXX="$(CXX_B)"
 CFG_H  = $(CFG) --prefix=$(H)
 CFG_T  = $(CFG) --prefix=$(T)
 
 CFG_B_CCLIBS = --with-gmp=$(B) --with-mpfr=$(B) --with-mpc=$(B)
-CFG_B_GMP = $(CFG_B_CCLIBS) --disable-shared --enable-cxx
+CFG_B_GMP = $(CFG_B_CCLIBS) --disable-shared --enable-cxx CFLAGS="-g0 -Ofast -march=native -mtune=native"
 CFG_B_MPFR = $(CFG_B_CCLIBS) --disable-shared
 CFG_B_MPC = $(CFG_B_CCLIBS) --disable-shared
 
@@ -133,10 +137,15 @@ src: cclibs_src gcc_src binutils_src
 .PHONY: cclibs_src cclibs_b gmp_b mpfr_b mpc_b
 cclibs_src: $(SRC)/$(GMP)/README $(SRC)/$(MPFR)/README $(SRC)/$(MPC)/README
 cclibs_b: gmp_b mpfr_b mpc_b
+gmp_b0: $(SRC)/$(GMP)/README
+	rm -rf $(TMP)/$(GMP) && mkdir $(TMP)/$(GMP) && cd $(TMP)/$(GMP) &&\
+	$(SRC)/$(GMP)/$(CFG_B0) $(CFG_B_GMP) && $(MAKE) && $(INSTALL) &&\
+	rm -rf $(RAMBUILD)/$(GMP)
 gmp_b: $(SRC)/$(GMP)/README
 	rm -rf $(TMP)/$(GMP) && mkdir $(TMP)/$(GMP) && cd $(TMP)/$(GMP) &&\
-	$(SRC)/$(GMP)/$(CFG_B) $(CFG_B_GMP) && $(MAKE) && $(INSTALL) &&\
-	rm -rf $(RAMBUILD)/$(GMP)
+	$(SRC)/$(GMP)/$(CFG_B) $(CFG_B_GMP) && $(MAKE) && make check
+#	$(INSTALL) &&\
+#	rm -rf $(RAMBUILD)/$(GMP)
 mpfr_b: $(SRC)/$(MPFR)/README
 	rm -rf $(TMP)/$(MPFR) && mkdir $(TMP)/$(MPFR) && cd $(TMP)/$(MPFR) &&\
 	$(SRC)/$(MPFR)/$(CFG_B) $(CFG_B_MPFR) && $(MAKE) && $(INSTALL) &&\
@@ -163,9 +172,14 @@ binutils_bt: $(SRC)/$(BINUTILS)/README
 	rm -rf $(TMP)/$(BINUTILS) && mkdir $(TMP)/$(BINUTILS) && cd $(TMP)/$(BINUTILS) &&\
 	$(SRC)/$(BINUTILS)/$(CFG_B) $(CFG_T_BINUTILS) && $(MAKE) && $(INSTALL)
 
-.PHONY: gcc_src gcc_b gcc_bb gcc_bh cc_bt
+.PHONY: gcc_src gcc_b gcc_b0 gcc_bb gcc_bh cc_bt
 gcc_src: $(SRC)/$(GCC)/README
 gcc_b: gcc_bb gcc_bh cc_bt
+gcc_b0: $(SRC)/$(GCC)/README
+	# >B0
+	rm -rf $(TMP)/$(GCC) && mkdir $(TMP)/$(GCC) && cd $(TMP)/$(GCC) &&\
+	$(SRC)/$(GCC)/$(CFG_B0) $(CFG_B_GCC) && $(MAKE) && $(INSTALL) &&\
+	rm -rf $(RAMBUILD)/$(GCC)
 gcc_bb: $(SRC)/$(GCC)/README
 	# >B
 	rm -rf $(TMP)/$(GCC) && mkdir $(TMP)/$(GCC) && cd $(TMP)/$(GCC) &&\
