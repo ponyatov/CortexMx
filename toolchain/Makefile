@@ -57,14 +57,18 @@ CXX_B0 = $(CCACHE) g++ -pipe
 CC_B = $(CCACHE) $(BUILD)-gcc -pipe
 CXX_B = $(CCACHE) $(BUILD)-g++ -pipe
 
+CFLAGS_B= -g0 -Ofast -march=native -mtune=native
+
 CFG = configure --disable-nls
-CFG_B0 = $(CFG) --prefix=$(B) CC="$(CC_B0)" CXX="$(CXX_B0)"
-CFG_B  = $(CFG) --prefix=$(B) CC="$(CC_B)" CXX="$(CXX_B)"
+CFG_B0 = $(CFG) --prefix=$(B) CC="$(CC_B0)" CXX="$(CXX_B0)" \
+	CFLAGS="$(CFLAGS_B)"
+CFG_B  = $(CFG) --prefix=$(B) CC="$(CC_B)" CXX="$(CXX_B)" \
+	CFLAGS="$(CFLAGS_B)"
 CFG_H  = $(CFG) --prefix=$(H)
 CFG_T  = $(CFG) --prefix=$(T)
 
 CFG_B_CCLIBS = --with-gmp=$(B) --with-mpfr=$(B) --with-mpc=$(B)
-CFG_B_GMP = $(CFG_B_CCLIBS) --disable-shared --enable-cxx CFLAGS="-g0 -Ofast -march=native -mtune=native"
+CFG_B_GMP = $(CFG_B_CCLIBS) --disable-shared --enable-cxx 
 CFG_B_MPFR = $(CFG_B_CCLIBS) --disable-shared
 CFG_B_MPC = $(CFG_B_CCLIBS) --disable-shared
 
@@ -134,8 +138,11 @@ src: cclibs_src gcc_src binutils_src
 # сборка бинарников для $BUILD
 
 # библиотеки поддержки для сборки gcc
-.PHONY: cclibs_src cclibs_b gmp_b mpfr_b mpc_b
+.PHONY: cclibs_src
 cclibs_src: $(SRC)/$(GMP)/README $(SRC)/$(MPFR)/README $(SRC)/$(MPC)/README
+.PHONY: cclibs_b0 gmp_b0 mpfr_b0 mpc_b0
+cclibs_b0: gmp_b0 mpfr_b0 mpc_b0
+.PHONY: cclibs_b gmp_b mpfr_b mpc_b
 cclibs_b: gmp_b mpfr_b mpc_b
 gmp_b0: $(SRC)/$(GMP)/README
 	rm -rf $(TMP)/$(GMP) && mkdir $(TMP)/$(GMP) && cd $(TMP)/$(GMP) &&\
@@ -143,13 +150,20 @@ gmp_b0: $(SRC)/$(GMP)/README
 	rm -rf $(RAMBUILD)/$(GMP)
 gmp_b: $(SRC)/$(GMP)/README
 	rm -rf $(TMP)/$(GMP) && mkdir $(TMP)/$(GMP) && cd $(TMP)/$(GMP) &&\
-	$(SRC)/$(GMP)/$(CFG_B) $(CFG_B_GMP) && $(MAKE) && make check
-#	$(INSTALL) &&\
-#	rm -rf $(RAMBUILD)/$(GMP)
+	$(SRC)/$(GMP)/$(CFG_B) $(CFG_B_GMP) && $(MAKE) && $(INSTALL) &&\
+	rm -rf $(RAMBUILD)/$(GMP)
+mpfr_b0: $(SRC)/$(MPFR)/README
+	rm -rf $(TMP)/$(MPFR) && mkdir $(TMP)/$(MPFR) && cd $(TMP)/$(MPFR) &&\
+	$(SRC)/$(MPFR)/$(CFG_B0) $(CFG_B_MPFR) && $(MAKE) && $(INSTALL) &&\
+	rm -rf $(RAMBUILD)/$(MPFR)
 mpfr_b: $(SRC)/$(MPFR)/README
 	rm -rf $(TMP)/$(MPFR) && mkdir $(TMP)/$(MPFR) && cd $(TMP)/$(MPFR) &&\
 	$(SRC)/$(MPFR)/$(CFG_B) $(CFG_B_MPFR) && $(MAKE) && $(INSTALL) &&\
 	rm -rf $(RAMBUILD)/$(MPFR)
+mpc_b0: $(SRC)/$(MPC)/README
+	rm -rf $(TMP)/$(MPC) && mkdir $(TMP)/$(MPC) && cd $(TMP)/$(MPC) &&\
+	$(SRC)/$(MPC)/$(CFG_B0) $(CFG_B_MPC) && $(MAKE) && $(INSTALL) &&\
+	rm -rf $(RAMBUILD)/$(MPC)
 mpc_b: $(SRC)/$(MPC)/README
 	rm -rf $(TMP)/$(MPC) && mkdir $(TMP)/$(MPC) && cd $(TMP)/$(MPC) &&\
 	$(SRC)/$(MPC)/$(CFG_B) $(CFG_B_MPC) && $(MAKE) && $(INSTALL) &&\
