@@ -72,7 +72,7 @@ CFG_B_GMP = $(CFG_B_CCLIBS) --disable-shared --enable-cxx
 CFG_B_MPFR = $(CFG_B_CCLIBS) --disable-shared
 CFG_B_MPC = $(CFG_B_CCLIBS) --disable-shared
 
-CFG_BINUTILS = --enable-lto
+CFG_BINUTILS = --enable-lto --disable-werror 
 CFG_B_BINUTILS = $(CFG_BINUTILS) --program-prefix=$(BUILD)- $(BUILD_CFG)
 CFG_H_BINUTILS = $(CFG_BINUTILS) --program-prefix=$(HOST)- --target=$(HOST) $(HOST_CFG)
 CFG_T_BINUTILS = $(CFG_BINUTILS) --program-prefix=$(TARGET)- --target=$(TARGET) $(TARGET_CFG)
@@ -95,7 +95,7 @@ INSTALL = make install-strip
 .PHONY: debianpackages all dirs distclean gz
 
 # главная цель
-all:
+all: distclean gz cclibs_b0 gcc_b0 cclibs_b binutils_bb
 
 # создание дерева каталогов
 dirs:
@@ -110,7 +110,6 @@ debianpackages:
 
 # закачка дистрибутивов пакетов в исходниках
 gz:
-	exit 1
 	$(WGET) http://ftp.gnu.org/gnu/binutils/$(BINUTILS).tar.bz2
 	$(WGET) ftp://ftp.gmplib.org/pub/gmp/$(GMP).tar.bz2
 	$(WGET) http://www.mpfr.org/mpfr-current/$(MPFR).tar.bz2
@@ -176,15 +175,18 @@ binutils_b: binutils_bb binutils_bh binutils_bt
 binutils_bb: $(SRC)/$(BINUTILS)/README
 	# >B
 	rm -rf $(TMP)/$(BINUTILS) && mkdir $(TMP)/$(BINUTILS) && cd $(TMP)/$(BINUTILS) &&\
-	$(SRC)/$(BINUTILS)/$(CFG_B) $(CFG_B_BINUTILS) && $(MAKE) && $(INSTALL)
+	$(SRC)/$(BINUTILS)/$(CFG_B) $(CFG_B_BINUTILS) && $(MAKE) && $(INSTALL) &&\
+	rm -rf $(RAMBUILD)/$(BINUTILS)
 binutils_bh: $(SRC)/$(BINUTILS)/README
 	# >H
 	rm -rf $(TMP)/$(BINUTILS) && mkdir $(TMP)/$(BINUTILS) && cd $(TMP)/$(BINUTILS) &&\
-	$(SRC)/$(BINUTILS)/$(CFG_B) $(CFG_H_BINUTILS) && $(MAKE) && $(INSTALL)
+	$(SRC)/$(BINUTILS)/$(CFG_B) $(CFG_H_BINUTILS) && $(MAKE) && $(INSTALL) &&\
+	rm -rf $(RAMBUILD)/$(BINUTILS)
 binutils_bt: $(SRC)/$(BINUTILS)/README
 	# >T
 	rm -rf $(TMP)/$(BINUTILS) && mkdir $(TMP)/$(BINUTILS) && cd $(TMP)/$(BINUTILS) &&\
-	$(SRC)/$(BINUTILS)/$(CFG_B) $(CFG_T_BINUTILS) && $(MAKE) && $(INSTALL)
+	$(SRC)/$(BINUTILS)/$(CFG_B) $(CFG_T_BINUTILS) && $(MAKE) && $(INSTALL) &&\
+	rm -rf $(RAMBUILD)/$(BINUTILS)
 
 .PHONY: gcc_src gcc_b gcc_b0 gcc_bb gcc_bh cc_bt
 gcc_src: $(SRC)/$(GCC)/README
