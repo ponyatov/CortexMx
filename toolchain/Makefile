@@ -95,7 +95,7 @@ INSTALL = make install-strip
 .PHONY: debianpackages all dirs distclean gz
 
 # главная цель
-all: distclean gz cclibs_b0 gcc_b0 cclibs_b binutils_bb
+all: distclean gz cclibs_b0 gcc_b0 cclibs_b binutils_b
 
 # создание дерева каталогов
 dirs:
