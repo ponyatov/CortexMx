@@ -11,3 +11,5 @@
 *.ilg
 tmp/*
 Thumbs.db
+part.synctex.gz\(busy\)
+
