@@ -1,4 +1,4 @@
-\documentclass[oneside,14pt]{book}
+\documentclass[oneside,12pt]{book}
 
 \usepackage[T1,T2A]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -22,7 +22,7 @@ pdfkeywords={ARM} {Cortex} {MCU} {ARMatura} {Arduino} {SSAU}
 ]{hyperref}
 
 \usepackage{wrapfig}
-\usepackage{graphicx}
+\usepackage[pdftex]{graphicx}
 \usepackage{epstopdf}
 \DeclareGraphicsExtensions{.eps}
 
@@ -139,3 +139,48 @@ inputencoding=cp1251
 
 \usepackage{tcolorbox}
 \newcommand{\ru}[1]{{\color{blue}#1}}
+
+% ifthen package used for extra hints later
+\usepackage{ifthen}
+
+% multilanguage using hint described at
+% http://tex.stackexchange.com/questions/5076/is-it-possible-to-keep-my-translation-together-with-original-text
+\newcommand{\setdoclang}[2]
+{
+    \def\doclangshort{#1}
+    \def\doclang{#2}
+}
+\setdoclang{en}{english} % default lang
+\newcommand{\langif}[3]
+{
+    \ifthenelse{\equal{#1}{\doclang} \or \equal{#1}{\doclangshort}}
+        {#2}
+        {#3}
+}
+\newcommand{\lang}[2]{\langif{#1}{#2}{}}
+\newcommand{\en}[1]{\lang{en}{#1}}
+\newcommand{\ru}[1]{\lang{ru}{#1}}
+\newcommand{\sectionlang}[2]{\lang{#1}{\section{#2}}}
+
+% relative sectioning hint described at
+% http://stackoverflow.com/questions/2066119/relative-section-specification
+\newcounter{relsecount}
+\setcounter{relsecount}{0}
+\newcommand{\secup}{\addtocounter{relsecount}{1}}
+\newcommand{\secdown}{\addtocounter{relsecount}{-1}}
+\newcommand{\secthis}[1]{
+	\ifthenelse{\equal{\value{relsecount}}{0}}{\part{#1}}{}
+	\ifthenelse{\equal{\value{relsecount}}{-1}}{\chapter{#1}}{}
+	\ifthenelse{\equal{\value{relsecount}}{-2}}{\section{#1}}{}
+	\ifthenelse{\equal{\value{relsecount}}{-3}}{\subsection{#1}}{}
+	\ifthenelse{\equal{\value{relsecount}}{-4}}{\subsubsection{#1}}{}
+}
+\newcommand{\secen}[1]{
+	\ifthenelse{\equal{\doclangshort}{en}}{\secthis{#1}}{}
+}
+\newcommand{\secru}[1]{
+	\ifthenelse{\equal{\doclangshort}{ru}}{\secthis{#1}}{}
+}
+
+\usepackage{tocbibind}
+ 
