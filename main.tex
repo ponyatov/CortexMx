@@ -1,5 +1,6 @@
-\include{header}
+\input{header}
 
+\setdoclang{ru}{russian} % toggle comment to set en/ru mode
 \begin{document}
 
 \mytitle{\ }
@@ -7,106 +8,142 @@
 \tableofcontents
 \listoflab
 
-\part{Обзор семейства микроконтроллеров \cx}
+\secru{Рабочая среда разработчика встраиваемых систем}
+	\input{devkitstruc}
+	\secdown
+	\secru{Операционные сисемы}
+% 		\secdown
+% 		\secru{Windows}
+% 		\secru{Debian GNU/Linux}
+% 		\secru{MacOS}
+% 		\secup
+	\secru{САПР электронных устройств}
+		\secdown
+		\input{kicad/about}
+% 		\secru{Eagle}
+% 		\input{diptrace}
+		\secup
+	\secru{САПР общего назначения}
+% 		\secdown
+% 		\secru{FreeCAD}
+% 		\secru{Компас-3D}
+% 		\secup
+	\secru{Система управления версиями (VCS)}
+% 		\secdown
+% 		\secru{Git}
+% 		\secru{Subversion}
+% 		\secru{CVS}
+% 		\secup
+	\secru{Интегрированная среда разработки}
+% 		\secdown
+ 		\input{eclipse/about}	
+% 		\secru{CodeBlocks}
+% 		\secru{Geany}
+% 		\input{keil}
+% 		\input{iar}
+% 		\secup
+% 	\input{gnuchain}
+	\secru{ПО для JTAG-адаптера}
+	\secup
 
-\include{ARM}
+\secru{Установка ПО}
+	\secdown
+% 	\input{labdebianinst}
+% 	\input{labgitinstall}
+% 	\input{labgnuchain}
+% 	\input{labgnuwinstall}
+% 	\input{labinstjava}
+ 	\input{eclipse/labinsteclipse}
+% 	\input{labqemuinstall}
+% 	\input{labinststsoft}
+% 	\input{texinstall}
+% 	\input{labinstjtag}
+	\input{kicad/labinstkicad}
+	\secup
 
-\part{\cmsis}
-\include{duolos_CMSIS/duolostext}
+% \secru{Обзор семейства микроконтроллеров \cx}
+% 	\secdown
+% 	\secru{Производители}
+% 		\secdown
+% 		\secru{ST Microelectronics}
+% 			\secdown
+% 			\secru{STM32F0xx /\cm{0}/}
+% 			\secru{STM32F1xx}
+% 			\secru{STM32F4xx /\cm{4}/} 
+% 				\secdown
+% 				\secru{STM32F4DISCOVERY}
+% 				\secup
+% 			\secup
+% 		\input{milandr}
+% 		\secru{NXP}
+% 			\secdown
+% 			\secru{LPC210x}
+% 			\secup
+% 		\secup
+% 	\secup
 
-% \section{\cx}
-% \chapter{Периферия}
-% \section{Таймеры}
-% \section{DMA}
-% \section{UART}
-% \section{CAN}
-% \section{USB}
-% \section{Ethernet}
-% \chapter{Производители}
-% \section{ST Microelectronics}
-% \subsection{STM32F0xx /\cm{0}/}
-% \include{STM32F1xx}
-% \subsection{STM32F4xx /\cm{4}/} STM32F4DISCOVERY
+\input{eclipse/eclipse}	
+
+\input{kicad/kicad}
+
+% \input{kompas}
 % 
-% \include{milandr}
+% % % \part{\cmsis}
+% % % \input{duolos_CMSIS/duolostext}
+% % 
+% \secru{\cx}
+% 	\secdown
+% 	\secru{Периферия}
+% 	\secru{Таймеры}
+% 	\secru{DMA}
+% 	\secru{UART}
+% 	\secru{CAN}
+% 	\secru{USB}
+% 	\secru{Ethernet}
+% 	\secup
 % 
-% \section{NXP}
-% \subsection{LPC210x}
-
-\part{Программное обеспечение}
-
-\chapter{Рабочая среда разработчика встраиваемых систем}
-
-\include{devkitstruc}
-
-\labpart{Установка ПО}
-\include{labdebianinst}
-\include{labgitinstall}
-\include{labgnuchain}
-\include{labgnuwinstall}
-\include{labinstjava}
-\include{labinsteclipse}
-\include{labqemuinstall}
-\include{labinststsoft}
-\include{texinstall}
-%\include{ПО для JTAG-адаптера}
-
-\chapter{Первые шаги}
-\labpart{Первые шаги}
-\include{labecreprj}
-\include{labmkmake}
-\include{labhello}
-\include{labgdbinst}
-
-\chapter{Система управления версиями Git}
-\include{vcs}
-
-\chapter{Интегрированная среда разработки \eclipse}
-\include{eclipse}
-
-\chapter{Пакет кросс-компиляции GNU toolchain}
-\include{gnuchain}
-
-\part{Отладка}
-
-% \include{workenv}
+% % \chapter{Первые шаги}
+% % \labpart{Первые шаги}
+% % \input{labecreprj}
+% % \input{labmkmake}
+% % \input{labhello}
+% % \input{labgdbinst}
+% % 
+% % \chapter{ Git}
+% % \input{vcs}
+% % \part{Отладка}
+% % 
+% % % \input{workenv}
+% % % 
+% % % \chapter{Eclipse / GNU toolchain}
+% % % 
+% % % Великолепный вводный видеокурс по IAR и основам разработки на ARM
+% % % 
+% % % \menu{\cite{quantumleaps}>QuickStart>\href{http://youtu.be/3V9eqvkMzHA}{Lesson 0: Getting Started}}
+% % 
+% % \part{Встраиваемый \cpp}
+% % 
+% % \part{RTOS}
+% % % \chapter{FreeRTOS}
+% % % \chapter{Keil RTX}
 % 
-% \chapter{Eclipse / GNU toolchain}
-% \section{Утилита Make}
-% \section{binutils}
-% \subsection{Ассемблер GNU AS}
-% \subsection{Линкер LD}
-% \subsection{Утилиты работа с файлами формата ELF}
-% \section{Компилятор GCC}
-% \section{IDE Eclipse}
-% \chapter{Keil MDK-ARM}
-% \chapter{IAR Embeded Workbench}
+% \secru{Автоматное программирование /фреймворк QuantumLeaps/}
 % 
-% Великолепный вводный видеокурс по IAR и основам разработки на ARM
+% \secru{Разработка и изготовление железа}
 % 
-% \menu{\cite{quantumleaps}>QuickStart>\href{http://youtu.be/3V9eqvkMzHA}{Lesson 0: Getting Started}}
+% % \chapter{САПР KiCAD}
+% % \chapter{Инструмент и оборудование}
+% % \chapter{Технологии изготовления плат и монтажа}
+% % 
+% % \part{Подготовка документации}
+% % \chapter{DocBook}
+% % \chapter{\LaTeX}\input{latex}
+% % 
+% \secru{Приложения}
+% 	\secdown
+% 	\input{mktoolchain}
+% 	\secup
 
-\part{Встраиваемый \cpp}
-
-\part{RTOS}
-% \chapter{FreeRTOS}
-% \chapter{Keil RTX}
-
-\part{Автоматное программирование /фреймворк QuantumLeaps/}
-
-\part{Разработка и изготовление железа}
-\chapter{САПР KiCAD}
-\chapter{Инструмент и оборудование}
-\chapter{Технологии изготовления плат и монтажа}
-
-\part{Подготовка документации}
-\chapter{DocBook}
-\chapter{\LaTeX}\include{latex}
-
-\part{Приложения}
-\chapter{Сборка собственного тулчайна под MinGW/MSYS}
-\include{mktoolchain}
-
-\include{bib}
+\input{bib}
 
 \end{document}
