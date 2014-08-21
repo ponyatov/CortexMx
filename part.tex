@@ -1,20 +1,144 @@
 \include{header}
+
+\setdoclang{ru}{russian} % toggle comment to set en/ru mode
 \begin{document}
-\mytitle{активно редактируется}
+
+\mytitle{PART}
 \maketitle
 \tableofcontents
 \listoflab
 
-% \include{labgnuwinstall}
+\secru{Рабочая среда разработчика встраиваемых систем}
+	\include{devkitstruc}
+	\secdown
+	\secru{Операционные сисемы}
+		\secdown
+		\secru{Windows}
+		\secru{Debian GNU/Linux}
+		\secru{MacOS}
+		\secup
+	\secru{САПР электронных устройств}
+		\secdown
+		\secru{KiCAD}
+		\secru{Eagle}
+		\include{diptrace}
+		\secup
+	\secru{САПР общего назначения}
+		\secdown
+		\secru{FreeCAD}
+		\secru{Компас-3D}
+		\secup
+	\secru{Система управления версиями (VCS)}
+		\secdown
+		\secru{Git}
+		\secru{Subversion}
+		\secru{CVS}
+		\secup
+	\secru{Интегрированная среда разработки}
+		\secdown
+		\include{eclipse}	
+		\secru{CodeBlocks}
+		\secru{Geany}
+		\include{keil}
+		\include{iar}
+		\secup
+	\include{gnuchain}
+	\secru{ПО для JTAG-адаптера}
+	\secup
+
+\secru{Установка ПО}
+	\secdown
+	\include{labdebianinst}
+	\include{labgitinstall}
+	\include{labgnuchain}
+	\include{labgnuwinstall}
+	\include{labinstjava}
+	\include{labinsteclipse}
+	\include{labqemuinstall}
+	\include{labinststsoft}
+	\include{texinstall}
+	\include{labinstjtag}
+	\secup
+
+\secru{Обзор семейства микроконтроллеров \cx}
+	\secdown
+	\secru{Производители}
+		\secdown
+		\secru{ST Microelectronics}
+			\secdown
+			\secru{STM32F0xx /\cm{0}/}
+			\secru{STM32F1xx}
+			\secru{STM32F4xx /\cm{4}/} 
+				\secdown
+				\secru{STM32F4DISCOVERY}
+				\secup
+			\secup
+		\include{milandr}
+		\secru{NXP}
+			\secdown
+			\secru{LPC210x}
+			\secup
+		\secup
+	\secup
+
+\include{kicad}
+
+\include{kompas}
+
+% % \part{\cmsis}
+% % \include{duolos_CMSIS/duolostext}
 % 
+\secru{\cx}
+	\secdown
+	\secru{Периферия}
+	\secru{Таймеры}
+	\secru{DMA}
+	\secru{UART}
+	\secru{CAN}
+	\secru{USB}
+	\secru{Ethernet}
+	\secup
+
+% \chapter{Первые шаги}
 % \labpart{Первые шаги}
-%\include{labinststsoft}
 % \include{labecreprj}
 % \include{labmkmake}
 % \include{labhello}
 % \include{labgdbinst}
-% \include{labqemuecl}
-% \include{CMSIS}
+% 
+% \chapter{ Git}
+% \include{vcs}
+% \part{Отладка}
+% 
+% % \include{workenv}
+% % 
+% % \chapter{Eclipse / GNU toolchain}
+% % 
+% % Великолепный вводный видеокурс по IAR и основам разработки на ARM
+% % 
+% % \menu{\cite{quantumleaps}>QuickStart>\href{http://youtu.be/3V9eqvkMzHA}{Lesson 0: Getting Started}}
+% 
+% \part{Встраиваемый \cpp}
+% 
+% \part{RTOS}
+% % \chapter{FreeRTOS}
+% % \chapter{Keil RTX}
+% 
+% \part{Автоматное программирование /фреймворк QuantumLeaps/}
+% 
+% \part{Разработка и изготовление железа}
+% \chapter{САПР KiCAD}
+% \chapter{Инструмент и оборудование}
+% \chapter{Технологии изготовления плат и монтажа}
+% 
+% \part{Подготовка документации}
+% \chapter{DocBook}
+% \chapter{\LaTeX}\include{latex}
+% 
+% \part{Приложения}
+% \chapter{Сборка собственного тулчайна под MinGW/MSYS}
+% \include{mktoolchain}
 
 \include{bib}
+
 \end{document}
