@@ -34,6 +34,7 @@ pdfkeywords={ARM} {Cortex} {MCU} {ARMatura} {Arduino} {SSAU}
 \newcommand{\ldcolor}{\color[rgb]{0.67, 0.9, 0.93}} % Blizzard Blue
 \newcommand{\concolor}{\color[rgb]{0.88, 1.0, 1.0}} % Light cyan
 \newcommand{\makecolor}{\color[rgb]{0.9, 0.9, 0.98}} % Lavender mist
+\newcommand{\spicecolor}{\color[rgb]{0.94, 1.0, 1.0}} % Azure (web) Azure mist
 
 %\definecolor{cppcolor}{rgb}{0.94, 0.97, 1.0}
 \lstset{frame=single,
@@ -48,6 +49,7 @@ inputencoding=cp1251
 \usepackage{lstlanggnumake}
 \usepackage{lstlanggnuld}
 \usepackage{lstlanggnudump}
+\usepackage{lstlangspice}
 
 \lstdefinestyle{cpp}{language=C++,backgroundcolor=\cppcolor}
 \lstdefinestyle{asm}{language={[ARM]Assembler},backgroundcolor=\asmcolor}
@@ -55,6 +57,7 @@ inputencoding=cp1251
 \lstdefinestyle{con}{backgroundcolor=\concolor}
 \lstdefinestyle{mk}{language=[GNU]Make,backgroundcolor=\makecolor}
 \lstdefinestyle{objdump}{language=[GNU]Dump}
+\lstdefinestyle{SPICE}{language=SPICE,backgroundcolor=\spicecolor}
 
 \newcommand{\cm}[1]{Cortex-M#1}
 \newcommand{\cx}{\cm{x}}

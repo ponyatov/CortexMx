@@ -45,7 +45,7 @@ DUOLOS += duolos_CMSIS/ITMshot.png
 DUOLOS += duolos_CMSIS/simplecmsis.png
 DUOLOS += duolos_CMSIS/stm32.png
 
-TEX += kicad/FTlesson.tex
+TEX += kicad/minilesson.tex
 TEX += kicad/about.tex
 TEX += kicad/eeschema.tex
 TEX += kicad/gerbview.tex
@@ -56,6 +56,8 @@ TEX += kicad/libs.tex
 TEX += kicad/manager.tex
 TEX += kicad/pcbnew.tex
 TEX += kicad/wings.tex
+TEX += kicad/spice.tex
+TEX += lstlangspice.sty
 
 tmp/%.mk: %/Makefile
 	cp $< $@
