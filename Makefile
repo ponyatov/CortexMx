@@ -2,10 +2,8 @@ TARGFILE = part.pdf
 
 TEX = main.tex labworks.tex part.tex header.tex
 TEX += ARM.tex
-TEX += STM32F1xx.tex
 TEX += bib.tex
 TEX += instide.tex
-TEX += milandr.tex
 TEX += workenv.tex
 TEX += devkitstruc.tex
 TEX += labgitinstall.tex
@@ -27,12 +25,11 @@ TEX += hello/main.c
 TEX += labgnuchain.tex
 TEX += labgnuwinstall.tex
 TEX += labgdbinst.tex labqemuecl.tex
-TEX += lstlangarm.sty lstlanggnuld.sty lstlanggnumake.sty lstlanggnudump.sty
+TEX += lstlangarm.sty lstlanggnuld.sty lstlanggnudump.sty
 TEX += mktoolchain.tex tmp/toolchain.mk
 TEX += labinststsoft.tex
 
 TEX += eclipse/eclipse.tex
-TEX += eclipse/about.tex
 TEX += eclipse/labinsteclipse.tex
 TEX += eclipse/EclipseMain.png
 TEX += eclipse/EclipseSplash.png
@@ -45,19 +42,6 @@ DUOLOS += duolos_CMSIS/ITMshot.png
 DUOLOS += duolos_CMSIS/simplecmsis.png
 DUOLOS += duolos_CMSIS/stm32.png
 
-TEX += kicad/minilesson.tex
-TEX += kicad/about.tex
-TEX += kicad/eeschema.tex
-TEX += kicad/gerbview.tex
-TEX += kicad/kicad.tex
-TEX += kicad/kicad_pcbnew.png
-TEX += kicad/labinstkicad.tex
-TEX += kicad/libs.tex
-TEX += kicad/manager.tex
-TEX += kicad/pcbnew.tex
-TEX += kicad/wings.tex
-TEX += kicad/spice.tex
-TEX += lstlangspice.sty
 
 tmp/%.mk: %/Makefile
 	cp $< $@
